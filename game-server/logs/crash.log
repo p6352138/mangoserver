@@ -1,0 +1,4 @@
+[2018-05-24 20:25:19.134] [INFO] crash-log - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/master/master.js] [39m[client],[pomelo_list_1527164719023],[1527164719134],[disconnect]
+[2018-05-24 20:37:38.351] [INFO] crash-log - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/master/master.js] [39m[connector],[connector-server-1],[1527165458351],[disconnect]
+[2018-05-24 20:42:33.390] [INFO] crash-log - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/master/master.js] [39m[client],[pomelo_list_1527165753266],[1527165753389],[disconnect]
+[2018-05-24 20:42:54.238] [INFO] crash-log - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/master/master.js] [39m[connector],[connector-server-1],[1527165774237],[disconnect]
