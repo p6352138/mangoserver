@@ -1,8 +1,8 @@
 module.exports = function(app) {
-	return new ChatRemote(app);
+	return new FightRemote(app);
 };
 
-var ChatRemote = function(app) {
+var FightRemote = function(app) {
 	this.app = app;
 	this.channelService = app.get('channelService');
 };
@@ -16,7 +16,7 @@ var ChatRemote = function(app) {
  * @param {boolean} flag channel parameter
  *
  */
-ChatRemote.prototype.add = function(uid, sid, name, flag, cb) {
+FightRemote.prototype.add = function(uid, sid, name, flag, cb) {
 	var channel = this.channelService.getChannel(name, flag);
 	var username = uid.split('*')[0];
 	var param = {
@@ -41,7 +41,7 @@ ChatRemote.prototype.add = function(uid, sid, name, flag, cb) {
  * @return {Array} users uids in channel
  *
  */
-ChatRemote.prototype.get = function(name, flag) {
+FightRemote.prototype.get = function(name, flag) {
 	var users = [];
 	var channel = this.channelService.getChannel(name, flag);
 	if( !! channel) {
@@ -61,7 +61,7 @@ ChatRemote.prototype.get = function(name, flag) {
  * @param {String} name channel name
  *
  */
-ChatRemote.prototype.kick = function(uid, sid, name) {
+FightRemote.prototype.kick = function(uid, sid, name) {
 	var channel = this.channelService.getChannel(name, false);
 	// leave channel
 	if( !! channel) {

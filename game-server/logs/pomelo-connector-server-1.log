@@ -240,3 +240,63 @@
 [2018-05-30 16:42:40.905] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" enter after start...
 [2018-05-30 16:42:40.909] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" finish start
 [2018-05-30 16:42:40.910] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" startup in 567 ms
+[2018-05-31 10:12:12.386] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39mapplication inited: "connector-server-1"
+[2018-05-31 10:15:13.476] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39mapplication inited: "connector-server-1"
+[2018-05-31 10:15:14.140] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" enter after start...
+[2018-05-31 10:15:14.146] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" finish start
+[2018-05-31 10:15:14.146] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" startup in 575 ms
+[2018-05-31 14:28:14.740] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39mapplication inited: "connector-server-1"
+[2018-05-31 14:28:15.482] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" enter after start...
+[2018-05-31 14:28:15.487] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" finish start
+[2018-05-31 14:28:15.487] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" startup in 630 ms
+[2018-05-31 14:31:46.189] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39mapplication inited: "connector-server-1"
+[2018-05-31 14:31:46.927] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" enter after start...
+[2018-05-31 14:31:46.932] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" finish start
+[2018-05-31 14:31:46.932] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" startup in 636 ms
+[2018-05-31 15:03:52.120] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39mapplication inited: "connector-server-1"
+[2018-05-31 15:03:52.802] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" enter after start...
+[2018-05-31 15:03:52.809] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" finish start
+[2018-05-31 15:03:52.809] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" startup in 580 ms
+[2018-05-31 15:14:25.147] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39mapplication inited: "connector-server-1"
+[2018-05-31 15:14:25.765] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" enter after start...
+[2018-05-31 15:14:25.772] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" finish start
+[2018-05-31 15:14:25.772] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" startup in 519 ms
+[2018-05-31 15:48:26.146] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39mapplication inited: "connector-server-1"
+[2018-05-31 15:48:26.817] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" enter after start...
+[2018-05-31 15:48:26.822] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" finish start
+[2018-05-31 15:48:26.822] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/application.js] [39m"connector-server-1" startup in 570 ms
+[2018-05-31 15:57:42.339] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39m[connector-server-1] getSession session is created with session id: 1
+[2018-05-31 15:57:42.357] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39m[connector-server-1] handleMessage session id: 1, msg: {"id":2,"type":0,"compressRoute":1,"route":"connector.entryHandler.enter","body":{"uid":"2036128940"},"compressGzip":0}
+[2018-05-31 15:57:42.362] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39msession on [connector-server-1] bind with uid: undefined
+[2018-05-31 15:57:42.365] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39m[connector-server-1] send message reqId: 2, route: connector.entryHandler.enter, msg: "hhh", receivers: [1], opts: {"type":"response","userOptions":{},"isResponse":true}
+[2018-05-31 16:17:09.711] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/common/service/sessionService.js] [39msession on [connector-server-1] is closed with session id: 1
+[2018-05-31 16:17:19.431] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39m[connector-server-1] getSession session is created with session id: 2
+[2018-05-31 16:17:19.437] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39m[connector-server-1] handleMessage session id: 2, msg: {"id":2,"type":0,"compressRoute":1,"route":"connector.entryHandler.enter","body":{"uid":"2036128940"},"compressGzip":0}
+[2018-05-31 16:17:19.438] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39msession on [connector-server-1] bind with uid: undefined
+[2018-05-31 16:17:19.438] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39m[connector-server-1] send message reqId: 2, route: connector.entryHandler.enter, msg: "hhh", receivers: [2], opts: {"type":"response","userOptions":{},"isResponse":true}
+[2018-05-31 16:35:08.098] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/connectors/commands/heartbeat.js] [39mclient 2 heartbeat timeout.
+[2018-05-31 16:35:08.099] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/common/service/sessionService.js] [39msession on [connector-server-1] is closed with session id: 2
+[2018-05-31 17:07:01.391] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39m[connector-server-1] getSession session is created with session id: 3
+[2018-05-31 17:07:01.398] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39m[connector-server-1] handleMessage session id: 3, msg: {"id":2,"type":0,"compressRoute":1,"route":"connector.entryHandler.enter","body":{"uid":"2036128940"},"compressGzip":0}
+[2018-05-31 17:07:01.398] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39msession on [connector-server-1] bind with uid: undefined
+[2018-05-31 17:07:01.399] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39m[connector-server-1] send message reqId: 2, route: connector.entryHandler.enter, msg: "hhh", receivers: [3], opts: {"type":"response","userOptions":{},"isResponse":true}
+[2018-05-31 17:07:33.803] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/common/service/sessionService.js] [39msession on [connector-server-1] is closed with session id: 3
+[2018-05-31 17:07:37.714] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39m[connector-server-1] getSession session is created with session id: 4
+[2018-05-31 17:07:37.720] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39m[connector-server-1] handleMessage session id: 4, msg: {"id":2,"type":0,"compressRoute":1,"route":"connector.entryHandler.enter","body":{"uid":"2036128940"},"compressGzip":0}
+[2018-05-31 17:07:37.720] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39msession on [connector-server-1] bind with uid: undefined
+[2018-05-31 17:07:37.721] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39m[connector-server-1] send message reqId: 2, route: connector.entryHandler.enter, msg: "hhh", receivers: [4], opts: {"type":"response","userOptions":{},"isResponse":true}
+[2018-05-31 17:07:37.725] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39m[connector-server-1] handleMessage session id: 4, msg: {"id":3,"type":0,"compressRoute":1,"route":"fight.fightHandler.beginFight","body":{},"compressGzip":0}
+[2018-05-31 17:07:37.729] [ERROR] pomelo - [31m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/server/server.js] [39mfail to forward message:TypeError: Cannot read property 'length' of undefined
+    at Object.crc32 (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/crc/lib/crc.js:322:14)
+    at Object.module.exports.dispatch (/Users/z/Documents/pomelo/mango/test/game-server/app/util/dispatcher.js:4:30)
+    at fightRoute (/Users/z/Documents/pomelo/mango/test/game-server/app.js:13:24)
+    at /Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/proxy.js:244:7
+    at getRouteTarget (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/client.js:357:11)
+    at proxyCB (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/client.js:302:5)
+    at Object.proxy [as forwardMessage] (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/util/proxy.js:61:7)
+    at doForward (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/server/server.js:334:50)
+    at dispatch (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/server/server.js:103:7)
+    at next (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/common/service/filterService.js:50:7)
+[2018-05-31 17:07:37.730] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/components/connector.js] [39m[connector-server-1] send message reqId: 3, route: fight.fightHandler.beginFight, msg: {"code":500}, receivers: [4], opts: {"type":"response","userOptions":{},"isResponse":true}
+[2018-05-31 17:33:06.349] [INFO] pomelo - [32m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/connectors/commands/heartbeat.js] [39mclient 4 heartbeat timeout.
+[2018-05-31 17:33:06.353] [DEBUG] pomelo - [36m[/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo/lib/common/service/sessionService.js] [39msession on [connector-server-1] is closed with session id: 4

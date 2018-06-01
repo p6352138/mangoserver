@@ -1,4 +1,5 @@
-var chatRemote = require('../remote/chatRemote');
+var fightRemote = require('../remote/fightRemote');
+var fightManger = require('../../../services/fightManger');
 
 module.exports = function(app) {
 	return new Handler(app);
@@ -9,6 +10,13 @@ var Handler = function(app) {
 };
 
 var handler = Handler.prototype;
+
+handler.beginFight = function(msg,session,next){
+	/// 战斗卡组初始化
+	fightManger.init();
+
+	next(null,{});
+}
 
 /**
  * Send messages to users
@@ -21,12 +29,13 @@ var handler = Handler.prototype;
 handler.send = function(msg, session, next) {
 	var rid = session.get('rid');
 	var username = session.uid.split('*')[0];
-	var channelService = this.app.get('channelService');
+	//var channelService = this.app.get('channelService');
 	var param = {
 		msg: msg.content,
 		from: username,
 		target: msg.target
 	};
+	/*
 	channel = channelService.getChannel(rid, false);
 
 	//the target is all users
@@ -42,6 +51,7 @@ handler.send = function(msg, session, next) {
 			sid: tsid
 		}]);
 	}
+	*/
 	next(null, {
 		route: msg.route
 	});

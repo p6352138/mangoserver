@@ -18,8 +18,8 @@ var handler = Handler.prototype;
  */
 handler.enter = function(msg, session, next) {
 	var self = this;
-	var rid = msg.rid;
-	var uid = msg.username + '*' + rid
+	//var rid = msg.rid;
+	var uid = msg.uuid;
 	var sessionService = self.app.get('sessionService');
 
 	//duplicate log in
@@ -32,7 +32,7 @@ handler.enter = function(msg, session, next) {
 	}
 
 	session.bind(uid);
-	session.set('rid', rid);
+	session.set('rid', uid);
 	session.push('rid', function(err) {
 		if(err) {
 			console.error('set rid for session service failed! error is : %j', err.stack);
@@ -40,12 +40,14 @@ handler.enter = function(msg, session, next) {
 	});
 	session.on('closed', onUserLeave.bind(null, self.app));
 
+	next(null, "hhh");
 	//put user into channel
-	self.app.rpc.chat.chatRemote.add(session, uid, self.app.get('serverId'), rid, true, function(users){
-		next(null, {
-			users:users
-		});
-	});
+	//self.app.rpc.chat.chatRemote.add(session, uid, self.app.get('serverId'), rid, true, function(users){
+	//	next(null, {
+	//		users:users
+	//	});
+	//});
+
 };
 
 /**

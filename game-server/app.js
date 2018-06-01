@@ -2,22 +2,22 @@ var pomelo = require('pomelo');
 var dispatcher = require('./app/util/dispatcher');
 
 //route definition for chat server
-var chatRoute = function(session,msg,app,cb)
+var fightRoute = function(session,msg,app,cb)
 {
-  var chatServers = app.getServersByType('chat');
+  var fightServers = app.getServersByType('fight');
 
-  if(!chatServers || chatServers.length == 0){
-    cb(new Error('can not find chat servers.'));
+  if(!fightServers || fightServers.length == 0){
+    cb(new Error('can not find fight servers.'));
     return;
   }
-  var res = dispatcher.dispatch(session.get('rid'),chatServers);
+  var res = dispatcher.dispatch(session.get('rid'),fightServers);
   cb(null,res.id);
 }
 /**
  * Init app for client.
  */
 var app = pomelo.createApp();
-app.set('name', 'test');
+app.set('name', 'mango');
 
 // app configuration
 app.configure('production|development', 'connector', function(){
@@ -38,8 +38,8 @@ app.configure('production|development', 'gate', function(){
 });
 
 app.configure('production|development', function(){
-  app.route('chat',chatRoute);
-  app.filter(pomelo.timeout());
+  app.route('fight',fightRoute);
+  //app.filter(pomelo.timeout());
 });
 
 // start app
