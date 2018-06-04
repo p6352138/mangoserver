@@ -1,4 +1,8 @@
-var mongoose = require('mongoose')
+var assert = require('assert');
+var mongoose = require('mongoose');
+var schemaConfig = require('./schemaConfig')
+
+
 var uri = null;
 
 /**
@@ -37,8 +41,29 @@ Mongodb.prototype.init = function () {
     var host = mongodbConfig.host, port = mongodbConfig.port;
     uri = "mongodb://" + host + ":" + port + "/mango";
     mongoose.connect(uri,  mongodbConfig.options);
+    // 初始化model
+    this.initModel();
 }
 
-Mongodb.prototype.newModel = function (name, schema) {
-    return mongoose.model(name, schema);
+Mongodb.prototype.initModel = function () {
+    var models = {};
+    for (var name in schemaConfig) {
+        models[name] = mongoose.model(name, schemaConfig[name]);
+    };
+    Mongodb.prototype.models = models;
+}
+
+Mongodb.prototype.newModel = function (name, data) {
+    assert(name in this.models, "no model: " + name);
+    var model = this.models[name];
+    return new model(data);
+}
+
+Mongodb.prototype.getModel = function (name) {
+    assert(name in this.models, "no model: " + name);
+    return this.models[name];
+}
+
+Mongodb.prototype.find = function (modelName, conditions, projection=null, options=null, callback=null) {
+    
 }
