@@ -8,6 +8,7 @@ var util = require('util');
 var logger = require('pomelo-logger').getLogger(__filename);
 var Entity = require('./entity');
 var mongodb = require("../mongodb/mongodb");
+var AvatarSchema = require('../mongodb/schemas/avatarSchema');
 
 var AUTO_SAVE_TICK = 1000 * 60 * 5  // 自动存盘时间
 
@@ -23,11 +24,12 @@ util.inherits(Avatar, Entity);
 module.exports = Avatar;
 
 Avatar.prototype.initDBModel = function () {
-    var dbModel = pomelo.app.db.newModel("Avatar", require('../mongodb/schemas/avatarSchema'));
+    this.db = pomelo.app.db.newModel("Avatar", require('../mongodb/schemas/avatarSchema'));
+    /*
     this.db = new AvatarSchema({
         _id: this.id,
         name: this.name,
-    });
+    });*/
 };
 
 Avatar.prototype.save = function () {
