@@ -31,6 +31,12 @@ handler.enter = function(msg, session, next) {
 		return;
 	}
 
+	var Avatar = require('../../../entity/avatar');
+	var avatar = new Avatar({name: "test"});
+	console.log(avatar.id);
+	console.log((avatar.name));
+	console.log("xxxxxxxxxxxxxxxxxxxxxxx");
+
 	session.bind(uid);
 	session.set('rid', uid);
 	session.push('rid', function(err) {

@@ -1,4 +1,4 @@
-var cardsMgr = require('cardsMgr');
+var cardsMgr = require('../services/cardsMgr');
 var player = require('../entity/player');
 var pomelo = require('pomelo');
 

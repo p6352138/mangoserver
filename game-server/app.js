@@ -1,5 +1,6 @@
 var pomelo = require('pomelo');
 var dispatcher = require('./app/util/dispatcher');
+var mongodb = require("./app/mongodb/mongodb");
 
 //route definition for chat server
 var fightRoute = function(session,msg,app,cb)
@@ -18,6 +19,13 @@ var fightRoute = function(session,msg,app,cb)
  */
 var app = pomelo.createApp();
 app.set('name', 'mango');
+
+var initDB = function (app){
+    app.loadConfig('mongodb', app.getBase() + '/config/mongodb.json');
+    var db = mongodb(app);
+    db.init();
+    app.set('db', db, true);
+}
 
 // app configuration
 app.configure('production|development', 'connector', function(){
@@ -40,6 +48,7 @@ app.configure('production|development', 'gate', function(){
 app.configure('production|development', function(){
   app.route('fight',fightRoute);
   //app.filter(pomelo.timeout());
+    initDB(app);
 });
 
 // start app
