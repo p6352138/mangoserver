@@ -67,5 +67,5 @@ var onUserLeave = function(app, session) {
 	if(!session || !session.uid) {
 		return;
 	}
-	app.rpc.fight.fightRemote.kick(session,session.uid, self.app.get('serverId'), 10000);
+	app.rpc.fight.fightRemote.kick(session,session.uid, this.app.get('serverId'), 10000);
 };
