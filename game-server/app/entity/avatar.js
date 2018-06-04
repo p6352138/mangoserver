@@ -24,7 +24,7 @@ module.exports = Avatar;
 
 Avatar.prototype.initDBModel = function () {
     var dbModel = pomelo.app.db.newModel("Avatar", require('../mongodb/schemas/avatarSchema'));
-    this.db = new dbModel({
+    this.db = new AvatarSchema({
         _id: this.id,
         name: this.name,
     });
