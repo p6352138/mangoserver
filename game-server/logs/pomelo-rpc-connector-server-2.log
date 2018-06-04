@@ -1,0 +1,133 @@
+[2018-06-02 11:01:33.118] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 2 host: 127.0.0.1, port: 6052
+[2018-06-02 11:01:33.119] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 2 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 11:01:33.120] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 11:03:54.109] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 5 host: 127.0.0.1, port: 6052
+[2018-06-02 11:03:54.110] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 5 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 11:03:54.111] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 11:30:07.745] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 2 host: 127.0.0.1, port: 6052
+[2018-06-02 11:30:07.746] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 2 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 11:30:07.747] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 11:30:53.586] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 5 host: 127.0.0.1, port: 6052
+[2018-06-02 11:30:53.587] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 5 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 11:30:53.588] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 11:31:17.176] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 8 host: 127.0.0.1, port: 6052
+[2018-06-02 11:31:17.177] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 8 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 11:31:17.177] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 11:31:40.425] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 11 host: 127.0.0.1, port: 6052
+[2018-06-02 11:31:40.426] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 11 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 11:31:40.426] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 11:33:36.394] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 14 host: 127.0.0.1, port: 6052
+[2018-06-02 11:33:36.395] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 14 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 11:33:36.395] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 11:37:38.203] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 16 host: 127.0.0.1, port: 6052
+[2018-06-02 11:37:38.204] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 16 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 11:37:38.204] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 11:40:16.713] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 1 host: 127.0.0.1, port: 6052
+[2018-06-02 11:40:16.714] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 1 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 11:40:16.715] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 11:40:38.404] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 3 host: 127.0.0.1, port: 6052
+[2018-06-02 11:40:38.404] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 3 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 11:40:38.405] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 11:43:27.562] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 5 host: 127.0.0.1, port: 6052
+[2018-06-02 11:43:27.562] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 5 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 11:43:27.563] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 14:36:59.523] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 1 host: 127.0.0.1, port: 6052
+[2018-06-02 14:36:59.524] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 1 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 14:36:59.525] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 14:47:08.929] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 3 host: 127.0.0.1, port: 6052
+[2018-06-02 14:47:08.930] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 3 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 14:47:08.930] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 14:48:22.075] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 6 host: 127.0.0.1, port: 6052
+[2018-06-02 14:48:22.076] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 6 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 14:48:22.076] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 14:50:41.391] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 1 host: 127.0.0.1, port: 6052
+[2018-06-02 14:50:41.392] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 1 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 14:50:41.393] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 14:52:41.918] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 3 host: 127.0.0.1, port: 6052
+[2018-06-02 14:52:41.919] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 3 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 14:52:41.919] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 14:54:15.098] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 5 host: 127.0.0.1, port: 6052
+[2018-06-02 14:54:15.099] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 5 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 14:54:15.099] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 14:57:24.126] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 7 host: 127.0.0.1, port: 6052
+[2018-06-02 14:57:24.127] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 7 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 14:57:24.128] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5
+[2018-06-02 15:03:40.095] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-2 callback timeout 30000, remote server 9 host: 127.0.0.1, port: 6052
+[2018-06-02 15:03:40.096] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-2 callback timeout 30000, remote server 9 host: 127.0.0.1, port: 6052
+    at Timeout.<anonymous> (/Users/z/Documents/pomelo/mango/test/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:475:11)
+    at tryOnTimeout (timers.js:310:5)
+    at Timer.listOnTimeout (timers.js:270:5)
+[2018-06-02 15:03:40.096] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: fight-server-3, msg: {"namespace":"user","serverType":"fight","service":"fightRemote","method":"kick","args":["2036128940","connector-server-2","2036128940"]}, error code: 5

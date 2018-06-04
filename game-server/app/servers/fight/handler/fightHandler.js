@@ -7,15 +7,30 @@ module.exports = function(app) {
 
 var Handler = function(app) {
 	this.app = app;
+	this.channelService = app.get('channelService');
 };
 
 var handler = Handler.prototype;
 
+/**
+ * 进入战斗场景开始战斗 
+ * @param {Object} msg uid 当前玩家uid  
+ * @param {*} session 
+ * @param {*} next 
+ */
 handler.beginFight = function(msg,session,next){
+	var self = this;
+	var uuid = msg.uid;
+
 	/// 战斗卡组初始化
 	fightManger.init();
 
-	next(null,{});
+	//var channel = this.channelService.getChannel(10001, true);
+	//channel.add(uuid,self.app.get('serverId'));
+
+	fightManger.beginFight(uuid,10001);
+
+	next(null,{roomid:10001});
 }
 
 /**

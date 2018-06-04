@@ -1,5 +1,6 @@
 var pomelo = require('pomelo');
 var dispatcher = require('./app/util/dispatcher');
+var fightManger = require('./app/services/fightManger');
 
 //route definition for chat server
 var fightRoute = function(session,msg,app,cb)
@@ -10,7 +11,11 @@ var fightRoute = function(session,msg,app,cb)
     cb(new Error('can not find fight servers.'));
     return;
   }
-  var res = dispatcher.dispatch(session.get('rid'),fightServers);
+
+  var rid = session.get('rid');
+
+//// 需要将rid 其实是角色 uid 强制转换成string 不然会报错
+  var res = dispatcher.dispatch(String(rid),fightServers);
   cb(null,res.id);
 }
 /**
@@ -24,9 +29,12 @@ app.configure('production|development', 'connector', function(){
   app.set('connectorConfig',
     {
       connector : pomelo.connectors.hybridconnector,
-      heartbeat : 3,
-      useDict : true,
-      useProtobuf : true
+      heartbeat : 10,
+      useDict:true,
+      useProtobuf:true,
+      handshake : function(msg,cb){
+        cb(null,{});
+      }
     });
 });
 
@@ -38,6 +46,7 @@ app.configure('production|development', 'gate', function(){
 });
 
 app.configure('production|development', function(){
+  //fightManger.init();
   app.route('fight',fightRoute);
   //app.filter(pomelo.timeout());
 });

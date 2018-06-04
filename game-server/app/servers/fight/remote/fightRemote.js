@@ -17,19 +17,15 @@ var FightRemote = function(app) {
  *
  */
 FightRemote.prototype.add = function(uid, sid, name, flag, cb) {
+
 	var channel = this.channelService.getChannel(name, flag);
-	var username = uid.split('*')[0];
-	var param = {
-		route: 'onAdd',
-		user: username
-	};
-	channel.pushMessage(param);
 
 	if( !! channel) {
 		channel.add(uid, sid);
 	}
 
 	cb(this.get(name, flag));
+	
 };
 
 /**
@@ -48,7 +44,7 @@ FightRemote.prototype.get = function(name, flag) {
 		users = channel.getMembers();
 	}
 	for(var i = 0; i < users.length; i++) {
-		users[i] = users[i].split('*')[0];
+		users[i] = users[i]/*.split('*')[0]*/;
 	}
 	return users;
 };

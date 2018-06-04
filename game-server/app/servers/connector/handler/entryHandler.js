@@ -19,7 +19,7 @@ var handler = Handler.prototype;
 handler.enter = function(msg, session, next) {
 	var self = this;
 	//var rid = msg.rid;
-	var uid = msg.uuid;
+	var uid = msg.uid;
 	var sessionService = self.app.get('sessionService');
 
 	//duplicate log in
@@ -30,7 +30,7 @@ handler.enter = function(msg, session, next) {
 		});
 		return;
 	}
-
+	//console.log("uid === ",uid);
 	session.bind(uid);
 	session.set('rid', uid);
 	session.push('rid', function(err) {
@@ -40,14 +40,13 @@ handler.enter = function(msg, session, next) {
 	});
 	session.on('closed', onUserLeave.bind(null, self.app));
 
-	next(null, "hhh");
-	//put user into channel
-	//self.app.rpc.chat.chatRemote.add(session, uid, self.app.get('serverId'), rid, true, function(users){
-	//	next(null, {
-	//		users:users
-	//	});
-	//});
-
+	//put user into fight
+	self.app.rpc.fight.fightRemote.add(session, uid, self.app.get('serverId'), 10000, true, function(users){
+		next(null, {
+			users:users
+		});
+	});
+	
 };
 
 /**
@@ -61,5 +60,5 @@ var onUserLeave = function(app, session) {
 	if(!session || !session.uid) {
 		return;
 	}
-	app.rpc.chat.chatRemote.kick(session, session.uid, app.get('serverId'), session.get('rid'), null);
+	app.rpc.fight.fightRemote.kick(session,session.uid, self.app.get('serverId'), 10000);
 };
