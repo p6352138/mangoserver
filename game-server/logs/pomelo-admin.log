@@ -1283,3 +1283,18 @@
 [2018-06-02 17:24:27.272] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "gate", "127.0.0.1", 3005
 [2018-06-02 17:24:27.299] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "connector", "127.0.0.1", 3005
 [2018-06-02 17:24:27.329] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "connector", "127.0.0.1", 3005
+[2018-06-04 11:18:31.796] [INFO] pomelo-admin - [32m[MasterAgent] [39mclient user : admin login to master
+[2018-06-04 11:18:31.877] [DEBUG] pomelo-admin - [36m[MasterSocket] [39mdisconnect fight-server-1 fight {"main":"/Users/z/Documents/pomelo/mango/test/game-server/app.js","env":"development","id":"fight-server-1","host":"127.0.0.1","port":6050,"serverType":"fight","pid":14041}
+[2018-06-04 11:18:31.900] [DEBUG] pomelo-admin - [36m[MasterSocket] [39mdisconnect connector-server-1 connector {"main":"/Users/z/Documents/pomelo/mango/test/game-server/app.js","env":"development","id":"connector-server-1","host":"127.0.0.1","port":3150,"clientPort":3011,"frontend":"true","serverType":"connector","pid":14039}
+[2018-06-04 11:18:31.914] [DEBUG] pomelo-admin - [36m[MasterSocket] [39mdisconnect connector-server-2 connector {"main":"/Users/z/Documents/pomelo/mango/test/game-server/app.js","env":"development","id":"connector-server-2","host":"127.0.0.1","port":3151,"clientPort":3012,"frontend":"true","serverType":"connector","pid":14040}
+[2018-06-04 11:18:31.916] [DEBUG] pomelo-admin - [36m[MasterSocket] [39mdisconnect gate-server-1 gate {"main":"/Users/z/Documents/pomelo/mango/test/game-server/app.js","env":"development","id":"gate-server-1","host":"127.0.0.1","clientPort":3010,"frontend":"true","serverType":"gate","pid":14044}
+[2018-06-04 11:18:31.920] [DEBUG] pomelo-admin - [36m[MasterSocket] [39mdisconnect fight-server-3 fight {"main":"/Users/z/Documents/pomelo/mango/test/game-server/app.js","env":"development","id":"fight-server-3","host":"127.0.0.1","port":6052,"serverType":"fight","pid":14043}
+[2018-06-04 11:18:31.922] [DEBUG] pomelo-admin - [36m[MasterSocket] [39mdisconnect fight-server-2 fight {"main":"/Users/z/Documents/pomelo/mango/test/game-server/app.js","env":"development","id":"fight-server-2","host":"127.0.0.1","port":6051,"serverType":"fight","pid":14042}
+[2018-06-04 14:49:13.299] [INFO] pomelo-admin - [32m[MqttServer] [39m[MqttServer] listen on 3005
+[2018-06-04 14:49:13.427] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "master", "127.0.0.1", 3005
+[2018-06-04 14:49:16.072] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
+[2018-06-04 14:49:16.080] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
+[2018-06-04 14:49:16.180] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
+[2018-06-04 14:49:16.518] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "connector", "127.0.0.1", 3005
+[2018-06-04 14:49:16.558] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "connector", "127.0.0.1", 3005
+[2018-06-04 14:49:16.708] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "gate", "127.0.0.1", 3005
