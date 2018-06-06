@@ -68,5 +68,5 @@ FightRemote.prototype.kick = function(uid, sid, name) {
 		route: 'onLeave',
 		user: username
 	};
-	channel.pushMessage(param);
+	//channel.pushMessage(param);
 };

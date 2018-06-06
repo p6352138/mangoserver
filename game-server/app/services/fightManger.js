@@ -43,7 +43,7 @@ fightManger.exit = function(){
 
 GetPileData = function(uid)
 {
-    var data = {"playerCards":players[0].cards,
+    var data = {"playerCards":players[0].ShowCards,
             "cards":cardsMgr.getCardsNum(),
             "discardCards":cardsMgr.getDisCardsNum(),
             "ExhaustedCards":cardsMgr.getExhaustedCardsNum()

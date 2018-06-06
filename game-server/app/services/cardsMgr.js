@@ -3,14 +3,14 @@ var cardsMgr = module.exports;
 ///抽卡堆
 var cards = [30];
 ///弃牌库
-var discardCards = [0];
+var discardCards = [];
 ///消耗牌库
-var ExhaustedCards = [0];
+var ExhaustedCards = [];
 
 
 cardsMgr.init = function(){
     /// 暂代初始化算法
-    for(var i=0;i<cards.length;i++)
+    for(var i=0;i<30;i++)
     {
         cards[i] = i;
     }
