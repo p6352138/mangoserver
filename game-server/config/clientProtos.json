@@ -1,1 +1,28 @@
-{}
+{
+  "gate.gateHandler.queryEntry": {
+    "required string code": 1
+  },
+
+  "connector.entryHandler.enter": {
+    "required string code": 1
+  },
+
+  "connector.matchHandler.match": {
+    "required string matchType": 1,
+    "required int32 dgId": 2
+  },
+
+  "fight.fightHandler.selectHero": {
+    "required int32 heroid": 1
+  },
+
+  "fight.fightHandler.playCard": {
+    "required int32 idx": 1,
+    "required int32 cid": 2,
+    "required string tid": 3
+  },
+
+  "fight.fightHandler.loadProgress": {
+    "required int32 progress": 1
+  }
+}

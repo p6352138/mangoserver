@@ -1,6 +1,7 @@
-var assert = require('assert');
-var mongoose = require('mongoose');
-var schemaConfig = require('./schemaConfig')
+var assert = _require('assert');
+var mongoose = _require('mongoose');
+var ObjectId = mongoose.Types.ObjectId;
+var schemaConfig = _require('./schemaConfig')
 
 
 var uri = null;
@@ -26,8 +27,13 @@ mongoose.connection.on('disconnected', function () {
     console.log('Mongoose connection disconnected');
 });
 
+var instance = null;
+
 module.exports = function (app) {
-    return new Mongodb(app);
+    if (instance) {
+        return instance;
+    }
+    return instance = new Mongodb(app);
 }
 
 var Mongodb = function(app) {
@@ -38,12 +44,12 @@ var Mongodb = function(app) {
 Mongodb.prototype.init = function () {
     var app = this.app;
     var mongodbConfig = app.get('mongodb');
-    var host = mongodbConfig.host, port = mongodbConfig.port;
-    uri = "mongodb://" + host + ":" + port + "/mango";
+    var host = mongodbConfig.host, port = mongodbConfig.port, database = mongodbConfig.database;
+    uri = "mongodb://" + host + ":" + port + "/" + database + "?authSource=admin";
     mongoose.connect(uri,  mongodbConfig.options);
     // 初始化model
     this.initModel();
-}
+};
 
 Mongodb.prototype.initModel = function () {
     var models = {};
@@ -51,19 +57,23 @@ Mongodb.prototype.initModel = function () {
         models[name] = mongoose.model(name, schemaConfig[name]);
     };
     Mongodb.prototype.models = models;
-}
+};
 
 Mongodb.prototype.newModel = function (name, data) {
     assert(name in this.models, "no model: " + name);
     var model = this.models[name];
     return new model(data);
-}
+};
 
 Mongodb.prototype.getModel = function (name) {
     assert(name in this.models, "no model: " + name);
     return this.models[name];
-}
+};
+
+Mongodb.prototype.genId = function () {
+    return ObjectId();
+};
 
 Mongodb.prototype.find = function (modelName, conditions, projection=null, options=null, callback=null) {
-    
-}
+    this.getModel(modelName).find(conditions, projection, options, callback);
+};

@@ -1,24 +1,147 @@
 {
-  "development":{
+  "development": {
     "connector": [
-    {"id": "connector-server-1", "host": "127.0.0.1", "port": 3150, "clientPort": 3011, "frontend": true},
-    {"id": "connector-server-2", "host": "127.0.0.1", "port": 3151, "clientPort": 3012, "frontend": true}
+      {
+        "id": "connector-server-1",
+        "host": "127.0.0.1",
+        "publicHost": "127.0.0.1",
+        "port": 3150,
+        "clientPort": 3011,
+        "frontend": true,
+        "args": " --inspect=33150"
+      },
+      {
+        "id": "connector-server-2",
+        "host": "127.0.0.1",
+        "publicHost": "127.0.0.1",
+        "port": 3151,
+        "clientPort": 3012,
+        "frontend": true,
+        "args": " --inspect=33151"
+      }
     ],
-    "fight":[
-      {"id":"fight-server-1","host":"127.0.0.1","port": 6050},
-      {"id":"fight-server-2","host":"127.0.0.1","port": 6051},
-      {"id":"fight-server-3","host":"127.0.0.1","port": 6052}],
-    "gate":[{"id":"gate-server-1","host":"127.0.0.1","clientPort": 3010, "frontend": true}]
+    "fight": [
+      {
+        "id": "fight-server-pve_1-1",
+        "host": "127.0.0.1",
+        "port": 6050,
+        "fight": "PVE_1",
+        "args": " --inspect=36050"
+      },
+      {
+        "id": "fight-server-pve_2-1",
+        "host": "127.0.0.1",
+        "port": 6060,
+        "fight": "PVE_2",
+        "args": " --inspect=36060"
+      },
+      {
+        "id": "fight-server-pve_3-1",
+        "host": "127.0.0.1",
+        "port": 6070,
+        "fight": "PVE_3",
+        "args": " --inspect=36070"
+      },
+      {
+        "id": "fight-server-pvp-1",
+        "host": "127.0.0.1",
+        "port": 6080,
+        "fight": "PVP",
+        "args": " --inspect=36080"
+      }
+    ],
+    "gate": [
+      {
+        "id": "gate-server-1",
+        "host": "127.0.0.1",
+        "clientPort": 3010,
+        "frontend": true,
+        "args": " --inspect=33010"
+      }
+    ],
+    "auth": [
+      {
+        "id": "auth-server-1",
+        "host": "127.0.0.1",
+        "port": 4150,
+        "args": " --inspect=34150"
+      }
+    ],
+    "match": [
+      {
+        "id": "match-server-1",
+        "host": "127.0.0.1",
+        "port": 5050,
+        "args": " --inspect=35050"
+      }
+    ]
   },
-  "production":{
+  "production": {
     "connector": [
-    {"id": "connector-server-1", "host": "127.0.0.1", "port": 3150, "clientPort": 3011, "frontend": true},
-    {"id": "connector-server-2", "host": "127.0.0.1", "port": 3151, "clientPort": 3012, "frontend": true}
+      {
+        "id": "connector-server-1",
+        "host": "127.0.0.1",
+        "publicHost": "127.0.0.1",
+        "port": 3150,
+        "clientPort": 3011,
+        "frontend": true
+      },
+      {
+        "id": "connector-server-2",
+        "host": "127.0.0.1",
+        "publicHost": "127.0.0.1",
+        "port": 3151,
+        "clientPort": 3012,
+        "frontend": true
+      }
     ],
-    "fight":[
-      {"id":"fight-server-1","host":"127.0.0.1","port": 6050},
-      {"id":"fight-server-2","host":"127.0.0.1","port": 6051},
-      {"id":"fight-server-3","host":"127.0.0.1","port": 6052}],
-    "gate":[{"id":"gate-server-1","host":"127.0.0.1","clientPort": 3010, "frontend": true}]
+    "fight": [
+      {
+        "id": "fight-server-pve_1-1",
+        "host": "127.0.0.1",
+        "port": 6050,
+        "fight": "PVE_1"
+      },
+      {
+        "id": "fight-server-pve_2-1",
+        "host": "127.0.0.1",
+        "port": 6060,
+        "fight": "PVE_2"
+      },
+      {
+        "id": "fight-server-pve_3-1",
+        "host": "127.0.0.1",
+        "port": 6070,
+        "fight": "PVE_3"
+      },
+      {
+        "id": "fight-server-pvp-1",
+        "host": "127.0.0.1",
+        "port": 6080,
+        "fight": "PVP"
+      }
+    ],
+    "gate": [
+      {
+        "id": "gate-server-1",
+        "host": "127.0.0.1",
+        "clientPort": 3010,
+        "frontend": true
+      }
+    ],
+    "auth": [
+      {
+        "id": "auth-server-1",
+        "host": "127.0.0.1",
+        "port": 4150
+      }
+    ],
+    "match": [
+      {
+        "id": "match-server-1",
+        "host": "127.0.0.1",
+        "port": 5050
+      }
+    ]
   }
 }

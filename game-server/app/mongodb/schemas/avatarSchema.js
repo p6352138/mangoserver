@@ -1,19 +1,11 @@
-var mongoose = require('mongoose'),
+var mongoose = _require('mongoose'),
     Schema = mongoose.Schema;
 
-    /*
-    var AvatarSchema = function()
-    {
-        var AvatarSchema =  new Schema({
-            _id: String,
-            name: String
-        });
-        return AvatarSchema;
-    }
-*/
-var AvatarSchema =  new Schema({
+var AvatarSchema = new Schema({
     _id: String,
-    name: String
+    openid: String,
+    uid: Number,
+    level: Number,
 });
 
-module.exports = AvatarSchema;
+module.exports = AvatarSchema

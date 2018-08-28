@@ -3,8 +3,8 @@
  * Author: liuguolai
  * Description:
  */
-var avatarSchema = require('./schemas/avatarSchema');
-var accountSchema = require('./schemas/accountSchema');
+var avatarSchema = _require('./schemas/avatarSchema');
+var accountSchema = _require('./schemas/accountSchema');
 
 var name2Schema = {
     "Account": accountSchema,

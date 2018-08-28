@@ -3,11 +3,11 @@
  * Author: liuguolai
  * Description:
  */
-var mongoose = require('mongoose'),
+var mongoose = _require('mongoose'),
     Schema = mongoose.Schema;
 
 var accountSchema = new Schema({
-    username: String,  // 登录用用户名
+    openid: String,  // 登录用用户名
     uid: Number,  // 数字id
     uuid: String
 });

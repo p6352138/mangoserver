@@ -1,6 +1,15 @@
 {
   "appenders": [
     {
+      "type": "file",
+      "filename": "${opts:base}/logs/node.log",
+      "fileSize": 1048576,
+      "layout": {
+        "type": "basic"
+      },
+      "backups": 5
+    },
+    {
       "type": "console"
     },
     {
@@ -93,12 +102,23 @@
         }
       ,"backups": 5,
       "category":"pomelo-rpc"
+    },
+    {
+      "type": "file",
+      "filename": "${opts:base}/logs/game-${opts:serverId}.log",
+      "maxLogSize": 1048576,
+      "layout": {
+        "type": "basic"
+      }
+    ,"backups": 5,
+      "category":"game"
     }
   ],
 
   "levels": {
     "rpc-log" : "ERROR",
-    "forward-log": "ERROR"
+    "forward-log": "ERROR",
+    "game": "ALL"
   },
 
   "replaceConsole": true,
