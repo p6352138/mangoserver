@@ -2325,3 +2325,59 @@
 [2018-08-28 10:38:58.190] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
 [2018-08-28 10:38:58.346] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "auth", "127.0.0.1", 3005
 [2018-08-28 10:38:58.406] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "match", "127.0.0.1", 3005
+[2018-08-28 17:21:19.469] [DEBUG] pomelo-admin - [36m[MasterSocket] [39mdisconnect match-server-1 match {"main":"E:\\work\\workspace\\trunk\\Server\\mangoserver\\game-server\\app.js","env":"development","id":"match-server-1","host":"127.0.0.1","port":5050,"args":" --inspect=35050","serverType":"match","pid":9972}
+[2018-08-28 17:21:24.187] [INFO] pomelo-admin - [32m[MqttServer] [39m[MqttServer] listen on 3005
+[2018-08-28 17:21:24.664] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "master", "127.0.0.1", 3005
+[2018-08-28 17:21:27.104] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "match", "127.0.0.1", 3005
+[2018-08-28 17:21:27.101] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "auth", "127.0.0.1", 3005
+[2018-08-28 17:23:11.895] [DEBUG] pomelo-admin - [36m[MasterSocket] [39mdisconnect match-server-1 match {"main":"E:\\work\\workspace\\trunk\\Server\\mangoserver\\game-server\\app.js","env":"development","id":"match-server-1","host":"127.0.0.1","port":5050,"args":" --inspect=35050","serverType":"match","pid":15664}
+[2018-08-28 17:23:17.952] [INFO] pomelo-admin - [32m[MqttServer] [39m[MqttServer] listen on 3005
+[2018-08-28 17:23:18.359] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "master", "127.0.0.1", 3005
+[2018-08-28 17:23:20.508] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "auth", "127.0.0.1", 3005
+[2018-08-28 17:23:20.540] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "match", "127.0.0.1", 3005
+[2018-08-28 17:23:54.913] [DEBUG] pomelo-admin - [36m[MasterSocket] [39mdisconnect match-server-1 match {"main":"E:\\work\\workspace\\trunk\\Server\\mangoserver\\game-server\\app.js","env":"development","id":"match-server-1","host":"127.0.0.1","port":5050,"args":" --inspect=35050","serverType":"match","pid":13292}
+[2018-08-28 17:23:54.921] [DEBUG] pomelo-admin - [36m[MasterSocket] [39mdisconnect auth-server-1 auth {"main":"E:\\work\\workspace\\trunk\\Server\\mangoserver\\game-server\\app.js","env":"development","id":"auth-server-1","host":"127.0.0.1","port":4150,"args":" --inspect=34150","serverType":"auth","pid":4896}
+[2018-08-28 17:24:08.356] [INFO] pomelo-admin - [32m[MqttServer] [39m[MqttServer] listen on 3005
+[2018-08-28 17:24:08.727] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "master", "127.0.0.1", 3005
+[2018-08-28 17:24:11.051] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "auth", "127.0.0.1", 3005
+[2018-08-28 17:24:11.068] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "match", "127.0.0.1", 3005
+[2018-08-28 17:25:31.089] [DEBUG] pomelo-admin - [36m[MasterSocket] [39mdisconnect match-server-1 match {"main":"E:\\work\\workspace\\trunk\\Server\\mangoserver\\game-server\\app.js","env":"development","id":"match-server-1","host":"127.0.0.1","port":5050,"args":" --inspect=35050","serverType":"match","pid":10712}
+[2018-08-28 17:25:35.916] [INFO] pomelo-admin - [32m[MqttServer] [39m[MqttServer] listen on 3005
+[2018-08-28 17:25:36.271] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "master", "127.0.0.1", 3005
+[2018-08-28 17:25:38.515] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "auth", "127.0.0.1", 3005
+[2018-08-28 17:25:38.591] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "match", "127.0.0.1", 3005
+[2018-08-28 17:30:08.812] [INFO] pomelo-admin - [32m[MqttServer] [39m[MqttServer] listen on 3005
+[2018-08-28 17:30:09.191] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "master", "127.0.0.1", 3005
+[2018-08-28 17:30:10.817] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
+[2018-08-28 17:30:10.893] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
+[2018-08-28 17:30:11.095] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
+[2018-08-28 17:30:11.070] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "connector", "127.0.0.1", 3005
+[2018-08-28 17:30:11.313] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "connector", "127.0.0.1", 3005
+[2018-08-28 17:30:11.365] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
+[2018-08-28 17:30:11.615] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "auth", "127.0.0.1", 3005
+[2018-08-28 17:30:11.707] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "gate", "127.0.0.1", 3005
+[2018-08-28 17:30:11.743] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "match", "127.0.0.1", 3005
+[2018-08-28 17:55:15.860] [DEBUG] pomelo-admin - [36m[MasterSocket] [39mdisconnect match-server-1 match {"main":"E:\\work\\workspace\\trunk\\Server\\mangoserver\\game-server\\app.js","env":"development","id":"match-server-1","host":"127.0.0.1","port":5050,"args":" --inspect=35050","serverType":"match","pid":216}
+[2018-08-28 17:55:15.886] [DEBUG] pomelo-admin - [36m[MasterSocket] [39mdisconnect auth-server-1 auth {"main":"E:\\work\\workspace\\trunk\\Server\\mangoserver\\game-server\\app.js","env":"development","id":"auth-server-1","host":"127.0.0.1","port":4150,"args":" --inspect=34150","serverType":"auth","pid":14064}
+[2018-08-28 17:55:20.383] [INFO] pomelo-admin - [32m[MqttServer] [39m[MqttServer] listen on 3005
+[2018-08-28 17:55:20.761] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "master", "127.0.0.1", 3005
+[2018-08-28 17:55:22.514] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "connector", "127.0.0.1", 3005
+[2018-08-28 17:55:22.610] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
+[2018-08-28 17:55:22.743] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
+[2018-08-28 17:55:22.843] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "connector", "127.0.0.1", 3005
+[2018-08-28 17:55:22.993] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
+[2018-08-28 17:55:23.110] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "gate", "127.0.0.1", 3005
+[2018-08-28 17:55:23.319] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "auth", "127.0.0.1", 3005
+[2018-08-28 17:55:23.344] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
+[2018-08-28 17:55:23.453] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "match", "127.0.0.1", 3005
+[2018-08-29 09:28:28.098] [INFO] pomelo-admin - [32m[MqttServer] [39m[MqttServer] listen on 3005
+[2018-08-29 09:28:28.484] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "master", "127.0.0.1", 3005
+[2018-08-29 09:28:30.193] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "connector", "127.0.0.1", 3005
+[2018-08-29 09:28:30.190] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
+[2018-08-29 09:28:30.338] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
+[2018-08-29 09:28:30.450] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
+[2018-08-29 09:28:30.550] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "connector", "127.0.0.1", 3005
+[2018-08-29 09:28:30.882] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "fight", "127.0.0.1", 3005
+[2018-08-29 09:28:30.910] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "auth", "127.0.0.1", 3005
+[2018-08-29 09:28:30.970] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "match", "127.0.0.1", 3005
+[2018-08-29 09:28:31.084] [INFO] pomelo-admin - [32m[ConsoleService] [39mtry to connect master: "gate", "127.0.0.1", 3005

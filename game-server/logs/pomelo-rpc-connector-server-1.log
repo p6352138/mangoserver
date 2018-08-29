@@ -2393,3 +2393,5 @@
 [2018-08-27 14:56:31.034] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-1 is error, remote server match-server-1 host: 127.0.0.1, port: 5050
 [2018-08-28 10:38:50.862] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-1 is error, remote server match-server-1 host: 127.0.0.1, port: 5050
 [2018-08-28 10:38:50.874] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-1 is error, remote server auth-server-1 host: 127.0.0.1, port: 4150
+[2018-08-28 17:55:15.860] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-1 is error, remote server match-server-1 host: 127.0.0.1, port: 5050
+[2018-08-28 17:55:15.886] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-1 is error, remote server auth-server-1 host: 127.0.0.1, port: 4150

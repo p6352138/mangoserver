@@ -133,7 +133,7 @@ module.exports = {
 		CastMP: 2,
 		CastThew: 0,
 		CardType: 2,
-		CardQuality: 2,
+		CardQuality: 3,
 		CardAttributes: [1]
 	},
 	1009: {

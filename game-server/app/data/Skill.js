@@ -569,7 +569,7 @@ module.exports = {
 		1: {
 			ID: 10005,
 			Index: 1,
-			Target: {"type":"self","team":0},
+			Target: {"type":"self","team":0,"singing":1.1},
 			Actions: {monsterSummoned:{"monsterID":"10002","num":1,"matrixType":"random","time":12}},
 			CriticalTime: 0,
 			EffectiveTime: 0,

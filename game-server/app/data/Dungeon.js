@@ -10,6 +10,6 @@ module.exports = {
 		SceneID: 1,
 		MonsterGroupID: 1,
 		WinMode: 0,
-		TimeLimit: 30
+		TimeLimit: 180
 	},
 };
