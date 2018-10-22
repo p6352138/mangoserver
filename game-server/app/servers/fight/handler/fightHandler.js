@@ -9,6 +9,11 @@ var Handler = function(app) {
 
 var handler = Handler.prototype;
 
+// 获取dps信息
+handler.getDps = function (msg, session, next) {
+    session.dungeonEntity.dps.getDps(next);
+};
+
 // 选英雄
 handler.selectHero = function(msg, session, next) {
     var heroid = msg.heroid;

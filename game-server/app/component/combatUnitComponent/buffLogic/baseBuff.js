@@ -15,6 +15,11 @@ var BuffCell = function (opts) {
     this.endTime = opts.endTime;
     this.casterID = opts.casterID;
     this.skillID = opts.skillID;
+    this.effectNum = undefined;  // 生效数量，特殊处理同个逻辑多次生效的情况
+    this.extraData = opts.extraData;
+    if (this.extraData && this.extraData.hasOwnProperty('effectNum')) {
+        this.effectNum = this.extraData.effectNum;
+    }
 
     Object.defineProperty(this, 'entity', {
         get: function () {
@@ -53,6 +58,7 @@ BuffCell.prototype.getClientInfo = function () {
     return {
         endTime: this.endTime,
         casterID: this.casterID,
+        effectNum: this.effectNum,
     };
 };
 
@@ -91,6 +97,58 @@ BuffCell.prototype.onTimeout = function () {
     }
 };
 
+/**
+ * 刷新结束时间
+ * @param times 剩余时间倍率
+ */
+BuffCell.prototype.refreshEndTime = function (times) {
+    for (var logic of this.logics) {
+        logic.onRefreshEndTime(times);
+    }
+    if (this.endTime === consts.Buff.BUFF_PERMANENT)
+        return;
+    let timeNow = new Date().getTime();
+    let leftTime = this.endTime - timeNow;
+    let newLeftTime = Math.floor(leftTime * times);
+    this.endTime = timeNow + newLeftTime;
+    if (this._timer) {
+        clearTimeout(this._timer);
+        this._timer = setTimeout(this.onTimeout.bind(this), this.endTime - newLeftTime);
+    }
+};
+
+BuffCell.prototype.addEndTime = function (time) {
+    if (this.endTime === consts.Buff.BUFF_PERMANENT)
+        return;
+    this.endTime += time * 1000;
+    if (this._timer) {
+        clearTimeout(this._timer);
+        this._timer = null;
+        let timeNow = new Date().getTime();
+        let leftTime = this.endTime - timeNow;
+        if (leftTime <= 0) {
+            this.onTimeout();
+        }
+        else {
+            this._timer = setTimeout(this.onTimeout.bind(this), leftTime);
+        }
+    }
+};
+
+BuffCell.prototype.updateEndTime = function (endTime) {
+    this.endTime = endTime;
+    if (this._timer) {
+        clearTimeout(this._timer);
+        this._timer = setTimeout(this.onTimeout.bind(this), this.endTime - new Date().getTime());
+    }
+};
+
+BuffCell.prototype.refresh = function () {
+    for (var logic of this.logics) {
+        logic.refresh();
+    }
+};
+
 //////////////////////////////////////////
 
 var BaseBuff = function (opts) {
@@ -100,6 +158,7 @@ var BaseBuff = function (opts) {
     this.startTime = opts.startTime;
     this.endTime = 0;
     this.cells = {};  // 多层buff
+    this.layer = 1;
 
     this.activeFlag = false;  // 是否已经激活
     this.curCellID = 1;
@@ -119,6 +178,7 @@ pro.getClientInfo = function () {
     var info = {
         id: this.id,
         realID: this.realID,
+        layer: this.layer
     }
     var cells = [];
     for (var cellID in this.cells) {
@@ -147,6 +207,26 @@ pro.addBuffCell = function (data) {
         cell.onEnter();
 };
 
+pro.addLayer = function (startTime, endTime) {
+    let refresh = false;
+    if (this.layer < this.data.StackLimit) {
+        this.layer++;
+        refresh = true;
+    }
+    for (let cellID in this.cells) {
+        let cell = this.cells[cellID];
+        cell.startTime = startTime;
+        cell.updateEndTime(endTime);
+        if (refresh) {
+            cell.refresh();
+        }
+    }
+    if (this.endTime !== consts.Buff.BUFF_PERMANENT) {
+        this.endTime = endTime === consts.Buff.BUFF_PERMANENT ?
+            consts.Buff.BUFF_PERMANENT : Math.max(this.endTime, endTime);
+    }
+};
+
 pro.onEnter = function () {
     if (this.activeFlag)
         return;
@@ -162,6 +242,20 @@ pro.onExit = function () {
     this.activeFlag = false;
     for (var cellID in this.cells) {
         this.cells[cellID].onExit();
+    }
+};
+
+// 按倍率刷新时间
+pro.refreshEndTime = function (times) {
+    for (let cellID in this.cells) {
+        this.cells[cellID].refreshEndTime(times);
+    }
+};
+
+// 按时间长短刷新时间
+pro.addEndTime = function (time) {
+    for (let cellID in this.cells) {
+        this.cells[cellID].addEndTime(time);
     }
 };
 

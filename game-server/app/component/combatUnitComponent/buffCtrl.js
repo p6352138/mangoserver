@@ -97,6 +97,16 @@ pro._onRemoveBuff = function (buff) {
     this.emit("EventBuffRemoved", this.entity, buff);
 };
 
+pro.getBuff = function (id) {
+    let realIDs = this.buffID2realID[id];
+    if (realIDs) {
+        for (let realID of realIDs) {
+            return this.buffs[realID];
+        }
+    }
+    return null;
+};
+
 pro._tryAddBuff = function (id, duration, casterID, data, realID) {
     if (!realID) {
         if (casterID)
@@ -105,6 +115,7 @@ pro._tryAddBuff = function (id, duration, casterID, data, realID) {
             realID = id;
     }
     var newBuff = true, buff = null;
+    let bStack = buffTpl[id].Stack;  // 是否叠加
     if (realID in this.buffs) {
         buff = this.buffs[realID];
         newBuff = false;
@@ -127,8 +138,12 @@ pro._tryAddBuff = function (id, duration, casterID, data, realID) {
     }
 
     // todo: 判断独立的还是需要层级叠加，先默认全部独立
-    if (casterID)
+    if (newBuff || !bStack) {
         buff.addBuffCell(data);
+    }
+    else {
+        buff.addLayer(data.startTime, data.endTime);
+    }
 
     this._onBuffUpdate(realID);
 
@@ -136,7 +151,7 @@ pro._tryAddBuff = function (id, duration, casterID, data, realID) {
         return buff;
 };
 
-pro.addBuff = function (id, lv, duration, casterID, skillID, realID) {
+pro.addBuff = function (id, lv, duration, casterID, skillID, realID, extraData) {
     // todo: 默认死亡加不上，需加标记
     if (this.entity.state.isDead())
         return;
@@ -151,6 +166,7 @@ pro.addBuff = function (id, lv, duration, casterID, skillID, realID) {
         endTime: endTime,
         casterID: casterID,
         skillID: skillID,
+        extraData: extraData
     }
     var buff = this._tryAddBuff(id, duration, casterID, data, realID);
     if (!buff)

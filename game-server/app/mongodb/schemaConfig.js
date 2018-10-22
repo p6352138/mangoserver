@@ -3,12 +3,14 @@
  * Author: liuguolai
  * Description:
  */
-var avatarSchema = _require('./schemas/avatarSchema');
-var accountSchema = _require('./schemas/accountSchema');
+let avatarSchema = _require('./schemas/avatarSchema');
+let accountSchema = _require('./schemas/accountSchema');
+let friendSchema = _require('./schemas/friendSchema');
 
-var name2Schema = {
+let name2Schema = {
     "Account": accountSchema,
-    "Avatar": avatarSchema
-}
+    "Avatar": avatarSchema,
+    "Friend": friendSchema,
+};
 
-module.exports = name2Schema
+module.exports = name2Schema;

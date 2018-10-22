@@ -1928,3 +1928,37 @@
 [2018-08-28 10:32:38.587] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server match-server-1 host: 127.0.0.1, port: 5050
 [2018-08-28 17:21:19.460] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server match-server-1 host: 127.0.0.1, port: 5050
 [2018-08-28 17:55:15.860] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server match-server-1 host: 127.0.0.1, port: 5050
+[2018-08-30 16:59:58.086] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server match-server-1 host: 127.0.0.1, port: 5050
+[2018-08-30 16:59:58.097] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server auth-server-1 host: 127.0.0.1, port: 4150
+[2018-08-31 20:11:42.416] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server match-server-1 host: 127.0.0.1, port: 5050
+[2018-08-31 20:13:20.024] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server match-server-1 host: 127.0.0.1, port: 5050
+[2018-08-31 20:13:20.034] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server auth-server-1 host: 127.0.0.1, port: 4150
+[2018-08-31 20:13:20.079] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server fight-server-pve_2-1 host: 127.0.0.1, port: 6060
+[2018-08-31 20:27:26.780] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server match-server-1 host: 127.0.0.1, port: 5050
+[2018-09-03 10:52:30.673] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server match-server-1 host: 127.0.0.1, port: 5050
+[2018-09-03 16:05:56.667] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server auth-server-1 host: 127.0.0.1, port: 4150
+[2018-09-03 17:14:19.004] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server match-server-1 host: 127.0.0.1, port: 5050
+[2018-09-05 10:37:07.988] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server match-server-1 host: 127.0.0.1, port: 5050
+[2018-09-05 11:31:57.892] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server match-server-1 host: 127.0.0.1, port: 5050
+[2018-09-05 11:31:57.931] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server auth-server-1 host: 127.0.0.1, port: 4150
+[2018-09-05 11:33:32.303] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server auth-server-1 host: 127.0.0.1, port: 4150
+[2018-09-06 14:28:49.297] [ERROR] pomelo-rpc - [31m[mqtt-acceptor] [39mprocess rpc message error TypeError: Cannot read property 'dungeon' of undefined
+    at Remote.pro.onDungeonFinish (E:\work\workspace\trunk\Server\mangoserver\game-server\app\servers\connector\remote\entryRemote.js:61:12)
+    at Dispatcher.pro.route (E:\work\workspace\trunk\Server\mangoserver\game-server\node_modules\pomelo-rpc\lib\rpc-server\dispatcher.js:52:10)
+    at Acceptor.cb (E:\work\workspace\trunk\Server\mangoserver\game-server\node_modules\pomelo-rpc\lib\rpc-server\gateway.js:22:16)
+    at processMsg (E:\work\workspace\trunk\Server\mangoserver\game-server\node_modules\pomelo-rpc\lib\rpc-server\acceptors\mqtt-acceptor.js:138:12)
+    at Connection.<anonymous> (E:\work\workspace\trunk\Server\mangoserver\game-server\node_modules\pomelo-rpc\lib\rpc-server\acceptors\mqtt-acceptor.js:62:11)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Connection.emitPacket (E:\work\workspace\trunk\Server\mangoserver\game-server\node_modules\mqtt-connection\connection.js:14:8)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at addChunk (E:\work\workspace\trunk\Server\mangoserver\game-server\node_modules\duplexify\node_modules\readable-stream\lib\_stream_readable.js:291:12)
+    at readableAddChunk (E:\work\workspace\trunk\Server\mangoserver\game-server\node_modules\duplexify\node_modules\readable-stream\lib\_stream_readable.js:278:11)
+    at Connection.Readable.push (E:\work\workspace\trunk\Server\mangoserver\game-server\node_modules\duplexify\node_modules\readable-stream\lib\_stream_readable.js:245:10)
+    at Connection.Duplexify._forward (E:\work\workspace\trunk\Server\mangoserver\game-server\node_modules\duplexify\index.js:170:26)
+    at DestroyableTransform.onreadable (E:\work\workspace\trunk\Server\mangoserver\game-server\node_modules\duplexify\index.js:134:10)
+    at emitNone (events.js:106:13)
+[2018-09-06 14:40:54.600] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server match-server-1 host: 127.0.0.1, port: 5050
+[2018-09-06 14:40:54.611] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server auth-server-1 host: 127.0.0.1, port: 4150
+[2018-09-07 19:06:54.946] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc socket connector-server-2 is error, remote server match-server-1 host: 127.0.0.1, port: 5050

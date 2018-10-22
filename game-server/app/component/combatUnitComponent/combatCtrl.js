@@ -8,6 +8,7 @@ var util = _require('util');
 var assert = _require('assert');
 var consts = _require('../../public/consts');
 var fightHelper = _require('../../helper/fightHelper');
+var entityManager = _require('../../services/entityManager');
 
 var CombatCtrl = function (entity) {
     Component.call(this, entity);
@@ -19,17 +20,27 @@ module.exports = CombatCtrl;
 var pro = CombatCtrl.prototype;
 
 pro.init = function (opts) {
+    // 攻击者额外的伤害
+    this.attackExtraDamage = {
 
+    }
+};
+
+pro.setAttackExtraDamage = function (attackID, damage) {
+    this.attackExtraDamage[attackID] = damage;
 };
 
 pro.onDamage = function (attacker, damage, sid, broadcast) {
     assert(damage > 0, "onDamage的damage应该大于0");
     if (this.entity.state.isDead())
         return false;
+    // 基础伤害 + 火印伤害*层数 + 恶魔之链传递伤害
     damage = fightHelper.calcDamage(attacker, this.entity, damage);
+    damage += (this.attackExtraDamage[attacker.id] || 0);
     var oriDamage = damage;
     // armor buff 结算
     damage = this.entity.buffCtrl.calcArmorBuff(damage);
+    let bSubHp = false, orginHp = this.entity.hp;
     if (damage > 0) {
         if (this.entity.armor >= damage) {
             this.entity.armor -= damage;
@@ -38,6 +49,7 @@ pro.onDamage = function (attacker, damage, sid, broadcast) {
             damage -= this.entity.armor;
             this.entity.armor = 0;
             this.entity.prop.subHp(damage);
+            bSubHp = true;
         }
     }
     this.emit("EventGetDamaged", this.entity, attacker.id, oriDamage, sid);
@@ -45,14 +57,19 @@ pro.onDamage = function (attacker, damage, sid, broadcast) {
         broadcast = true;
     if (broadcast) {
         // 广播伤害
-        this.entity.broadcast('onDamage', {
+        let msg = {
             targetID: this.entity.id,
             attackerID: attacker.id,
             sid: sid,
             oriDamage: oriDamage,  // 原始伤害
             hp: this.entity.hp,
             armor: this.entity.armor
-        })
+        };
+        this.entity.broadcast('onDamage', msg);
+        this.entity.owner.dps.onDamage(msg);
+    }
+    if (bSubHp) {
+        attacker.combat.onDoDamageToOther(orginHp, this.entity.hp);
     }
     return true;
 };
@@ -92,13 +109,15 @@ pro.onHeal = function (caster, val, sid) {
     entity.prop.addHp(val);
     this.emit("EventGetHealed", this.entity, caster.id, entity.hp - orginHp, sid);
 
-    this.entity.broadcast('onHeal', {
+    let msg = {
         casterID: caster.id,
         targetID: entity.id,
         sid: sid,
         fromHp: orginHp,
         toHP: entity.hp,
-    })
+    };
+    this.entity.broadcast('onHeal', msg);
+    this.entity.owner.dps.onHeal(msg);
     return true;
 };
 
@@ -110,12 +129,24 @@ pro.onBuffModHp = function (buff, hpVal, casterID, skillID) {
     entity.prop.modHp(hpVal);
     this.emit("EventBuffModHp", this.entity, orginHp, entity.hp, casterID, skillID);
 
-    this.entity.broadcast('onBuffModHp', {
+    let msg = {
         buffID: buff.id,
         casterID: casterID,
         targetID: entity.id,
         fromHp: orginHp,
         toHP: entity.hp,
         val: hpVal
-    })
+    }
+    this.entity.broadcast('onBuffModHp', msg);
+    this.entity.owner.dps.onBuffModHp(msg, skillID);
+
+    if (hpVal < 0) {
+        let caster = entityManager.getEntity(casterID);
+        caster.combat.onDoDamageToOther(orginHp, entity.hp);
+    }
+};
+
+// 对别人造成伤害
+pro.onDoDamageToOther = function (enemyFromHp, enemyToHp) {
+    this.emit("EventDoDamageToOther", this.entity, enemyFromHp, enemyToHp);
 };

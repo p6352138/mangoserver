@@ -3,23 +3,28 @@
  * Author: liuguolai
  * Description:
  */
-var damage = _require('./actions/damage');
-var addBuff = _require('./actions/addBuff');
-var spawnSummoned = _require('./actions/spawnSummoned');
-var drawCard = _require('./actions/drawCard');
-var create = _require('./actions/create');
-var reverse = _require('./actions/reverse');
-var swordWheel = _require('./actions/swordWheel');
-var heal = _require('./actions/heal');
-var reliveTarget = _require('./actions/reliveTarget');
-var dropCard = _require('./actions/dropCard');
-var monsterSummoned = _require('./actions/monsterSummoned');
-var normalDrawCard = _require('./actions/normalDrawCard');
-var getMP = _require('./actions/getMP');
+let damage = _require('./actions/damage');
+let addBuff = _require('./actions/addBuff');
+let spawnSummoned = _require('./actions/spawnSummoned');
+let drawCard = _require('./actions/drawCard');
+let create = _require('./actions/create');
+let reverse = _require('./actions/reverse');
+let swordWheel = _require('./actions/swordWheel');
+let heal = _require('./actions/heal');
+let reliveTarget = _require('./actions/reliveTarget');
+let dropCard = _require('./actions/dropCard');
+let monsterSummoned = _require('./actions/monsterSummoned');
+let normalDrawCard = _require('./actions/normalDrawCard');
+let getMP = _require('./actions/getMP');
+let bounce = _require('./actions/bounce');
+let costSummoned = _require('./actions/costSummoned');
+let crushedIce = _require('./actions/crushedIce');
+let blackSnow = _require('./actions/blackSnow');
+let buffTime = _require('./actions/buffTime');
 
-var skillAction = module.exports;
+let skillAction = module.exports;
 
-var actionMap = {
+let actionMap = {
     damage: damage,
     addBuff: addBuff,
     spawnSummoned: spawnSummoned,
@@ -33,6 +38,11 @@ var actionMap = {
     monsterSummoned: monsterSummoned,
     normalDrawCard: normalDrawCard,
     getMP: getMP,
+    bounce: bounce,
+    costSummoned: costSummoned,
+    crushedIce: crushedIce,
+    blackSnow: blackSnow,
+    buffTime: buffTime,
 };
 
 skillAction.getAction = function (actionName) {

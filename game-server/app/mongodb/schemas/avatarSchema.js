@@ -1,4 +1,4 @@
-var mongoose = _require('mongoose'),
+var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var AvatarSchema = new Schema({
@@ -6,6 +6,13 @@ var AvatarSchema = new Schema({
     openid: String,
     uid: Number,
     level: Number,
+    name: String,
+    gender: Number,
+    avatarUrl: String,
+    ladder: {},
+    raid: {}
 });
 
-module.exports = AvatarSchema
+AvatarSchema.set('toObject', { getters: true });
+
+module.exports = AvatarSchema;

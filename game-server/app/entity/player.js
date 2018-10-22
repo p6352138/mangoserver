@@ -54,6 +54,14 @@ pro._initProp = function () {
     // todo: 计算其他影响因素
 };
 
+pro.updateAttri = function (attri) {
+    if (!attri)
+        return;
+    for (let key in attri) {
+        this[key] = attri[key];
+    }
+};
+
 // 获取信息，用于客户端信息加载
 pro.getClentInfo = function () {
     return {
@@ -86,6 +94,8 @@ pro.getBrocastInfo = function () {
         buffs: this.buffCtrl.getClientInfo(),
         pos: this.pos,
         scale: this.scale,
+        groupId: this.groupId,
+        name: this.name
     }
 };
 

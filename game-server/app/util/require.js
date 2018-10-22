@@ -3,9 +3,9 @@ const path = require('path');
 
 const realTimeReload = false;
 // 热更路径
-const HOT_REQUIRE_PRE_PATH = path.resolve('app/');
+const HOT_REQUIRE_PRE_PATH = path.resolve(__dirname, '..');
 // 表格路径
-const TABLE_PATH = path.resolve('app/data/');
+const TABLE_PATH = path.resolve(__dirname, '../data/');
 // 定义不需要更新的模块
 const ignoreModule = new Set([
     // 'entity',

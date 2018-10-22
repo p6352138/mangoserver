@@ -107,7 +107,7 @@ pro.resume = function (reason) {
 
     if (!this.tickTimer) {
         this.tickTimer = setInterval(this._tick.bind(this), this.tickInterval);
-        this._tick();
+        // this._tick();
     }
 };
 

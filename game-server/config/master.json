@@ -4,5 +4,11 @@
   },
   "production": {
     "id": "master-server-1", "host": "127.0.0.1", "port": 3005
+  },
+  "global_dev": {
+    "id": "global-master-server-1", "host": "127.0.0.1", "port": 23005
+  },
+  "global_pro": {
+    "id": "global-master-server-1", "host": "127.0.0.1", "port": 23005
   }
 }

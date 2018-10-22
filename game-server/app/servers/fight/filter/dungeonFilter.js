@@ -13,7 +13,7 @@ var Filter = function() {
 };
 
 /**
- * Area filter
+ * dungeon filter
  */
 Filter.prototype.before = function(msg, session, next){
     var dungeonEntity = entityManager.getEntity(session.get('dgEntId'));

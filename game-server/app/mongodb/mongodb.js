@@ -71,7 +71,7 @@ Mongodb.prototype.getModel = function (name) {
 };
 
 Mongodb.prototype.genId = function () {
-    return ObjectId();
+    return ObjectId().toString();
 };
 
 Mongodb.prototype.find = function (modelName, conditions, projection=null, options=null, callback=null) {

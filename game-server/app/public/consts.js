@@ -4,6 +4,8 @@
  * Description: 常量文件
  */
 module.exports = {
+    ENABLE_GM: true,
+
     Code: {
         OK: 1,
         FAIL: 0
@@ -22,16 +24,20 @@ module.exports = {
 
     // 匹配类型
     MatchType: {
-        PVE_1: "PVE_1",  // 单人PVE
-        PVE_2: "PVE_2",
-        PVE_3: "PVE_3",
-        PVP: "PVP"
+        PVE: "PVE",
+        PVP: "PVP",
     },
 
     // 匹配错误码
     MatchCode: {
         OK: 1,
         IN_QUEUE: 2,
+        IN_PUNISH: 3,  //  惩罚时间中
+    },
+
+    Match: {
+        MAX_NUM: 4,  // 匹配最大人数
+        PUNISH_TIME: 60,  // 惩罚时间
     },
 
     // 选择英雄错误码
@@ -55,6 +61,7 @@ module.exports = {
         MP_NOT_ENOUGH: -2,  // 灵力不足
         THEW_NOT_ENOUGH: -3,  // 体力不足
         ALREADY_DEAD: -4,  // 已经死亡
+        USE_LIMIT: -5,  // 使用限制
         // 技能
         SKILL_NOT_FOUND: -10,  // 技能不存在
         SKILL_TARGET_ERR: -11,  // 对象错误
@@ -116,5 +123,96 @@ module.exports = {
         IN_BEFORE_LOAD_CD: 3,  // 加载前倒计时
         IN_LOAD: 4,  // 加载中
         IN_FIGHT: 5,  // 战斗中
+    },
+
+    // 好友关系（按位运算）
+    FriendRelation: {
+        FRIEND: 0x01,  // 好友
+        BLACK: 0x02,  // 黑名单
+    },
+
+    // 好友相关错误码
+    FriendCode: {
+        OK: 1,
+        ID_ERROR: 2,  // ID错误
+        FRIEND_ALREADY: 3,  // 已经是好友
+        INVITED_ALREADY: 4,  // 已经邀请了
+        NO_INVITER: 5,  // 申请者不存在
+        NOT_FRIEND: 6,  // 不是好友
+    },
+
+    // 用户状态
+    UserState: {
+        ONLINE: 101,  // 在线
+        OFFLINE: 102,  // 离线
+        TEAM: 103,  // 组队
+        PLAYING: 104,  // 游戏中
+    },
+
+    // 微信托管数据key
+    WxStorageKey: {
+        STATE: "state",  // 状态
+        RANK: "rank",  // 段位
+        LEVEL: "level",  // 等级
+    },
+
+    // 队伍
+    Team: {
+        TYPE_LADDER: "LADDER",  // 天梯队伍
+        TYPE_PRACTICE: "PRACTICE",  // 练习队伍
+        TYPE_RAID: "RAID",  // 副本队伍
+
+        MAX_NUM: 4,
+        LADDER_NEED_LV: 0,  // 天梯需要等级
+        PRACTICE_NEED_LV: 0,  // 练习需要等级
+        HERO_NEED_NUM: 0,  // 需要英雄数量
+    },
+
+    // 队伍错误码
+    TeamCode: {
+        OK: 1,
+        TYPE_ERR: 2,  // 类型错误
+        IN_TEAM: 3,  // 队伍中
+        NOT_IN_TEAM: 4,  // 不在队伍中（队伍解散）
+        TEAM_FULL: 5, // 人满了
+        IN_MY_TEAM: 6,  // 已经在自己的队伍中
+        PLAYING: 7,  // 游戏中
+        LEVEL_LIMIT: 8,  // 等级限制
+        RAND_LIMIT: 9,  // 段位限制
+        HERO_NUM_LIMIT: 10,  // 英雄数量限制
+        TEAM_NOT_EXIST: 11,  // 队伍不存在
+        MEMBER_NOT_EXIST: 12,  // 没有该成员
+        NOT_CAPTAIN: 13,  // 不是队长
+        READY_OFF_ALREADY: 14,  // 已经取消准备
+        READY_ON_ALREADY: 15,  // 已经准备
+        CAPTAIN_LIMIT: 16,  // 队长限制（例如准备）
+        NOT_READY: 17,  // 没有准备
+        MATCHING: 18,  // 匹配中
+        IN_PUNISH: 19,  // 超时惩罚中
+    },
+
+    // 副本
+    Raid: {
+        STATE_SELECT: 1,  // 选择状态
+        STATE_START: 2,  // 开始状态
+        STATE_GET_CARD: 3,  // 获取卡牌状态
+        STATE_FINISH: 4,  // 结束状态
+
+        STATE_TEAM_SELECT_HERO: 1,  // 组队副本选英雄
+        STATE_TEAM_SELECT_ROOM: 2,  // 组队副本选择关卡
+        STATE_TEAM_IN_ROOM: 3,  // 在关卡中
+        STATE_TEAM_GET_CARD: 4,  // 获取卡牌
+
+        TYPE_DUNGEON: "dungeon",  // 副本
+        TYPE_SHOP: "shop",  // 商店
+        TYPE_AWARD: "award",  // 奖励
+    },
+
+    // 副本错误码
+    RaidCode: {
+        OK: 1,
+        NOT_SINGLE_RAID: 2,  // 非单人副本
+        HAD_SELECTED: 3,  // 已经选择
+        LEVEL_LIMIT: 4,  // 等级不足
     }
 }

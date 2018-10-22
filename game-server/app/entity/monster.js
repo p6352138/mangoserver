@@ -78,6 +78,7 @@ pro.getBrocastInfo = function () {
         buffs: this.buffCtrl.getClientInfo(),
         pos: this.pos,
         scale: this.scale,
+        groupId: this.groupId,
     }
 };
 

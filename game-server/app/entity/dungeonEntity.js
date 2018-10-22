@@ -17,11 +17,14 @@ var fightHelper = _require('../helper/fightHelper');
 var constTpl = _require('../data/Constant');
 
 var DungeonEntity = function (opts) {
-    opts = opts || {}
+    opts = opts || {};
+    opts.components = ['gm', 'summons', 'dps'];
     Entity.call(this, opts);
 
     var channelService = pomelo.app.get('channelService');
+    this.teamType = null;
     this.matchType = pomelo.app.getCurServer().fight;
+    this.matchNum = pomelo.app.getCurServer().matchNum;
     this.channel = channelService.getChannel(this.id, true);
     this.dgId = 0;
     this.isPVP = true;
@@ -39,15 +42,6 @@ var DungeonEntity = function (opts) {
     this.matrixIDA = 5;  // 阵型编号
     this.matrixIDB = 5;
 
-    // 召唤物
-    this.spawnSummons = {
-        seed: new Date().getTime(),  // 种子
-        groupA: {
-            // type : { area: num }
-        },
-        groupB: {}
-    };
-
     this.inFight = false;
     this.loadMembers = null;  // 正在加载的玩家
     this.loadMemProgress = null;  // 玩家加载进度
@@ -63,11 +57,17 @@ module.exports = DungeonEntity;
 
 var pro = DungeonEntity.prototype;
 
-pro.initFight = function (dgId, teamA, teamB) {
-    var self = this;
+pro.initFight = function (teamType, dgId, teamA, teamB, extraData) {
+    let self = this;
+    self.extraData = extraData;
     self.dgId = dgId;
-    if (dgId)
+    self.teamType = teamType;
+    if (teamType === consts.Team.TYPE_LADDER || teamType === consts.Team.TYPE_PRACTICE) {
+        this.isPVP = true;
+    }
+    else {
         this.isPVP = false;
+    }
     self.teamA = teamA;
     self.teamB = teamB;
 
@@ -86,6 +86,7 @@ pro.initFight = function (dgId, teamA, teamB) {
         self.confirmMembers.add(uid);
         teamInfo['teamA'].push({
             uid: uid,
+            openid: teamA[uid].openid,
             name: teamA[uid].name
         })
     }
@@ -97,21 +98,51 @@ pro.initFight = function (dgId, teamA, teamB) {
         self.confirmMembers.add(uid);
         teamInfo['teamB'].push({
             uid: uid,
-            name: teamB[uid].name
+            openid: teamB[uid].openid,
+            name: teamB[uid].name,
         })
     }
     this.channelInfo = channelInfo;
     // 设置状态
     this.status = consts.DungeonStatus.IN_SELECT_HERO;
     this.statusEndTime = new Date().getTime() + 1000 * constTpl.ReadyTimer;
+    let serverId = pomelo.app.get('serverId');
+
+    if (this.teamType === consts.Team.TYPE_RAID) {
+        // 副本模式直接加载进入战斗
+        // 获取当前副本的出战英雄数据
+        if (this.extraData.teamRaidEnt) {  // 团队副本
+            this.prepareInfo = this.extraData.teamRaidEnt.getHeroInfo();
+            this._startLoad();
+            for (let uid in self.prepareMems) {
+                pomelo.app.rpc.connector.entryRemote.onTeamRaidEnterDungeon.toServer(
+                    self.prepareMems[uid], uid, serverId, self.id, null
+                );
+            }
+        }
+        else {
+            for (let uid in self.prepareMems) {
+                pomelo.app.rpc.connector.entryRemote.onRaidReady.toServer(
+                    self.prepareMems[uid], uid, serverId, self.id, self.extraData.raidID, function (uid, code, prepareInfo) {
+                        if (code === consts.Code.FAIL) {
+                            self.logger.error("get fighter[%s] prepareInfo failed.", uid);
+                        }
+                        self.prepareInfo[uid] = prepareInfo;
+                        delete self.prepareMems[uid];
+                        // 进入加载
+                        if (Object.getOwnPropertyNames(self.prepareMems).length === 0) {
+                            this._startLoad();
+                        }
+                    }.bind(self, uid))
+            }
+        }
+        return;
+    }
     for (var uid in self.prepareMems) {
         pomelo.app.rpc.connector.entryRemote.onMatchReady.toServer(
-            self.prepareMems[uid], uid, pomelo.app.get('serverId'), self.id, teamInfo, function (uid, code, prepareInfo) {
+            self.prepareMems[uid], uid, serverId, self.id, teamInfo, function (uid, code, prepareInfo) {
                 if (code === consts.Code.FAIL) {
-                    self.logger.error("get fighter prepareInfo failed. figth cancel");
-                    // todo: 试下销毁，再斟酌
-                    self.destroy();
-                    return;
+                    self.logger.error("get fighter[%s] prepareInfo failed.", uid);
                 }
                 self.prepareInfo[uid] = prepareInfo;
                 delete self.prepareMems[uid];
@@ -203,6 +234,7 @@ pro._beforeLoadCountDown = function () {
         return;
     this.logger.info(Object.getOwnPropertyNames(this.prepareInfo), "enter count down.");
     clearTimeout(this.timer);
+    this.confirmMembers.clear();
     // 设置状态
     this.status = consts.DungeonStatus.IN_BEFORE_LOAD_CD;
     this.statusEndTime = new Date().getTime() + 1000 * constTpl.ReadyStartTimer;
@@ -222,7 +254,7 @@ pro._beforeLoadCountDown = function () {
                         validHeros.delete(heroid);
                 }
                 var index = Math.floor(Math.random() * validHeros.size);
-                team[uid].heroid = Array.from(validHeros)[index];
+                team[uid].heroid = Array.from(validHeros)[index] || 1000;
                 beSelectdHeroid.add(team[uid].heroid);
             }
             info[uid] = team[uid].heroid;
@@ -251,20 +283,35 @@ pro._startLoad = function () {
     this.formationA.sort(function (a, b) {
         return heroTbl[teamA[a].heroid]["PosPriority"] - heroTbl[teamA[b].heroid]["PosPriority"];
     })
-    for (var uid in teamA) {
-        var heroid = teamA[uid].heroid;
-        var player = entityFactory.createEntity("Player", uid, {
+    for (let uid in teamA) {
+        let ent = teamA[uid];
+        let heroid, lv, cards, attri;
+        if (this.teamType === consts.Team.TYPE_RAID) {
+            let info = this.prepareInfo[uid].heroInfo;
+            heroid = info.heroid;
+            lv = 1;
+            cards = info.cards;
+            attri = info.attri;
+        }
+        else {
+            heroid = ent.heroid;
+            lv = this.prepareInfo[uid].heros[heroid].lv;
+            cards = heroTbl[heroid]["InitialDrawPile"];
+        }
+        let player = entityFactory.createEntity("Player", uid, {
             owner: this,
             uid: uid,
-            sid: teamA[uid].sid,
-            name: teamA[uid].name,
+            sid: ent.sid,
+            name: ent.name,
             heroid: heroid,
-            cards: heroTbl[heroid]["InitialDrawPile"],
+            cards: cards,
             groupId: "groupA",
-            lv: this.prepareInfo[uid].heros[heroid].lv,
+            lv: lv,
             pos: this.formationA.indexOf(uid) + 1,
             channelInfo: this.channelInfo
         })
+        // 覆盖原始属性
+        player.updateAttri(attri);
         this.groupA[uid] = player;
         this.loadMembers.add(uid);
         teamInfo.teamA.push(player.getBrocastInfo());
@@ -332,7 +379,8 @@ pro._startLoad = function () {
                 teamInfo: teamInfo,
                 dgId: this.dgId,
                 matchType: this.matchType,
-                spawnSummons: this.spawnSummons,
+                matchNum: this.matchNum,
+                spawnSummons: this.summons.spawnSummons,
             })
     }
     if (this.isPVP) {
@@ -343,7 +391,8 @@ pro._startLoad = function () {
                     teamInfo: teamInfo,
                     dgId: this.dgId,
                     matchType: this.matchType,
-                    spawnSummons: this.spawnSummons,
+                    matchNum: this.matchNum,
+                    spawnSummons: this.summons.spawnSummons,
                 })
         }
     }
@@ -377,6 +426,8 @@ pro.loadProgress = function (uid, progress) {
 
 // uid 加载完成
 pro.loadFinished = function (uid) {
+    if (this.status !== consts.DungeonStatus.IN_LOAD)
+        return;
     this.loadMembers.delete(uid);
     this.loadMemProgress[uid] = 100;
     this.broadcast('onLoadProgress', {
@@ -401,9 +452,9 @@ pro._loadFailEnd = function () {
 
 // 战斗正式开始
 pro._fightBegin = function () {
-    clearTimeout(this.timer);
     if (this.inFight)
         return;
+    clearTimeout(this.timer);
     this.logger.info(Object.getOwnPropertyNames(this.prepareInfo), 'fight begin.');
     // 设置状态
     this.status = consts.DungeonStatus.IN_FIGHT;
@@ -441,38 +492,89 @@ pro._checkEnd = function (entity) {
     }
     clearTimeout(this.timer);
     // 该组全部死亡
-    if (this.isPVP) {
-        for (var uid in group) {
-            var ent = group[uid];
-            pomelo.app.rpc.connector.entryRemote.onDungeonFinish.toServer(
-                ent.sid, ent.id, consts.FightResult.LOSE, null);
-        }
-        var oppoGroup = this._getGroupById(groupId, true);
-        for (var uid in oppoGroup) {
-            var ent = oppoGroup[uid];
-            pomelo.app.rpc.connector.entryRemote.onDungeonFinish.toServer(
-                ent.sid, ent.id, consts.FightResult.WIN, null);
-        }
+    let groupAResult, groupBResult;
+    if (groupId === "groupA") {
+        groupAResult = consts.FightResult.LOSE;
+        groupBResult = consts.FightResult.WIN;
     }
     else {
-        if (entity.isA("Player")) {
-            for (var uid in group) {
-                var ent = group[uid];
-                pomelo.app.rpc.connector.entryRemote.onDungeonFinish.toServer(
-                    ent.sid, ent.id, consts.FightResult.LOSE, null);
-            }
-        }
-        else {
-            var oppoGroup = this._getGroupById(groupId, true);
-            for (var uid in oppoGroup) {
-                var ent = oppoGroup[uid];
-                pomelo.app.rpc.connector.entryRemote.onDungeonFinish.toServer(
-                    ent.sid, ent.id, consts.FightResult.WIN, null);
-            }
-        }
+        groupAResult = consts.FightResult.WIN;
+        groupBResult = consts.FightResult.LOSE;
     }
+    this._notifyFightResult(groupAResult, groupBResult);
     // 销毁 todo: 这里只默认只有一场
     this.destroy();
+};
+
+pro._notifyFightResult = function (groupAResult, groupBResult) {
+    let groupAInfo = {
+        teamType: this.teamType,
+        result: groupAResult
+    };
+    let groupBInfo = {
+        teamType: this.teamType,
+        result: groupBResult
+    }
+    // 天梯
+    if (this.teamType === consts.Team.TYPE_LADDER) {
+        let totalScore = 0, totalMem = 0;
+        for (let uid in this.teamA) {
+            totalScore += this.teamA[uid].score;
+            totalMem += 1;
+        }
+        let teamAScoreAvg = Math.floor(totalScore / totalMem);
+        totalScore = 0, totalMem = 0;
+        for (let uid in this.teamB) {
+            totalScore += this.teamB[uid].score;
+            totalMem += 1;
+        }
+        let teamBScoreAvg = Math.floor(totalScore / totalMem);
+        let scoreResult = fightHelper.calcLadderScore(teamAScoreAvg, teamBScoreAvg, groupAResult);
+        groupAInfo["score"] = scoreResult[0];
+        groupBInfo["score"] = scoreResult[1];
+    }
+    else if (this.teamType === consts.Team.TYPE_RAID) {  // 副本
+        if (this.extraData.teamRaidEnt) {  // 组队
+            let membersAttri = {};
+            for (let uid in this.teamA) {
+                let unit = this.groupA[uid];
+                membersAttri[uid] = {
+                    hp: unit.hp,
+                    maxHp: unit.maxHp
+                }
+            }
+            groupAInfo["membersAttri"] = membersAttri;
+        }
+        else {
+            groupAInfo["raidID"] = this.extraData["raidID"];
+            groupAInfo["roomIdx"] = this.extraData["roomIdx"];
+        }
+    }
+    for (let uid in this.teamA) {
+        let ent = this.teamA[uid];
+        // 单人
+        if (this.teamType === consts.Team.TYPE_RAID && !this.extraData.teamRaidEnt) {
+            let unit = this.groupA[uid];
+            groupAInfo["attri"] = {
+                hp: unit.hp,
+                maxHp: unit.maxHp
+            }
+        }
+        pomelo.app.rpc.connector.entryRemote.onDungeonFinish.toServer(
+            ent.sid, uid, ent.inTeam, groupAInfo, null);
+    }
+    for (let uid in this.teamB) {
+        let ent = this.teamA[uid];
+        pomelo.app.rpc.connector.entryRemote.onDungeonFinish.toServer(
+            ent.sid, uid, ent.inTeam, groupBInfo, null);
+    }
+    // 组队副本
+    if (this.teamType === consts.Team.TYPE_RAID && this.extraData.teamRaidEnt) {
+        this.extraData.teamRaidEnt.onDungeonEnd(groupAResult, groupAInfo.membersAttri);
+    }
+
+    // debug
+    this.dps.onFightEnd();
 };
 
 // 战斗结束
@@ -489,7 +591,7 @@ pro._fightEnd = function () {
             if (ent.isA("Player") && ent.state.isAlive())
                 groupBAliveNum ++;
         }
-        var groupAResult = consts.FightResult.DRAW, groupBResult = consts.FightResult.DRAW;
+        let groupAResult = consts.FightResult.DRAW, groupBResult = consts.FightResult.DRAW;
         if (groupAAliveNum > groupBAliveNum) {
             groupAResult = consts.FightResult.WIN;
             groupBResult = consts.FightResult.LOSE;
@@ -498,24 +600,11 @@ pro._fightEnd = function () {
             groupAResult = consts.FightResult.LOSE;
             groupBResult = consts.FightResult.WIN;
         }
-        for (var uid in this.groupA) {
-            var ent = this.groupA[uid];
-            pomelo.app.rpc.connector.entryRemote.onDungeonFinish.toServer(
-                ent.sid, ent.id, groupAResult, null);
-        }
-        for (var uid in this.groupB) {
-            var ent = this.groupB[uid];
-            pomelo.app.rpc.connector.entryRemote.onDungeonFinish.toServer(
-                ent.sid, ent.id, groupBResult, null);
-        }
+        this._notifyFightResult(groupAResult, groupBResult);
     }
     else {
         // PVE没战胜即失败
-        for (var uid in this.groupA) {
-            var ent = this.groupA[uid];
-            pomelo.app.rpc.connector.entryRemote.onDungeonFinish.toServer(
-                ent.sid, ent.id, consts.FightResult.LOSE, null);
-        }
+        this._notifyFightResult(consts.FightResult.LOSE, consts.FightResult.WIN);
     }
     // 销毁
     this.destroy();
@@ -572,127 +661,6 @@ pro.getGroupMembers = function (groupId, opposite) {
     return result;
 };
 
-// 添加召唤物
-pro.addSpawnSummon = function (groupId, opposite, type, area, num) {
-    if (opposite)
-        groupId = this._getOppositeGroupId(groupId);
-    var summonGroup = this.spawnSummons[groupId];
-    if (type in summonGroup === false)
-        summonGroup[type] = {};
-    summonGroup[type][area] = (summonGroup[type][area] || 0) + num;
-
-    this.broadcast("onAddSpawnSummon", {
-        groupId: groupId,
-        type: type,
-        area: area,
-        num: num,
-    });
-};
-
-// 获取召唤物对entity造成的伤害次数
-pro.getSummonsDamageCntToEntity = function (groupId, opposite, type, consume) {
-    if (opposite)
-        groupId = this._getOppositeGroupId(groupId);
-    var summonGroup = this.spawnSummons[groupId];
-    if (type in summonGroup === false)  // 没有该类型的召唤物，不造成伤害
-        return null;
-
-    if (groupId === "groupA") {
-        var formation = this.formationA;
-        var matrixData = matrixTpl[this.matrixIDA];
-    }
-    else {
-        var formation = this.formationB;
-        var matrixData = matrixTpl[this.matrixIDB];
-    }
-    var result = {}
-    var summons = summonGroup[type];
-    for (var area in summons) {
-        var cnt = summons[area];
-        var areaList = matrixData["Area" + area];
-        for (var pos in areaList) {
-            var entID = formation[pos - 1];
-            if (entID) {
-                result[entID] = (result[entID] || 0) + cnt;
-            }
-        }
-    }
-    // 消耗
-    if (consume) {
-        delete summonGroup[type];
-        // this.broadcast("onClearSpawnSummon", {
-        //     groupId: groupId,
-        //     type: type,
-        // });
-    }
-    return result;
-};
-
-// 获取某类型的召唤物数量
-pro.getSummonsNumByType = function (groupId, opposite, type) {
-    if (opposite)
-        groupId = this._getOppositeGroupId(groupId);
-    var summonGroup = this.spawnSummons[groupId];
-    if (type in summonGroup === false)  // 没有该类型的召唤物，不造成伤害
-        return 0;
-    var summons = summonGroup[type];
-    var total = 0;
-    for (var area in summons) {
-        total += summons[area];
-    }
-    return total;
-};
-
-// 获取召唤物
-pro.getSummonsByType = function (groupId, opposite, type) {
-    if (opposite)
-        groupId = this._getOppositeGroupId(groupId);
-    var summonGroup = this.spawnSummons[groupId];
-    if (type in summonGroup === false)
-        return {};
-    return summonGroup[type];
-};
-
-// 清空召唤物
-pro.clearSummonsByType = function(groupId, opposite, type) {
-    if (opposite)
-        groupId = this._getOppositeGroupId(groupId);
-    var summonGroup = this.spawnSummons[groupId];
-    if (type in summonGroup === false)  // 没有该类型的召唤物，不造成伤害
-        return;
-
-    delete summonGroup[type];
-};
-
-// 重置召唤物
-pro.resetSummonsByType = function(groupId, opposite, type, total) {
-    if (opposite)
-        groupId = this._getOppositeGroupId(groupId);
-    var summonGroup = this.spawnSummons[groupId];
-    if (!total) {
-        if (type in summonGroup === false)
-            return;
-        var summons = summonGroup[type];
-        total = 0;
-        for (var area in summons) {
-            total += summons[area];
-        }
-    }
-
-    // ROUND(M1/3+RANDBETWEEN(-M1/6,M1/6),0)
-    var m3 = Math.floor(total / 3), m6 = Math.floor(total / 6);
-    var num1 = m3 + Math.floor(Math.random() * (2 * m6 + 1) - m6);
-    var num2 = m3 + Math.floor(Math.random() * (2 * m6 + 1) - m6);
-    var num3 = total - num1 - num2;
-    var numList = [num1, num2, num3];
-    fightHelper.shuffle(numList);
-    summonGroup[type] = {
-        1: numList[0],
-        2: numList[1],
-        3: numList[2]
-    }
-};
-
 // 获取空位
 pro.getEmptyPositions = function (groupId) {
     var emptyPoses = [];
@@ -713,6 +681,41 @@ pro.getEmptyPositions = function (groupId) {
         }
     }
     return emptyPoses;
+};
+
+// 创建怪物
+pro.createMonster = function (groupId, pos, monsterID) {
+    if (groupId === "groupA") {
+        var group = this.groupA;
+        var formation = this.formationA;
+        var oppositeGroup = this.groupB;
+    }
+    else {
+        var group = this.groupB;
+        var formation = this.formationB;
+        var oppositeGroup = this.groupA;
+    }
+    var enemyIDs = Object.getOwnPropertyNames(oppositeGroup);
+    var monster = entityFactory.createEntity("Monster", null, {
+        owner: this,
+        monsterid: monsterID,
+        groupId: groupId,
+        pos: pos,
+        channelInfo: this.channelInfo,
+    });
+    // 维护战斗双方的仇恨列表
+    monster.hatred.initEnemiesHatred(enemyIDs);
+    for (var uid in oppositeGroup) {
+        oppositeGroup[uid].hatred.set(monster.id, 1);
+    }
+    monster.fightBegin();  // 进入战斗状态
+    group[monster.id] = monster;
+    formation[pos - 1] = monster.id;
+    // 死亡监听
+    monster.state.on("EventDie", this._onEntityDie.bind(this));
+    this.broadcast('onAddMonster', {
+        monsterInfo: monster.getBrocastInfo(),
+    });
 };
 
 // 创建分身
@@ -838,18 +841,28 @@ pro.playCard = function (uid, idx, cid, tid) {
 };
 
 // 重连顶号获取当前副本信息
-pro.getCurrInfo = function () {
+pro.getCurrInfo = function (fromUid) {
     var info = {
         dgId: this.dgId,
         status: this.status,
+        matchType: this.matchType,
+        matchNum: this.matchNum,
     }
     if (this.status === consts.DungeonStatus.IN_SELECT_HERO) {
-        var teamA = {}, teamB = {};
+        var teamA = [], teamB = [];
         for (var uid in this.teamA) {
-            teamA[uid] = this.teamA[uid].heroid || 0;
+            teamA.push({
+                uid: uid,
+                heroid: this.teamA[uid].heroid || 0,
+                name: this.teamA[uid].name
+            });
         }
         for (var uid in this.teamB) {
-            teamB[uid] = this.teamB[uid].heroid || 0;
+            teamB.push({
+                uid: uid,
+                heroid: this.teamB[uid].heroid || 0,
+                name: this.teamB[uid].name
+            });
         }
         info["teamInfo"] = {
             teamA: teamA,
@@ -859,12 +872,20 @@ pro.getCurrInfo = function () {
         info["leftTime"] = this.statusEndTime - new Date().getTime();
     }
     else if (this.status === consts.DungeonStatus.IN_BEFORE_LOAD_CD) {
-        var teamA = {}, teamB = {};
+        var teamA = [], teamB = [];
         for (var uid in this.teamA) {
-            teamA[uid] = this.teamA[uid].heroid;
+            teamA.push({
+                uid: uid,
+                heroid: this.teamA[uid].heroid || 0,
+                name: this.teamA[uid].name
+            });
         }
         for (var uid in this.teamB) {
-            teamB[uid] = this.teamB[uid].heroid;
+            teamB.push({
+                uid: uid,
+                heroid: this.teamB[uid].heroid || 0,
+                name: this.teamB[uid].name
+            });
         }
         info["teamInfo"] = {
             teamA: teamA,
@@ -873,19 +894,20 @@ pro.getCurrInfo = function () {
         info["leftTime"] = this.statusEndTime - new Date().getTime();
     }
     else if (this.status === consts.DungeonStatus.IN_LOAD || this.status === consts.DungeonStatus.IN_FIGHT) {
-        var teamA = {}, teamB = {};
+        var teamA = [], teamB = [];
         for (var uid in this.groupA) {
-            teamA[uid] = this.groupA[uid].getBrocastInfo();
+            teamA.push(this.groupA[uid].getBrocastInfo());
         }
         for (var uid in this.groupB) {
-            teamB[uid] = this.groupB[uid].getBrocastInfo();
+            teamB.push(this.groupB[uid].getBrocastInfo());
         }
         info["teamInfo"] = {
             teamA: teamA,
             teamB: teamB
         }
+        info["myInfo"] = this.getMember(fromUid).getClentInfo();
         info["spawnSummons"] = this.spawnSummons;
-        if (this.status === consts.DungeonStatus.IN_FIGHT) {
+        if (this.status === consts.DungeonStatus.IN_LOAD) {
             info["loadMemProgress"] = this.loadMemProgress;
         }
         else if (this.status === consts.DungeonStatus.IN_FIGHT) {
@@ -919,6 +941,7 @@ pro.destroy = function () {
     this.formationA = null;
     this.formationB = null;
     this.spawnSummons = null;
+    this.extraData = null;
 
     this.channel = null;
     var channelService = pomelo.app.get('channelService');

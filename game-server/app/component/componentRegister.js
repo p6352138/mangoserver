@@ -4,10 +4,15 @@
  * Description: 负责component注册
  */
 var LoggerComponent = _require('./entityComponent/loggerComponent');
+var GMComponent = _require('./entityComponent/gmComponent');
 
 var DungeonCtrl = _require('./avatarComponent/dungeonCtrl');
 var HeroComponent = _require('./avatarComponent/heroComponent');
 var MatchComponent = _require('./avatarComponent/matchComponent');
+let FriendComponent = _require('./avatarComponent/friendComponent');
+let TeamComponent = _require('./avatarComponent/teamComponent');
+let LadderComponent = _require('./avatarComponent/ladderComponent');
+let RaidComponent = _require('./avatarComponent/raidComponent');
 
 var AIBehavior = _require('./combatUnitComponent/aiBehavior');
 var BuffCtrl = _require('./combatUnitComponent/buffCtrl');
@@ -18,12 +23,20 @@ var HatredComponent = _require('./combatUnitComponent/hatredComponent');
 var PropertyCtrl = _require('./combatUnitComponent/propertyCtrl');
 var SkillCtrl = _require('./combatUnitComponent/skillCtrl');
 
+let summonsComponent = _require('./dungeonEntityComponent/summonsComponent');
+let dpsComponent = _require('./dungeonEntityComponent/dpsComponent');
+
 var componentClass = {
     logger: LoggerComponent,
+    gm: GMComponent,
 
     dungeon: DungeonCtrl,
     hero: HeroComponent,
     match: MatchComponent,
+    friend: FriendComponent,
+    team: TeamComponent,
+    ladder: LadderComponent,
+    raid: RaidComponent,
 
     AI: AIBehavior,
     buffCtrl: BuffCtrl,
@@ -33,6 +46,9 @@ var componentClass = {
     hatred: HatredComponent,
     prop: PropertyCtrl,
     skillCtrl: SkillCtrl,
+
+    summons: summonsComponent,
+    dps: dpsComponent,
 };
 
 var componentRegister = module.exports;

@@ -132,6 +132,20 @@ pro._reshuffle = function (bAll) {
     this.discards = [];
 };
 
+// 使用限制检测
+pro._checkUseLimit = function (useLimit) {
+    for (let key in useLimit) {
+        switch (key) {
+            case 'wSword':
+                let num = this.entity.owner.summons.getSummonsNumByType(this.entity.groupId, true, 'wSword');
+                if (num < useLimit[key])
+                    return false;
+                break;
+        }
+    }
+    return true;
+};
+
 // 出牌判断
 pro.checkCanUseCard = function (idx, cid, tid) {
     this.entity.logger.debug("checkCanUseCard idx[%s] cid[%s] tid[%s]", idx, cid, tid);
@@ -147,6 +161,10 @@ pro.checkCanUseCard = function (idx, cid, tid) {
     var needThew = cardConf.CastThew;
     if (this.entity.thew < needThew)
         return consts.FightCode.THEW_NOT_ENOUGH;
+    // 使用限制
+    if (!this._checkUseLimit(cardConf.UseLimit)) {
+        return consts.FightCode.USE_LIMIT;
+    }
     // 技能
     var skillID = cardConf.SkillID;
     var code = this.entity.skillCtrl.canUseSkill(skillID, tid);
@@ -219,7 +237,7 @@ pro._getPileByType = function (pileType) {
     if (consts.PileType.CARDS === pileType)
         return this.cards;
     if (consts.PileType.DISCARDS === pileType)
-        return this.inHands;
+        return this.discards;
     if (consts.PileType.EXHAUSTS === pileType)
         return this.exhausts;
 };
@@ -250,7 +268,7 @@ pro._getValidCardsFromPile = function (cardType, cardQuality, cardAttributes, pi
         }
     }
     if (!piletype || piletype === consts.PileType.DISCARDS) {
-        var pile = this.inHands;
+        var pile = this.discards;
         for (var i in pile) {
             if (isValid(pile[i])) {
                 validCards.push({

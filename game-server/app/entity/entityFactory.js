@@ -7,12 +7,14 @@ var Avatar = _require("./avatar")
 var DungeonEntity = _require('./dungeonEntity');
 var Player = _require('./player');
 var Monster = _require('./monster');
+let TeamRaidEntity = _require('./teamRaidEntity');
 
 var entityClasses = {
     Avatar: Avatar,
     DungeonEntity: DungeonEntity,
     Player: Player,
-    Monster: Monster
+    Monster: Monster,
+    TeamRaidEntity: TeamRaidEntity
 }
 
 var entityFactory = module.exports;

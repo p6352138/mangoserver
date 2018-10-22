@@ -147,3 +147,10 @@ utils.text = function (tid, exDict) {
     else
         return textTpl[tid];
 };
+
+utils.isEmptyObject = function (obj){
+    for (let n in obj) {
+        return false;
+    }
+    return true;
+};

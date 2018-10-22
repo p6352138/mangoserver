@@ -6,8 +6,10 @@
 var uconsts = _require('../public/consts');
 
 var consts = {
-    APP_ID: "wx7c329421cad774dc",
-    APP_SECRET: "fa4649c58a61940a2b8497f640795a8d",
+    APP_ID: "wx6e08467553158527",
+    APP_SECRET: "4c5ce70f86af49bd8eba1901ff1adc62",
+
+    OPEN_CROSS_SERVER: true,  // 是否开启跨服
 
     // entity state
     ENTITY_STATE_INITED: 1,

@@ -23,8 +23,10 @@ var RollStub = function (app) {
     this.openid2uid = {};
     this.uid2sid = {};
 
-    setInterval(this.updateOnlineNum.bind(this), 1000 * 60 * 5);
-    this.updateOnlineNum();
+    if (this.app.serverType !== 'authGlobal') {
+        setInterval(this.updateOnlineNum.bind(this), 1000 * 60 * 5);
+        this.updateOnlineNum();
+    }
 };
 
 var pro  = RollStub.prototype;
@@ -75,4 +77,17 @@ pro.checkout = function (openid, uid, cb) {
     delete this.openid2sid[openid];
     delete this.uid2sid[uid];
     utils.invokeCallback(cb);
+};
+
+// 这里做一个中转，尝试调到对应的avatar
+pro.callOnlineAvtMethod = function (uid, funcName, ...args) {
+    let cb = args[args.length - 1];
+    if (!(uid in this.uid2sid)) {
+        cb({code: consts.UserState.OFFLINE});
+        return;
+    }
+    let params = args.slice(0, args.length - 1);
+    this.app.rpc.connector.entryRemote[funcName].toServer(this.uid2sid[uid], uid, ...params, function (resp) {
+        cb(resp);
+    });
 };

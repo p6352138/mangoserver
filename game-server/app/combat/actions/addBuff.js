@@ -3,14 +3,17 @@
  * Author: liuguolai
  * Description:
  */
-var consts = _require('../../public/consts');
+let consts = _require('../../public/consts');
 
-var addBuff = {};
+let addBuff = {};
 
 addBuff.entry = function (caster, skill, data, targets) {
-    var duration = data.time || consts.Buff.BUFF_PERMANENT;
-    for (var target of targets) {
-        target.buffCtrl.addBuff(data.buffID, skill.slv, duration, caster.id, skill.sid);
+    let duration = data.time || consts.Buff.BUFF_PERMANENT;
+    let count = data.count || 1;
+    for (let i = 0; i < count; i++) {
+        for (let target of targets) {
+            target.buffCtrl.addBuff(data.buffID, skill.slv, duration, caster.id, skill.sid);
+        }
     }
 };
 

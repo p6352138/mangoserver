@@ -10,7 +10,8 @@ var spawnSummoned = {}
 
 var _getArea = function (area) {
     if (area === "random") {
-        return Math.floor(Math.random() * 3) + 1;
+        // return Math.floor(Math.random() * 3) + 1;
+        return area;
     }
     return Number(area);
 };
@@ -38,7 +39,7 @@ spawnSummoned.entry = function (caster, skill, data, targets) {
         num = _getSummonNumByType(numType, skill);
     else
         num = data.num;
-    caster.owner.addSpawnSummon(caster.groupId, isEnemy, type, area, num);
+    caster.owner.summons.addSpawnSummon(caster.groupId, isEnemy, type, area, num);
 };
 
 module.exports = spawnSummoned;

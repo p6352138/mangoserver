@@ -13,7 +13,7 @@ reverse.entry = function (caster, skill, data, targets) {
 
     var dungeonEnt = caster.owner;
     // 受击次数
-    var ent2DamageCnt = dungeonEnt.getSummonsDamageCntToEntity(caster.groupId, true, type, consume);
+    var ent2DamageCnt = dungeonEnt.summons.getSummonsDamageCntToEntity(caster.groupId, true, type, consume);
     if (!ent2DamageCnt)
         return;
     var sid = skill.sid;
@@ -26,11 +26,13 @@ reverse.entry = function (caster, skill, data, targets) {
         damageInfo[entID] = ent.combat.onDamageWithTimes(caster, perDmg, sid, cnt);
     }
     if (damageInfo) {
-        dungeonEnt.broadcast("onReverse", {
+        let msg = {
             caster: caster.id,
             sid: sid,
             damageInfo: damageInfo,
-        });
+        };
+        dungeonEnt.broadcast("onReverse", msg);
+        dungeonEnt.dps.onReverse(msg);
     }
 };
 

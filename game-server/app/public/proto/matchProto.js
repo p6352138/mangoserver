@@ -1,17 +1,18 @@
 /**********
  *        匹配协议
- *        matchType: "PVE_2",  匹配类型
+ *        teamType:  队伍类型，见consts
  *        dgId:1        Dungeon id
  *           
  */
 
-function matchProto(matchType,dgId) {
+function matchProto(teamType, matchNum, dgId) {
     this.head = "connector.matchHandler.match";
-    this.data = new matchData(matchType,dgId);
+    this.data = new matchData(teamType, matchNum, dgId);
 }
 
-function matchData(matchType,dgId){
-    this.matchType = matchType;
+function matchData(teamType, matchNum, dgId){
+    this.teamType = teamType;
+    this.matchNum = matchNum;
     this.dgId = dgId;
 }
 

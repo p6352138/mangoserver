@@ -14,7 +14,7 @@ swordWheel.entry = function (caster, skill, data, targets) {
     var dungeonEnt = caster.owner;
     var groupId = caster.groupId;
     // 受击次数
-    var summonsNum = dungeonEnt.getSummonsNumByType(groupId, true, type);
+    var summonsNum = dungeonEnt.summons.getSummonsNumByType(groupId, true, type);
     if (!summonsNum)
         return;
 
@@ -26,18 +26,20 @@ swordWheel.entry = function (caster, skill, data, targets) {
         damageInfo[target.id] = target.combat.onDamageWithTimes(caster, perDmg, sid, summonsNum);
     }
     if (consume) {
-        dungeonEnt.clearSummonsByType(groupId, true, type);
+        dungeonEnt.summons.clearSummonsByType(groupId, true, type);
     }
     else {
-        dungeonEnt.resetSummonsByType(groupId, true, type, summonsNum);
+        dungeonEnt.summons.resetSummonsByType(groupId, true, type, summonsNum);
     }
     // notify
-    dungeonEnt.broadcast("onSwordWheel", {
+    let msg = {
         caster: caster.id,
         sid: sid,
         damageInfo: damageInfo,
-        summons: dungeonEnt.getSummonsByType(groupId, true, type)
-    });
+        summons: dungeonEnt.summons.getSummonsByType(groupId, true, type)
+    };
+    dungeonEnt.broadcast("onSwordWheel", msg);
+    dungeonEnt.dps.onSwordWheel(msg);
 };
 
 module.exports = swordWheel;

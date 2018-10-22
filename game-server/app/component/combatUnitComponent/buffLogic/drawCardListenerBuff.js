@@ -20,19 +20,22 @@ pro._onDrawCard = function (entity, cid, pileType) {
     if (this.piletype && this.piletype !== pileType)
         return;
     var cardData = cardTpl[cid];
-    if (this.cardType === cardData.CardType && this.cardQuality === cardData.CardQuality
-        && cardData.CardAttributes.indexOf(this.cardAttributes) !== -1) {
-        this.num --;
-        if (this.num === 0) {
-            if (this.data.SkillID) {
-                this.entity.skillCtrl.useSkill(this.data.SkillID, this.cell.level);
-            }
-            this.num = this.data.Logic.num;
-            if (this.count > 0) {
-                this.count --;
-                if (this.count === 0) {
-                    this.suicide(null, this.cell.id);
-                }
+    if (this.cardType && this.cardType !== cardData.CardType)
+        return;
+    if (this.cardQuality && this.cardQuality !== cardData.CardQuality)
+        return;
+    if (this.cardAttributes && cardData.CardAttributes.indexOf(this.cardAttributes) === -1)
+        return;
+    this.num--;
+    if (this.num === 0) {
+        if (this.data.SkillID) {
+            this.entity.skillCtrl.useSkill(this.data.SkillID, this.cell.level);
+        }
+        this.num = this.data.Logic.num;
+        if (this.count > 0) {
+            this.count--;
+            if (this.count === 0) {
+                this.suicide(null, this.cell.id);
             }
         }
     }

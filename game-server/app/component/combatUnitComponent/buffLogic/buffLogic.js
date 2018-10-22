@@ -27,6 +27,10 @@ module.exports = BuffLogic;
 
 var pro = BuffLogic.prototype;
 
+pro.refresh = function () {
+
+};
+
 // 不要重写，重写相应的_onEnter
 pro.onEnter = function () {
     this._onEnter();
@@ -55,4 +59,12 @@ pro.suicide = function () {
         var buffCtrl = this.entity.buffCtrl;
         buffCtrl.removeBuff.apply(buffCtrl, args);
     }
+};
+
+pro.onRefreshEndTime = function (times) {
+
+};
+
+pro.refresh = function () {
+
 };

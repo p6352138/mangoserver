@@ -166,8 +166,8 @@ pro._recoverMp = function () {
 };
 
 // 主动恢复灵力
-pro.activeRecoverMp = function (mp) {
-    if (mp <= 0 || this.mp >= this.maxMp)
+pro.activeRecoverMp = function (mp, bForce) {
+    if (!bForce && (mp <= 0 || this.mp >= this.maxMp))
         return;
     this.mp = Math.min(this.mp + mp, this.maxMp);
     if (this.mp === this.maxMp) {

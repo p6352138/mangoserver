@@ -25,8 +25,8 @@ var handler = Handler.prototype;
  */
 handler.enter = function(msg, session, next) {
     // 微信login获取的code
-    var self = this;
-    var code = msg.code;
+    let self = this;
+    let code = msg.code, userInfo = msg.userInfo;
     if (!code) {
         next(null, {code: consts.Login.FAIL});
         return;
@@ -77,7 +77,7 @@ handler.enter = function(msg, session, next) {
                             if (formerSid == self.app.get('serverId')) {
                                 var avatar = entityManager.getEntity(formerUid);
                                 if (!avatar) {
-                                    readyLogin(self.app, session, uuid, openid, session_key, next, false);
+                                    readyLogin(self.app, session, uuid, openid, session_key, userInfo, next, false);
                                 }
                                 else {
                                     avatar.reconnect();  // 重连上了
@@ -90,6 +90,7 @@ handler.enter = function(msg, session, next) {
                                         code: consts.Login.OK,
                                         info: avatar.clientLoginInfo()
                                     });
+                                    avatar.emit("EventReconnect", avatar);
                                 }
                             }
                             else {
@@ -107,13 +108,9 @@ handler.enter = function(msg, session, next) {
                                     port: conector.clientPort
                                 });
                             }
-                            // 通知顶号
-                            // self.app.rpc.connector.entryRemote.onRelayReady.toServer(formerSid, uuid, function () {
-                            //     readyLogin(self.app, session, uuid, openid, session_key, next, true);
-                            // })
                         }
                         else {
-                            readyLogin(self.app, session, uuid, openid, session_key, next, false);
+                            readyLogin(self.app, session, uuid, openid, session_key, userInfo, next, false);
                         }
                     });
             });
@@ -123,7 +120,7 @@ handler.enter = function(msg, session, next) {
     })
 };
 
-var readyLogin = function (app, session, uuid, openid, session_key, next, bRelay) {
+var readyLogin = function (app, session, uuid, openid, session_key, userInfo, next, bRelay) {
     // 查db
     app.db.find("Avatar", {"_id": uuid}, null, null, function (err, docs) {
         if (err){
@@ -141,10 +138,12 @@ var readyLogin = function (app, session, uuid, openid, session_key, next, bRelay
             logger.info("create new avatar id: " + avatar.id);
         } else {
             // 登录成功
+            docs[0].openid = openid;
+            docs[0].session_key = session_key;
             var avatar = entityFactory.createEntity("Avatar", null, docs[0]);
             logger.info("avatar login success. id: " + avatar.id);
         }
-        avatar.name = openid;  // todo: 由前端提供，暂时拿虚拟openid代替
+        avatar.updateUserInfo(userInfo);
         var sessionService = app.get('sessionService');
         sessionService.kick(avatar.id);
         session.bind(avatar.id);
@@ -196,4 +195,9 @@ var onAvatarLeave = function(app, session, reason) {
     });
 
     avatar.disconnect();
+};
+
+handler.command = function (msg, session) {
+    var avatar = entityManager.getEntity(session.uid);
+    avatar && avatar.gm.handleGMCommand(msg.cmd, msg.params);
 };

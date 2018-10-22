@@ -156,9 +156,12 @@ pro.doEffect = function () {
         var config = this._data[idx];
         var targets = this._targets[idx];
         var actions = config.Actions;
-        for (var func in actions) {
-            var action = skillAction.getAction(func);
-            action.entry(caster, this, actions[func], targets.filter(fightHelper.filterNotDestroyed));
+        let num = config.ActionCount || 1;  // 次数，少用
+        for (let i = 0; i < num; i++) {
+            for (var func in actions) {
+                var action = skillAction.getAction(func);
+                action.entry(caster, this, actions[func], targets.filter(fightHelper.filterNotDestroyed));
+            }
         }
     }
     this.owner.removeSkill(this.id);

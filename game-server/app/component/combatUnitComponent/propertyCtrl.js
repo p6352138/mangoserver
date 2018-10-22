@@ -54,20 +54,23 @@ var BROADCAST_PROP = new Set(['hp', 'armor', 'scale']);
 
 // 修改属性
 pro.modProp = function (prop, deltaVal, noBroadcast) {
-    if (prop === 'hp')
-        return this.modHp(deltaVal);
-    var orginVal = this.entity[prop];
-    if (orginVal === undefined)
-        throw new Error(this.entity.id + " modProp error, unknow prop: " + prop);
-    var newVal = orginVal + deltaVal;
-    if (newVal < 0)
-        throw new Error(this.entity.id + " modProp error, prop: " + prop + " val: " + deltaVal);
+    if (prop === 'hp') {
+        this.modHp(deltaVal);
+    }
+    else {
+        var orginVal = this.entity[prop];
+        if (orginVal === undefined)
+            throw new Error(this.entity.id + " modProp error, unknow prop: " + prop);
+        var newVal = orginVal + deltaVal;
+        if (newVal < 0)
+            throw new Error(this.entity.id + " modProp error, prop: " + prop + " val: " + deltaVal);
 
-    this.entity[prop] = newVal;
+        this.entity[prop] = newVal;
+    }
     // 需要广播
     if (!noBroadcast && BROADCAST_PROP.has(prop)) {
         var data = {targetID: this.entity.id};
-        data[prop] = newVal;
+        data[prop] = this.entity[prop];
         this.entity.broadcast('onPropUpdate', data);
     }
 };

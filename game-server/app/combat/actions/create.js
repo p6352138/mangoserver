@@ -4,11 +4,14 @@
  * Description: 创建手牌
  */
 
-var create = {};
+let create = {};
 
 create.entry = function (caster, skill, data, targets) {
-    var cardID = data.cardID;
-    var num = data.num;
+    let cardID = data.cardID;
+    let num = data.num;
+    let rate = data.rate;  // 概率
+    if (rate && Math.random() > rate)
+        return;
     for (var target of targets) {
         target.cardCtrl.createCardsInHand(cardID, num);
     }

@@ -22,6 +22,14 @@ pro.init = function (opts) {
     this.inPrepare = false;  // 吟唱和抬手准备
     this.curPrepareSkill = null;
     this.skills = {};
+    this.tauntTargetID = "";  // 嘲讽目标ID
+};
+
+pro.setTauntTargetID = function (targetID) {
+    this.tauntTargetID = targetID;
+    this.entity.updateFightData("onTauntUpdate", {
+        targetID: targetID
+    });
 };
 
 pro.setPrepareSkill = function (skill) {
@@ -38,6 +46,9 @@ pro.setPrepareSkill = function (skill) {
 // 目标检测
 pro._checkTarget = function (targetConfig, targetID) {
     if (targetConfig.type === consts.Skill.TYPE_SINGLE) {
+        // 被嘲讽了
+        if (this.tauntTargetID && this.tauntTargetID !== targetID)
+            return false;
         var target = this.entity.owner.getMember(targetID);
         if (!target)
             return false;
