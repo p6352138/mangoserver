@@ -68,5 +68,9 @@
 
   "connector.friendHandler.getRecommendList": {
     "required uInt32 oppositeSex": 1
+  },
+
+  "connector.entryHandler.exchangeSilver": {
+    "required uInt32 gold": 1
   }
 }

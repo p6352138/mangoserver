@@ -9,6 +9,9 @@ var AvatarSchema = new Schema({
     name: String,
     gender: Number,
     avatarUrl: String,
+    gold: Number,
+    freeGold: Number,
+    silver: Number,
     ladder: {},
     raid: {}
 });

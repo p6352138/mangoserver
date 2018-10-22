@@ -14,24 +14,12 @@ var AUTO_SAVE_TICK = 1000 * 60 * 5  // 自动存盘时间
 
 var Avatar = function (opts) {
     opts = opts || {};
-    opts.components = ['friend', 'match', 'hero', 'dungeon', 'ladder', 'team', 'raid', 'gm'];  // avatar组件
+    opts.components = ['avatarProp', 'friend', 'match', 'hero', 'dungeon', 'ladder', 'team', 'raid', 'gm'];  // avatar组件
     Entity.call(this, opts);
 
     this.logoutTimer = null;
     this.serverId = pomelo.app.get('serverId');
-    this.openid = opts.openid ? opts.openid: "";
     this.session_key = opts.session_key ? opts.session_key: "";
-    this.uid = 0;
-    if (!opts.level) {
-        this.level = 1;
-        this.setWxUserStorage(consts.WxStorageKey.LEVEL, this.level);
-    }
-    else {
-        this.level = opts.level;
-    }
-    this.name = opts.name ? opts.name: "unknow";
-    this.gender = opts.gender ? opts.gender: 0;  // 性别：0：未知 1：男性 2：女性
-    this.avatarUrl = opts.avatarUrl ? opts.avatarUrl: "";  // 用户头像图片的 URL
     this.userState = "";  // 微信存管状态
 
     this.sessionSetting = {}  // session设置
@@ -61,17 +49,11 @@ Avatar.prototype.updateUserInfo = function (userInfo) {
 
 // 存盘信息更新
 Avatar.prototype.getDBProp = function () {
-    return {
-        _id: this.id,
-        openid: this.openid,
-        uid: this.uid,
-        level: this.level,
-        name: this.name,
-        gender: this.gender,
-        avatarUrl: this.avatarUrl,
-        ladder: this.ladder.getPersistData(),
-        raid: this.raid.getPersistData(),
-    }
+    let props = this.avatarProp.getPersistProp();
+    props['_id'] = this.id;
+    props['ladder'] = this.ladder.getPersistData();
+    props['raid'] = this.raid.getPersistData();
+    return props;
 };
 
 // 存盘
@@ -100,6 +82,9 @@ Avatar.prototype.clientLoginInfo = function () {
         id: this.id,
         openid: this.openid,
         level: this.level,
+        gold: this.gold,
+        freeGold: this.freeGold,
+        silver: this.silver,
         matchInfo: this.match.getClientInfo(),
         friendsInfo: this.friend.getClientInfo(),
         teamInfo: this.team.getClientInfo(),
@@ -159,13 +144,14 @@ Avatar.prototype.importSessionSetting = function (cb) {
 };
 
 // 上报key-value数据到微信用户的CloudStorage
-Avatar.prototype.setWxUserStorage = function (key, value) {
+Avatar.prototype.setWxUserStorage = function (key, value, noUpdate) {
     if (key === consts.WxStorageKey.STATE) {
         if (this.userState === value)
             return;
         this.userState = value;
     }
-    this.friend.updateProp(key, value);
+    if (!noUpdate)
+        this.friend.updateProp(key, value);
     // 非微信登录
     if (!this.session_key)
         return;

@@ -20,9 +20,14 @@ let fly = require('flyio');
 
 let wxHelper = module.exports;
 
-wxHelper.setUserStorage = function (openid, session_key, key, value) {
+// args: k, v, k, v...
+wxHelper.setUserStorage = function (openid, session_key, ...args) {
+    let kv_list = [];
+    for (let i = 0; i < args.length; i += 2) {
+        kv_list.push({key: args[i], value: args[i + 1]})
+    }
     let data = {
-        kv_list: [{key: key, value: value}]
+        kv_list: kv_list
     }
     // 签名
     let hmac = crypto.createHmac('sha256', session_key);

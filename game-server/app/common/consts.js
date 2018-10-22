@@ -34,6 +34,11 @@ var consts = {
     HatredType: {
         FIRST: 1,  // 仇恨最好
         SECOND: 2,  // 仇恨次高
+    },
+
+    // 货币消耗reason
+    SpendReason: {
+        EXCHANGE_SILVER: "exchangeSilver",
     }
 };
 

@@ -29,13 +29,7 @@ pro._initDbData = function (data) {
     this.seasonBeginTime = data.seasonBeginTime || new Date();  // 赛季开始时间
     this.singleLadderScore = data.singleLadderScore === undefined ? 1000 : data.singleLadderScore;  // 个人天梯分
     this.teamLadderScore = data.teamLadderScore === undefined ? 1000 : data.teamLadderScore;  // 组队天梯分
-    if (!data.rank) {
-        this.rank = 1;  // 段位
-        this.entity.setWxUserStorage(consts.WxStorageKey.RANK, this.rank);
-    }
-    else {
-        this.rank = data.rank;
-    }
+    this.rank = data.rank || 1; // 段位
     this.star = data.star || 0;  // 星数
 };
 

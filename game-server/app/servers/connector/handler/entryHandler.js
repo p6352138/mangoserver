@@ -4,6 +4,7 @@ var logger = _require('pomelo-logger').getLogger('game', __filename);
 var Avatar = _require('../../../entity/avatar');
 var entityManager = _require('../../../services/entityManager');
 var entityFactory = _require('../../../entity/entityFactory');
+let wxHelper = require('../../../helper/wxHelper');
 
 module.exports = function(app) {
 	return new Handler(app);
@@ -134,6 +135,13 @@ var readyLogin = function (app, session, uuid, openid, session_key, userInfo, ne
                 openid: openid,
                 session_key: session_key,
             })
+            // 新号设置托管信息
+            if (session_key) {
+                wxHelper.setUserStorage(
+                    avatar.openid, avatar.session_key,
+                    consts.WxStorageKey.LEVEL, avatar.level,
+                    consts.WxStorageKey.RANK, avatar.ladder.rank);
+            }
             avatar.save();  // 主动存盘一次
             logger.info("create new avatar id: " + avatar.id);
         } else {
@@ -200,4 +208,8 @@ var onAvatarLeave = function(app, session, reason) {
 handler.command = function (msg, session) {
     var avatar = entityManager.getEntity(session.uid);
     avatar && avatar.gm.handleGMCommand(msg.cmd, msg.params);
+};
+
+handler.exchangeSilver = function (msg, session, next) {
+    session.avatar.avatarProp.exchangeSilver(msg.gold, next);
 };

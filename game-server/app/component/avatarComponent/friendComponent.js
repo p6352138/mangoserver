@@ -58,7 +58,7 @@ pro._onLogin = function (entity) {
             self.invitedList = info["il"];
             self.entity.sendMessage('onAllFriendsInfo', self.getClientInfo());
         });
-    this.entity.setWxUserStorage(consts.WxStorageKey.STATE, consts.UserState.ONLINE);
+    this.entity.setWxUserStorage(consts.WxStorageKey.STATE, consts.UserState.ONLINE, true);
 };
 
 pro._onLogout = function (entity) {

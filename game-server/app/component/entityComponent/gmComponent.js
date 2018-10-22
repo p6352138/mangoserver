@@ -19,7 +19,7 @@ module.exports = GMComponent;
 var pro = GMComponent.prototype;
 
 pro.init = function (opts) {
-    this.localCmd = new Set(['e', 'quickFight']);
+    this.localCmd = new Set(['e', 'quickFight', 'gold']);
     this.dungeonCmd = new Set(['kill', 'hp', 'mp', 'card', 'monster']);
 };
 
@@ -38,6 +38,11 @@ pro.handleGMCommand = function (cmd, params) {
             dgCtrl.fightServer, dgCtrl.dgEntId, cmd, this.entity.id, params, null);
         return;
     }
+};
+
+pro.gold = function (val) {
+    val = parseInt(val);
+    this.entity.avatarProp.giveFreeGold(val);
 };
 
 pro.quickFight = function () {
