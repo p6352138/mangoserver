@@ -70,6 +70,9 @@ pro.fightEnd = function (inTeam, info) {
             })
         }
     }
+    else if (teamType === consts.Team.TYPE_TUTORIAL) {
+        this.entity.tutorial.onDungeonEnd(result, info.dgId);
+    }
 };
 
 // 加载超时

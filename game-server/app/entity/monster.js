@@ -9,7 +9,8 @@ var monsterTpl = _require('../data/Monster');
 
 var Monster = function (opts) {
     opts = opts || {};
-    opts.components = ['state', 'cardCtrl', 'skillCtrl', 'combat', 'prop', 'hatred', 'buffCtrl', 'AI'];  // avatar组件
+    opts.components = ['state', 'cardCtrl', 'skillCtrl', 'combat', 'prop', 'hatred',
+        'comboComponent', 'buffCtrl', 'AI'];  // avatar组件
     CombatBaseEntity.call(this, opts);
 
     this.uid = this.id;
@@ -79,6 +80,7 @@ pro.getBrocastInfo = function () {
         pos: this.pos,
         scale: this.scale,
         groupId: this.groupId,
+        feature: this.feature,
     }
 };
 

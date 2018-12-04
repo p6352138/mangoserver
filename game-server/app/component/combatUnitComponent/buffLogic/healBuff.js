@@ -25,7 +25,7 @@ pro._onHeal = function () {
 };
 
 pro._onEnter = function () {
-    var logicData = this.data.Logic;
+    var logicData = this.dataLogic;
     this.heal = logicData.heal;
     this.count = logicData.count;
     var tick = logicData.time * 1000;

@@ -13,6 +13,7 @@ var Filter = function() {
 };
 
 Filter.prototype.before = function(msg, session, next){
+    //console.log('msg:',msg,session.uid ) ; //,session);
     if (session.uid) {
         session.avatar = entityManager.getEntity(session.uid);
     }

@@ -6,6 +6,7 @@
 var util = _require('util');
 var Component = _require('../component');
 var btExecutor = _require('../../ai/btExecutor');
+let consts = _require('../../common/consts');
 
 var AIBehavior = function (entity) {
     Component.call(this, entity);
@@ -141,6 +142,8 @@ pro.isRunning = function () {
 
 pro._tick = function () {
     if (this.entity.state.isDead())
+        return false;
+    if (this.entity.feature & consts.FeatureOpt.AI_PAUSE)
         return false;
     if (!this.aiExecutor)
         return false;

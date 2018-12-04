@@ -32,7 +32,7 @@ pro._onDie = function (entity) {
 };
 
 pro._onEnter = function () {
-    var logicData = this.data.Logic;
+    var logicData = this.dataLogic;
     this.count = logicData.count || -1;  // 生效次数
     var target = logicData.target;
     var isEnemy = target === "friend" ? false : true;

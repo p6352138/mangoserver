@@ -35,7 +35,7 @@ pro._onSubHp = function (entity, oldVal, newVal) {
 };
 
 pro._onEnter = function () {
-    var logicData = this.data.Logic;
+    var logicData = this.dataLogic;
     this.count = logicData.count || -1;  // 生效次数
     this.needDmg = logicData.onDmg || 1;
     this.times = logicData.onDmgCount || 1;

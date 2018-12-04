@@ -16,7 +16,7 @@ module.exports = FireMarkBuff;
 let pro = FireMarkBuff.prototype;
 
 pro._onEnter = function () {
-    let logicData = this.data.Logic;
+    let logicData = this.dataLogic;
     let fireDmg = logicData.fireDmg;
     let layer = this.buff.layer;
 

@@ -16,6 +16,8 @@ var Filter = function() {
  * dungeon filter
  */
 Filter.prototype.before = function(msg, session, next){
+    //console.log('fight msg:',msg);
+
     var dungeonEntity = entityManager.getEntity(session.get('dgEntId'));
     if (!dungeonEntity) {
         next(new Error('No dungeonEntity exist!'));

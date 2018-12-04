@@ -55,3 +55,44 @@ pro.isAlive = function () {
 pro.isDead = function () {
     return this.entity.hp <= 0;
 };
+
+pro._featureChanged = function () {
+    this.entity.updateFightData('onFeatureUpdate', {
+        feature: this.entity.feature
+    })
+};
+
+// 功能点开关
+pro.featureOn = function (opts) {
+    let oldFeature = this.entity.feature;
+    this.entity.feature |= opts;
+    if (oldFeature !== this.entity.feature) {
+        this._featureChanged();
+    }
+};
+
+pro.featureOff = function (opts) {
+    let oldFeature = this.entity.feature, newOpts, fIdx;
+    while (true) {
+        newOpts = opts & (opts - 1);
+        fIdx = newOpts ^ opts;
+        this.entity.feature &= (~fIdx);
+        opts = newOpts;
+        if (!opts)
+            break;
+    }
+    if (oldFeature !== this.entity.feature) {
+        this._featureChanged();
+    }
+};
+
+pro.breakOperation = function (op, instant=false) {
+    if (instant) {
+        this.emit("EventBreakOperation", this.entity, op);
+    }
+    else {  // 默认不马上break
+        setTimeout(() => {
+            this.emit("EventBreakOperation", this.entity, op);
+        }, 0);
+    }
+};

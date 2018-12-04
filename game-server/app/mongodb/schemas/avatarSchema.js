@@ -13,7 +13,12 @@ var AvatarSchema = new Schema({
     freeGold: Number,
     silver: Number,
     ladder: {},
-    raid: {}
+    raid: {},
+    bag: {},
+    mail: {},
+    hero: {},
+    tutorial: {},
+    card:{}
 });
 
 AvatarSchema.set('toObject', { getters: true });

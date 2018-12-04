@@ -130,8 +130,8 @@ pro.maxIdx = function (idx) {
             continue;
         validEnts.push(uid);
     }
-    self.entity.logger.debug(
-        "get hatred entity, all[%s] valid[%s] idx[%s]", Object.getOwnPropertyNames(self.hatredDict), validEnts.toString(), idx);
+    //self.entity.logger.debug(
+    //    "get hatred entity, all[%s] valid[%s] idx[%s]", Object.getOwnPropertyNames(self.hatredDict), validEnts.toString(), idx);
     if (validEnts.length === 0)
         return null;
     validEnts.sort(function (a, b) {
@@ -141,4 +141,11 @@ pro.maxIdx = function (idx) {
         return validEnts[validEnts.length - 1];
     else
         return validEnts[idx];
+};
+
+pro.getMaxHatredValue = function () {
+    let maxID = this.maxIdx(0);
+    if (!maxID)
+        return 0;
+    return this.hatredDict[maxID];
 };

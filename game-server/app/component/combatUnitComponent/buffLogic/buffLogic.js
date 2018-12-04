@@ -4,6 +4,7 @@
  * Description: buff逻辑代码，由BaseBuff创建
  */
 var buffTpl = _require('../../../data/Buff');
+let buffHelper = require('../../../helper/buffHelper');
 
 var BuffLogic = function (buff, cell, logicid) {
     this.buff = buff;
@@ -13,6 +14,12 @@ var BuffLogic = function (buff, cell, logicid) {
     Object.defineProperty(this, 'data', {
         get: function () {
             return buffTpl[this.id];
+        }
+    });
+
+    Object.defineProperty(this, 'dataLogic', {
+        get: function () {
+            return buffHelper.getBuffLogic(this.id, this.cell.level);
         }
     });
 

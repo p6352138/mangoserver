@@ -16,7 +16,7 @@ module.exports = ModPropPctBuff;
 var pro = ModPropPctBuff.prototype;
 
 pro._onEnter = function () {
-    var logicData = this.data.Logic;
+    var logicData = this.dataLogic;
     for (var propName in logicData) {
         if (!this.entity.hasOwnProperty(propName))
             throw new Error(this.entity.id + " mod porp percent without porp: " + propName);
@@ -25,7 +25,7 @@ pro._onEnter = function () {
 };
 
 pro._onExit = function () {
-    var logicData = this.data.Logic;
+    var logicData = this.dataLogic;
     for (var propName in logicData) {
         if (this.entity.hasOwnProperty(propName))
             this.entity.prop.modPropPct(propName, -logicData[propName]);

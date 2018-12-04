@@ -11,9 +11,23 @@ module.exports = {
         FAIL: 0
     },
 
+    // 平台
+    Platform: {
+        WIN: "win",
+        WECHAT: "wechat",
+    },
+
+    ServerList: {
+        STATUS_CLOSED: 0,  // 维护
+        STATUS_NEW: 1,  // 新服
+        STATUS_BUSY: 2,  // 繁忙
+        STATUS_HOT: 3,  // 火爆
+    },
+
     Login: {
         OK: 200,
         RELAY: 201,
+        MAINTAIN: 202,  // 维护
         FAIL: 500
     },
 
@@ -62,10 +76,12 @@ module.exports = {
         THEW_NOT_ENOUGH: -3,  // 体力不足
         ALREADY_DEAD: -4,  // 已经死亡
         USE_LIMIT: -5,  // 使用限制
+        FEATURE_FORBIT: -6,  // 功能限制
         // 技能
         SKILL_NOT_FOUND: -10,  // 技能不存在
         SKILL_TARGET_ERR: -11,  // 对象错误
         SKILL_IN_PREPARE: -12,  // 吟唱和抬手准备中
+        SKILL_PARAM_ERR: -13,  // 技能参数错误
     },
 
     // 卡牌属性定义
@@ -74,6 +90,8 @@ module.exports = {
         CONSUME_CARD: 2, // 消耗卡牌
         PERMANENT_CONSUME_CARD: 3,  // 永久消耗卡牌
         INHERENT_CARD: 4,  // 固有
+        GET_USE_CARD: 5,  // 抽到即使用
+        GET_USE_SKILL_CARD: 7,  // 在手中持续生效（使用后消耗）
     },
 
     // 技能常量
@@ -92,6 +110,7 @@ module.exports = {
     // buff
     Buff: {
         BUFF_PERMANENT: -1,  // 永久buff的endTime
+        BUFF_CARD_INHEAD: -2,  // buff的endTime为卡用掉。
     },
 
     // 牌堆
@@ -99,6 +118,7 @@ module.exports = {
         CARDS: 1,  // 抽牌堆
         DISCARDS: 2,  // 弃牌堆
         EXHAUSTS: 3,  // 消耗牌堆
+        IN_HANDS: 4,  // 手牌堆
 
         MAX: 3
     },
@@ -161,6 +181,7 @@ module.exports = {
         TYPE_LADDER: "LADDER",  // 天梯队伍
         TYPE_PRACTICE: "PRACTICE",  // 练习队伍
         TYPE_RAID: "RAID",  // 副本队伍
+        TYPE_TUTORIAL: "TUTORIAL",  // 新手副本
 
         MAX_NUM: 4,
         LADDER_NEED_LV: 0,  // 天梯需要等级
@@ -214,5 +235,71 @@ module.exports = {
         NOT_SINGLE_RAID: 2,  // 非单人副本
         HAD_SELECTED: 3,  // 已经选择
         LEVEL_LIMIT: 4,  // 等级不足
+    },
+
+    // 背包
+    Bag: {
+        FUNC_SELL: 1,  // 出售
+        FUNC_USE: 2,  // 使用
+        FUNC_SEE: 3,  // 查看
+        FUNC_EQUIPMENT: 4,  // 装备
+        FUNC_MELTING: 5,  // 熔炼
+    },
+
+    // 物品
+    Item: {
+        TYPE_ARTIFACT: 1,
+        TYPE_TREASURE: 2,
+        TYPE_CURRENCY: 99,  // 货币
+
+        CURRENCY: {
+            GOLD: 1,
+            SILVER: 2,
+            POWER: 3
+        }
+    },
+
+    // 邮件
+    Mail: {
+        FLAG_UNREAD: 1,  // 未读
+        FLAG_READ: 2,  // 已读
+        FLAG_GOT: 3,  // 已领
+        FLAG_DEL: 4,  // 删除，客户端收到后删除邮件即可
+
+        TYPE_FRIEND: 1,  // 好友邮件
+        TYPE_SYSTEM: 2,  // 系统邮件
+        TYPE_MESSAGE: 3,  // 消息邮件
+
+        LIFE_TIME: 86400 * 7 * 1000,  // 7天存活时间
+    },
+
+    MailCode: {
+        OK: 1,
+        NOT_EXIST: 2,  // 邮件不存在
+        NO_REWARD: 3,  // 没有奖励
+        HAD_GOT: 4,  // 已经领取
+        HAD_READ: 5,  // 已读
+        HAVE_REWARD: 6,  // 有奖励未领
+    },
+
+    // 卡牌附加效果
+    CardEffect: {
+        powerUp: 'powerUp',  // 威力增加
+        reduceMP: 'reduceMP',  // 减少费用
+    },
+
+    // 战斗对象功能点
+    FeatureOpt: {
+        SKILL_FORBIT: 0x1,  // 无法使用技能
+        AI_PAUSE: 0x2,  // ai暂停
+    },
+
+    //卡牌升级
+    CardUpgradeCode:{
+        OK:1,
+        CARD_UNENABLE_UPGRADE:2,  //该卡不能升级
+        CARD_CNT_LESS:3,       //卡数量不够
+        MONEY_LESS:4,           //钱不够
+        CARD_IS_MAX_LEVEL:5,  //该卡已是最高等级了
     }
 }

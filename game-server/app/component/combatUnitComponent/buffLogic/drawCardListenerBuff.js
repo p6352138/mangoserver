@@ -16,10 +16,10 @@ module.exports = DrawCardListenerBuff;
 
 var pro = DrawCardListenerBuff.prototype;
 
-pro._onDrawCard = function (entity, cid, pileType) {
+pro._onDrawCard = function (entity, card, pileType) {
     if (this.piletype && this.piletype !== pileType)
         return;
-    var cardData = cardTpl[cid];
+    var cardData = card.config;
     if (this.cardType && this.cardType !== cardData.CardType)
         return;
     if (this.cardQuality && this.cardQuality !== cardData.CardQuality)
@@ -31,7 +31,7 @@ pro._onDrawCard = function (entity, cid, pileType) {
         if (this.data.SkillID) {
             this.entity.skillCtrl.useSkill(this.data.SkillID, this.cell.level);
         }
-        this.num = this.data.Logic.num;
+        this.num = this.dataLogic.num;
         if (this.count > 0) {
             this.count--;
             if (this.count === 0) {
@@ -42,7 +42,7 @@ pro._onDrawCard = function (entity, cid, pileType) {
 };
 
 pro._onEnter = function () {
-    var logicData = this.data.Logic;
+    var logicData = this.dataLogic;
     this.count = logicData.count || -1;  // 生效次数
     this.num = logicData.num;
     this.cardType = logicData.cardType;

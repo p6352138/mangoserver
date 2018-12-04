@@ -7,6 +7,8 @@
 var fightHelper = module.exports;
 var skillTpl = _require('../data/Skill');
 let consts = _require('../common/consts');
+let dispatcher = _require('../util/dispatcher');
+let pomelo = require('pomelo');
 
 // 洗牌
 fightHelper.shuffle = function (cards) {
@@ -20,10 +22,36 @@ fightHelper.shuffle = function (cards) {
     return cards;
 };
 
-// 伤害：伤害 = （攻击牌攻击 + 力量）×（1+自身伤害增幅 + 敌方易伤 - 自身伤害降低 - 敌方减伤)
-fightHelper.calcDamage = function (attacker, target, damage) {
-    var baseDmg = damage + attacker.strength;
-    return Math.floor(baseDmg * (1 + 0 + target.vulnerable - 0 - 0));
+// 是否暴击
+fightHelper.isCrit = function (attacker) {
+    if (attacker.crit) {
+        let randVal = Math.random();
+        if (randVal < attacker.crit)
+            return 1;
+    }
+    return 0;
+};
+
+// 伤害：伤害 = （攻击牌攻击 + 力量）×（1+自身伤害增幅 + 敌方易伤 - 自身伤害降低 - 敌方减伤）+ 火印伤害*层数 + 恶魔之链传递伤害
+fightHelper.calcDamage = function (attacker, target, damage, bCrit) {
+    let baseDmg = damage + attacker.strength;
+    baseDmg *= (1 + attacker.powerUp + target.vulnerable - target.powerDown - target.damageReduce);
+    // 是否暴击
+    if (bCrit) {
+        baseDmg *= (1.5 + attacker.critDmg);
+    }
+    let res = Math.floor(baseDmg + target.combat.getAttackExtraDamage(attacker.id));
+    return res;
+};
+
+// 治疗：治疗 = 治疗量 ×（1+自身治疗增益 + 目标治疗增益 - 自身治疗减益 - 目标治疗减益）
+fightHelper.calcHeal = function (attacker, target, val, bCrit) {
+    let baseVal = val * (1 + attacker.healIncrease + target.healIncrease - attacker.healReduce - target.healReduce);
+    // 是否暴击
+    if (bCrit) {
+        baseVal *= (1.5 + attacker.critHeal);
+    }
+    return Math.floor(baseVal);
 };
 
 // 仇恨值 = 仇恨系数 * 造成的伤害/治疗 + 仇恨常数
@@ -70,4 +98,11 @@ fightHelper.calcLadderScore = function (ra, rb, aResult) {
         sb = 0.5;
     }
     return [K * (sa - ea), K * (sb - eb)];
+};
+
+// 获取单人PVE战斗服
+fightHelper.getSinglePVEServer = function (entity) {
+    let fightServerIds = pomelo.app.get("fightIdsMap")["PVE"][1];
+    let server = dispatcher.dispatch(entity.id, fightServerIds);
+    return server;
 };

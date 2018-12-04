@@ -10,7 +10,8 @@
       "required string avatarUrl": 2,
       "required uInt32 gender": 3
     },
-    "required UserInfo userInfo": 2
+    "required UserInfo userInfo": 2,
+    "required string platform": 3
   },
 
   "connector.matchHandler.match": {
@@ -26,7 +27,12 @@
   "fight.fightHandler.playCard": {
     "required int32 idx": 1,
     "required int32 cid": 2,
-    "required string tid": 3
+    "required string tid": 3,
+    "message Card": {
+      "required uInt32 idx": 1,
+      "required uInt32 cid": 2
+    },
+    "repeated Card cards": 4
   },
 
   "fight.fightHandler.loadProgress": {
@@ -72,5 +78,42 @@
 
   "connector.entryHandler.exchangeSilver": {
     "required uInt32 gold": 1
+  },
+
+  "connector.entryHandler.exchangePower": {
+    "required uInt32 gold": 1
+  },
+
+  "connector.entryHandler.bagSell": {
+    "required uInt32 itemID": 1,
+    "required uInt32 cnt": 2
+  },
+
+  "connector.entryHandler.bagUse": {
+    "required uInt32 itemID": 1,
+    "required uInt32 cnt": 2
+  },
+
+  "connector.mailHandler.readMail": {
+    "required uInt32 type": 1,
+    "required string guid": 2
+  },
+
+  "connector.mailHandler.getMailReward": {
+    "required uInt32 type": 1,
+    "required string guid": 2
+  },
+
+  "connector.mailHandler.delMail": {
+    "required uInt32 type": 1,
+    "required string guid": 2
+  },
+
+  "connector.mailHandler.quickDelMails": {
+    "required uInt32 type": 1
+  },
+
+  "connector.tutorialHandler.tutorialEnterDungeon": {
+    "required uInt32 dgId": 1
   }
 }

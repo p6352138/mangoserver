@@ -4,8 +4,7 @@
  * Description: 使用卡牌监听buff
  */
 var BuffLogic = _require('./buffLogic');
-var util = _require('util');
-var cardTpl = _require('../../../data/Card');
+var util = require('util');
 
 var UseCardListenerBuff = function (buff, cell, logicid) {
     BuffLogic.call(this, buff, cell, logicid);
@@ -16,8 +15,8 @@ module.exports = UseCardListenerBuff;
 
 var pro = UseCardListenerBuff.prototype;
 
-pro._onUseCard = function (entity, cid) {
-    var cardData = cardTpl[cid];
+pro._onUseCard = function (entity, card) {
+    var cardData = card.config;
     if (this.cardType && this.cardType !== cardData.CardType)
         return;
     if (this.cardQuality && this.cardQuality !== cardData.CardQuality)
@@ -29,7 +28,7 @@ pro._onUseCard = function (entity, cid) {
         if (this.data.SkillID) {
             this.entity.skillCtrl.useSkill(this.data.SkillID, this.cell.level);
         }
-        this.num = this.data.Logic.num;
+        this.num = this.dataLogic.num;
         if (this.count > 0) {
             this.count --;
             if (this.count === 0) {
@@ -40,7 +39,7 @@ pro._onUseCard = function (entity, cid) {
 };
 
 pro._onEnter = function () {
-    var logicData = this.data.Logic;
+    var logicData = this.dataLogic;
     this.count = logicData.count || -1;  // 生效次数
     this.num = logicData.num;
     this.cardType = logicData.cardType;

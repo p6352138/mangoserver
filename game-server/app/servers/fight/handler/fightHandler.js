@@ -41,7 +41,7 @@ handler.loadFinished = function(msg, session, next) {
 
 // 出牌
 handler.playCard = function(msg, session, next) {
-    var idx = msg.idx, cid = msg.cid, tid = msg.tid;
-    var code = session.dungeonEntity.playCard(session.uid, idx, cid, tid);
+    var idx = msg.idx, cid = msg.cid, tid = msg.tid, cards = msg.cards;
+    var code = session.dungeonEntity.playCard(session.uid, idx, cid, tid, cards);
     next(null, {code: code});
 };

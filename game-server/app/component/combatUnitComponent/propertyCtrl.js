@@ -50,7 +50,9 @@ pro.modHp = function (val) {
 };
 
 // 广播属性
-var BROADCAST_PROP = new Set(['hp', 'armor', 'scale']);
+var BROADCAST_PROP = new Set(['hp', 'armor', 'scale','maxHp']);
+// 允许负数属性
+var ENABLE_NEGATIVE_PROP = new Set(['strength']);
 
 // 修改属性
 pro.modProp = function (prop, deltaVal, noBroadcast) {
@@ -62,10 +64,17 @@ pro.modProp = function (prop, deltaVal, noBroadcast) {
         if (orginVal === undefined)
             throw new Error(this.entity.id + " modProp error, unknow prop: " + prop);
         var newVal = orginVal + deltaVal;
-        if (newVal < 0)
+        if (newVal < 0 && !ENABLE_NEGATIVE_PROP.has(prop))
             throw new Error(this.entity.id + " modProp error, prop: " + prop + " val: " + deltaVal);
 
         this.entity[prop] = newVal;
+
+        //修改maxHp时，同时使hp适应maxHp.
+        if( prop === 'maxHp'){
+            if( this.entity.hp > this.entity.maxHp  ){
+                this.modHp(this.entity.maxHp-this.entity.hp) ;
+            }
+        }
     }
     // 需要广播
     if (!noBroadcast && BROADCAST_PROP.has(prop)) {

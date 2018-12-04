@@ -3,9 +3,9 @@
  * Author: liuguolai
  * Description: 管理一场战斗里的各种状态
  */
+var util = require('util');
+var pomelo = require('pomelo');
 var Entity = _require('./entity');
-var util = _require('util');
-var pomelo = _require('pomelo');
 var consts = _require('../public/consts');
 var messageService = _require('../services/messageService');
 var heroTbl = _require('../data/Hero');
@@ -44,7 +44,9 @@ var DungeonEntity = function (opts) {
 
     this.inFight = false;
     this.loadMembers = null;  // 正在加载的玩家
+    this.loadMembersA = null;
     this.loadMemProgress = null;  // 玩家加载进度
+    this.playerNum = 0;
 
     this.timer = null;
 
@@ -64,6 +66,8 @@ pro.initFight = function (teamType, dgId, teamA, teamB, extraData) {
     self.teamType = teamType;
     if (teamType === consts.Team.TYPE_LADDER || teamType === consts.Team.TYPE_PRACTICE) {
         this.isPVP = true;
+        this.matrixIDA = 6;
+        this.matrixIDB = 7;
     }
     else {
         this.isPVP = false;
@@ -106,38 +110,21 @@ pro.initFight = function (teamType, dgId, teamA, teamB, extraData) {
     // 设置状态
     this.status = consts.DungeonStatus.IN_SELECT_HERO;
     this.statusEndTime = new Date().getTime() + 1000 * constTpl.ReadyTimer;
-    let serverId = pomelo.app.get('serverId');
 
     if (this.teamType === consts.Team.TYPE_RAID) {
-        // 副本模式直接加载进入战斗
-        // 获取当前副本的出战英雄数据
-        if (this.extraData.teamRaidEnt) {  // 团队副本
-            this.prepareInfo = this.extraData.teamRaidEnt.getHeroInfo();
-            this._startLoad();
-            for (let uid in self.prepareMems) {
-                pomelo.app.rpc.connector.entryRemote.onTeamRaidEnterDungeon.toServer(
-                    self.prepareMems[uid], uid, serverId, self.id, null
-                );
-            }
-        }
-        else {
-            for (let uid in self.prepareMems) {
-                pomelo.app.rpc.connector.entryRemote.onRaidReady.toServer(
-                    self.prepareMems[uid], uid, serverId, self.id, self.extraData.raidID, function (uid, code, prepareInfo) {
-                        if (code === consts.Code.FAIL) {
-                            self.logger.error("get fighter[%s] prepareInfo failed.", uid);
-                        }
-                        self.prepareInfo[uid] = prepareInfo;
-                        delete self.prepareMems[uid];
-                        // 进入加载
-                        if (Object.getOwnPropertyNames(self.prepareMems).length === 0) {
-                            this._startLoad();
-                        }
-                    }.bind(self, uid))
-            }
-        }
-        return;
+        this._initRaidFight();
     }
+    else if (this.teamType === consts.Team.TYPE_TUTORIAL) {
+        this._initTutorialFight();
+    }
+    else {
+        this._initNormalFight(teamInfo);
+    }
+};
+
+pro._initNormalFight = function (teamInfo) {
+    let self = this;
+    let serverId = pomelo.app.get('serverId');
     for (var uid in self.prepareMems) {
         pomelo.app.rpc.connector.entryRemote.onMatchReady.toServer(
             self.prepareMems[uid], uid, serverId, self.id, teamInfo, function (uid, code, prepareInfo) {
@@ -148,9 +135,51 @@ pro.initFight = function (teamType, dgId, teamA, teamB, extraData) {
                 delete self.prepareMems[uid];
                 // 进入选英雄，30s后进入10s倒计时
                 if (Object.getOwnPropertyNames(self.prepareMems).length === 0) {
-                    this.timer = setTimeout(self._beforeLoadCountDown.bind(self), 1000 * constTpl.ReadyTimer);
+                    self.timer = setTimeout(self._beforeLoadCountDown.bind(self), 1000 * constTpl.ReadyTimer);
                 }
             }.bind(self, uid))
+    }
+};
+
+pro._initTutorialFight = function () {
+    let self = this;
+    let serverId = pomelo.app.get('serverId');
+    self._startLoad();
+    for (let uid in self.prepareMems) {
+        pomelo.app.rpc.connector.entryRemote.onTurorialDungeonReady.toServer(
+            self.prepareMems[uid], uid, serverId, self.id, null);
+    }
+};
+
+pro._initRaidFight = function () {
+    // 副本模式直接加载进入战斗
+    // 获取当前副本的出战英雄数据
+    let self = this;
+    let serverId = pomelo.app.get('serverId');
+    if (self.extraData.teamRaidEnt) {  // 团队副本
+        self.prepareInfo = self.extraData.teamRaidEnt.getHeroInfo();
+        self._startLoad();
+        for (let uid in self.prepareMems) {
+            pomelo.app.rpc.connector.entryRemote.onTeamRaidEnterDungeon.toServer(
+                self.prepareMems[uid], uid, serverId, self.id, null
+            );
+        }
+    }
+    else {
+        for (let uid in self.prepareMems) {
+            pomelo.app.rpc.connector.entryRemote.onRaidReady.toServer(
+                self.prepareMems[uid], uid, serverId, self.id, self.extraData.raidID, function (uid, code, prepareInfo) {
+                    if (code === consts.Code.FAIL) {
+                        self.logger.error("get fighter[%s] prepareInfo failed.", uid);
+                    }
+                    self.prepareInfo[uid] = prepareInfo;
+                    delete self.prepareMems[uid];
+                    // 进入加载
+                    if (Object.getOwnPropertyNames(self.prepareMems).length === 0) {
+                        self._startLoad();
+                    }
+                }.bind(self, uid))
+        }
     }
 };
 
@@ -190,7 +219,7 @@ var notifyToTeamOtherMem = function (uid, team, route, msg) {
 };
 
 // 玩家确认角色
-pro.confirmHero = function(uid) {
+pro.confirmHero = function (uid) {
     if (this.status !== consts.DungeonStatus.IN_SELECT_HERO)
         return consts.Code.FAIL;
     var team = this.teamA;
@@ -242,7 +271,7 @@ pro._beforeLoadCountDown = function () {
     var info = {};
     var beSelectdHeroid = this._getSelectedHeroids();
     var teams = [this.teamA, this.teamB];
-    for (var team of teams){
+    for (var team of teams) {
         for (var uid in team) {
             var heroid = team[uid].heroid;
             // 没有选择英雄
@@ -277,6 +306,7 @@ pro._startLoad = function () {
         teamB: []
     };
     this.loadMembers = new Set();
+    this.loadMembersA = new Set();
     this.loadMemProgress = {};
     // groupA
     this.formationA = Object.getOwnPropertyNames(teamA);
@@ -285,17 +315,15 @@ pro._startLoad = function () {
     })
     for (let uid in teamA) {
         let ent = teamA[uid];
-        let heroid, lv, cards, attri;
+        let heroid, cards, attri;
         if (this.teamType === consts.Team.TYPE_RAID) {
             let info = this.prepareInfo[uid].heroInfo;
             heroid = info.heroid;
-            lv = 1;
             cards = info.cards;
             attri = info.attri;
         }
         else {
             heroid = ent.heroid;
-            lv = this.prepareInfo[uid].heros[heroid].lv;
             cards = heroTbl[heroid]["InitialDrawPile"];
         }
         let player = entityFactory.createEntity("Player", uid, {
@@ -306,7 +334,7 @@ pro._startLoad = function () {
             heroid: heroid,
             cards: cards,
             groupId: "groupA",
-            lv: lv,
+            lv: ent.level,
             pos: this.formationA.indexOf(uid) + 1,
             channelInfo: this.channelInfo
         })
@@ -314,6 +342,7 @@ pro._startLoad = function () {
         player.updateAttri(attri);
         this.groupA[uid] = player;
         this.loadMembers.add(uid);
+        this.loadMembersA.add(uid);
         teamInfo.teamA.push(player.getBrocastInfo());
     }
 
@@ -324,16 +353,17 @@ pro._startLoad = function () {
             return heroTbl[teamB[a].heroid]["PosPriority"] - heroTbl[teamB[b].heroid]["PosPriority"];
         })
         for (var uid in teamB) {
-            var heroid = teamB[uid].heroid;
+            let ent = teamB[uid];
+            var heroid = ent.heroid;
             var player = entityFactory.createEntity("Player", uid, {
                 owner: this,
                 uid: uid,
-                sid: teamB[uid].sid,
-                name: teamB[uid].name,
+                sid: ent.sid,
+                name: ent.name,
                 heroid: heroid,
                 cards: heroTbl[heroid]["InitialDrawPile"],
                 groupId: "groupB",
-                lv: this.prepareInfo[uid].heros[heroid].lv,
+                lv: ent.level,
                 pos: this.formationB.indexOf(uid) + 1,
                 channelInfo: this.channelInfo
             })
@@ -361,6 +391,7 @@ pro._startLoad = function () {
             teamInfo.teamB.push(monster.getBrocastInfo());
         }
     }
+    this.playerNum = this.loadMembers.size;
 
     // 初始化双方的仇恨列表
     this._initHatredList();
@@ -378,7 +409,7 @@ pro._startLoad = function () {
                 myInfo: this.groupA[uid].getClentInfo(),
                 teamInfo: teamInfo,
                 dgId: this.dgId,
-                matchType: this.matchType,
+                teamType: this.teamType,
                 matchNum: this.matchNum,
                 spawnSummons: this.summons.spawnSummons,
             })
@@ -390,7 +421,7 @@ pro._startLoad = function () {
                     myInfo: this.groupB[uid].getClentInfo(),
                     teamInfo: teamInfo,
                     dgId: this.dgId,
-                    matchType: this.matchType,
+                    teamType: this.teamType,
                     matchNum: this.matchNum,
                     spawnSummons: this.summons.spawnSummons,
                 })
@@ -400,7 +431,8 @@ pro._startLoad = function () {
     this.status = consts.DungeonStatus.IN_LOAD;
     // 定义最长加载时间
     this.inFight = false;
-    this.timer = setTimeout(this._loadFailEnd.bind(this), 1000 * 60);
+    // this.timer = setTimeout(this._loadFailEnd.bind(this), 1000 * 60);
+    this.timer = setTimeout(this._fightBegin.bind(this, true), 1000 * 60);
 };
 
 // 进战统一初始化双方仇恨列表
@@ -429,6 +461,7 @@ pro.loadFinished = function (uid) {
     if (this.status !== consts.DungeonStatus.IN_LOAD)
         return;
     this.loadMembers.delete(uid);
+    this.loadMembersA.delete(uid);
     this.loadMemProgress[uid] = 100;
     this.broadcast('onLoadProgress', {
         uid: uid,
@@ -439,15 +472,48 @@ pro.loadFinished = function (uid) {
     }
 };
 
-// 有人没加载完，结束战斗
-pro._loadFailEnd = function () {
-    var names = [];
-    for (var uid of this.loadMembers) {
-        let ent = this.getMember(uid);
-        names.push(ent.name);
+// 战斗开始条件
+pro._canBeginFight = function () {
+    if (this.isPVP) {
+        // 双方人数>=1
+        let oneSideNum = this.playerNum / 2;
+        let loadNumA = oneSideNum - this.loadMembersA.size;
+        let loadNumB = oneSideNum - (this.loadMembers.size - this.loadMembersA.size);
+        if (loadNumA >= 1 && loadNumB >= 1)
+            return true;
     }
-    this.broadcastToAvatar('onLoadTimeout', names);
-    this.destroy();
+    else {
+        // 已加载完成的人数需要有1/2(取整)，才可进入战斗场景
+        let needNum = Math.ceil(this.playerNum / 2);
+        let loadNum = this.playerNum - this.loadMembers.size;
+        if (loadNum >= needNum)
+            return true;
+    }
+    return false;
+};
+
+// 有人没加载完，结束战斗
+pro._loadFailEnd = function (canExtend) {
+    if (this._canBeginFight()) {
+        this._fightBegin();
+        return;
+    }
+    if (canExtend) {
+        // 延长30s
+        this.timer = setTimeout(this._fightBegin.bind(this, false), 1000 * 30);
+        return;
+    }
+    else {
+        // 否则直接进入
+        this._fightBegin();
+    }
+    // var names = [];
+    // for (var uid of this.loadMembers) {
+    //     let ent = this.getMember(uid);
+    //     names.push(ent.name);
+    // }
+    // this.broadcastToAvatar('onLoadTimeout', names);
+    // this.destroy();
 };
 
 // 战斗正式开始
@@ -550,6 +616,9 @@ pro._notifyFightResult = function (groupAResult, groupBResult) {
             groupAInfo["roomIdx"] = this.extraData["roomIdx"];
         }
     }
+    else if (this.teamType === consts.Team.TYPE_TUTORIAL) {
+        groupAInfo["dgId"] = this.dgId;
+    }
     for (let uid in this.teamA) {
         let ent = this.teamA[uid];
         // 单人
@@ -564,7 +633,7 @@ pro._notifyFightResult = function (groupAResult, groupBResult) {
             ent.sid, uid, ent.inTeam, groupAInfo, null);
     }
     for (let uid in this.teamB) {
-        let ent = this.teamA[uid];
+        let ent = this.teamB[uid];
         pomelo.app.rpc.connector.entryRemote.onDungeonFinish.toServer(
             ent.sid, uid, ent.inTeam, groupBInfo, null);
     }
@@ -584,12 +653,12 @@ pro._fightEnd = function () {
         for (var uid in this.groupA) {
             var ent = this.groupA[uid];
             if (ent.isA("Player") && ent.state.isAlive())
-                groupAAliveNum ++;
+                groupAAliveNum++;
         }
         for (var uid in this.groupB) {
             var ent = this.groupB[uid];
             if (ent.isA("Player") && ent.state.isAlive())
-                groupBAliveNum ++;
+                groupBAliveNum++;
         }
         let groupAResult = consts.FightResult.DRAW, groupBResult = consts.FightResult.DRAW;
         if (groupAAliveNum > groupBAliveNum) {
@@ -642,8 +711,7 @@ pro._getGroupById = function (groupId, opposite) {
     if (groupId === "groupA") {
         group = this.groupA;
     }
-    else if (groupId === "groupB")
-    {
+    else if (groupId === "groupB") {
         group = this.groupB;
     }
     else
@@ -812,13 +880,22 @@ pro.broadcastToAvatar = function (func, ...data) {
                 ent.sid, ent.id, ...data, null);
         }
     }
-    for (let  uid in this.groupB) {
+    for (let uid in this.groupB) {
         let ent = this.groupB[uid];
         if (ent.isA("Player")) {
             pomelo.app.rpc.connector.entryRemote[func].toServer(
                 ent.sid, ent.id, ...data, null);
         }
     }
+};
+
+// 队内其他成员通知
+pro.notifyToTeamOtherMembers = function (uid, func, data) {
+    let team = this.teamA;
+    if (this.teamB.hasOwnProperty(uid)) {
+        team = this.teamB;
+    }
+    notifyToTeamOtherMem(uid, team, func, data);
 };
 
 /**
@@ -828,15 +905,15 @@ pro.broadcastToAvatar = function (func, ...data) {
  * @param cid: card id
  * @param tid: target id
  */
-pro.playCard = function (uid, idx, cid, tid) {
+pro.playCard = function (uid, idx, cid, tid, exCards) {
     var player = this.getMember(uid);
     var target = this.getMember(tid);
-    var errCode = player.cardCtrl.checkCanUseCard(idx, cid, tid);
+    var errCode = player.cardCtrl.checkCanUseCard(idx, cid, tid, exCards);
     if (errCode != consts.FightCode.OK) {
         return errCode;
     }
     // todo: 使用判断，队伍、目标等判断
-    player.cardCtrl.actualUseCard(idx, cid, tid);
+    player.cardCtrl.actualUseCard(idx, cid, tid, exCards);
     return errCode;
 };
 
@@ -845,7 +922,7 @@ pro.getCurrInfo = function (fromUid) {
     var info = {
         dgId: this.dgId,
         status: this.status,
-        matchType: this.matchType,
+        teamType: this.teamType,
         matchNum: this.matchNum,
     }
     if (this.status === consts.DungeonStatus.IN_SELECT_HERO) {
@@ -905,13 +982,15 @@ pro.getCurrInfo = function (fromUid) {
             teamA: teamA,
             teamB: teamB
         }
-        info["myInfo"] = this.getMember(fromUid).getClentInfo();
-        info["spawnSummons"] = this.spawnSummons;
+        let ent = this.getMember(fromUid);
+        info["myInfo"] = ent.getClentInfo();
+        info["spawnSummons"] = this.summons.spawnSummons;
         if (this.status === consts.DungeonStatus.IN_LOAD) {
             info["loadMemProgress"] = this.loadMemProgress;
         }
         else if (this.status === consts.DungeonStatus.IN_FIGHT) {
             info["leftTime"] = this.statusEndTime - new Date().getTime();
+            this.notifyToTeamOtherMembers(fromUid, 'onTips', ent.name + '登录中');
         }
     }
     return info;

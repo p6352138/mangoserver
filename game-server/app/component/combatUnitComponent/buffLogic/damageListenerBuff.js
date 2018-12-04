@@ -35,7 +35,7 @@ pro._onDoDamageToOther = function (entity, fromHp, toHp) {
 };
 
 pro._onEnter = function () {
-    let logicData = this.data.Logic;
+    let logicData = this.dataLogic;
     this.count = logicData.count || -1;  // 生效次数
     this.needDmg = logicData.dmg || 1;
     this.times = logicData.dmgCount || 1;

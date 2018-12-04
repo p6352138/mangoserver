@@ -45,6 +45,7 @@ bounce.entry = function (caster, skill, data, targets) {
             }
         }
     }
+    caster.comboComponent.addCombo(res.length);
     caster.broadcast('onBounce', {
         sid: skill.sid,
         casterID: caster.id,

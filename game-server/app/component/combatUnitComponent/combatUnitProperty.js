@@ -19,7 +19,20 @@ var properties = {
     scale: 1,  // 模型缩放
 
     // 二级属性
+    powerUp: 0,  // 伤害增幅
+    powerDown: 0,  // 伤害降低
     vulnerable: 0,  // 易伤
+    damageReduce: 0,  // 减伤
+
+    crit: 0,  // 暴击率
+    critDmg: 0,  // 暴击伤害
+    critHeal: 0,  // 暴击治疗
+    healIncrease: 0,  // 治疗增益
+    healReduce: 0,  // 治疗减益
+
+    combo: 0,  // 连击数
+
+    feature: 0,  // 功能点开关
 };
 
 module.exports = properties;

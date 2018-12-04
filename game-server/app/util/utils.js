@@ -154,3 +154,7 @@ utils.isEmptyObject = function (obj){
     }
     return true;
 };
+
+utils.sleep = ms => {
+    return new Promise(resolve => setTimeout(resolve,ms));
+};

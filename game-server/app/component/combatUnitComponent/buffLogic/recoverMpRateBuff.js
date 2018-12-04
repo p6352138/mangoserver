@@ -16,7 +16,7 @@ module.exports = RecoverMpRateBuff;
 var pro = RecoverMpRateBuff.prototype;
 
 pro._onEnter = function () {
-    var logicData = this.data.Logic;
+    var logicData = this.dataLogic;
     this.rate = logicData.rate;
     this.entity.addMpRecoverRateBuff(this.rate);
 };

@@ -24,7 +24,7 @@ pro._onGetMP = function () {
 };
 
 pro._onEnter = function () {
-    let logicData = this.data.Logic;
+    let logicData = this.dataLogic;
     let tick = logicData.time * 1000;
     this.count = logicData.count;
     this.mp = logicData.getMP;

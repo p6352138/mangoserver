@@ -8,6 +8,7 @@ var util = _require('util');
 var consts = _require('../../common/consts');
 var pomelo = require('pomelo');
 let dispatcher = _require('../../util/dispatcher');
+let mailManager = require('../../manager/mailManager');
 
 var GMComponent = function (entity) {
     Component.call(this, entity);
@@ -19,7 +20,7 @@ module.exports = GMComponent;
 var pro = GMComponent.prototype;
 
 pro.init = function (opts) {
-    this.localCmd = new Set(['e', 'quickFight', 'gold']);
+    this.localCmd = new Set(['e', 'quickFight', 'gold', 'i', 'lv', 'mail', 'gmmail','silver','c']);
     this.dungeonCmd = new Set(['kill', 'hp', 'mp', 'card', 'monster']);
 };
 
@@ -40,9 +41,47 @@ pro.handleGMCommand = function (cmd, params) {
     }
 };
 
+pro.gmmail = function (uid, title, desc, reward) {
+    if (uid === 'self')
+        uid = this.entity.id;
+    if (!reward)
+        reward = {};
+    else
+        reward = eval('('+reward+')');
+    mailManager.addGMMailToPlayers(uid, title, desc, reward);
+};
+
+pro.mail = function (uid, mailID, kwargs) {
+    if (uid === 'self')
+        uid = this.entity.id;
+    mailID = parseInt(mailID);
+    kwargs = eval('('+kwargs+')');
+    mailManager.addMailToPlayers(uid, mailID, kwargs)
+};
+
+pro.lv = function (level) {
+    level = parseInt(level);
+    this.entity.avatarProp._setAvatarProp('level', level, true);
+};
+
+pro.i = function (itemID, cnt) {
+    itemID = parseInt(itemID), cnt = parseInt(cnt)
+    this.entity.bag.addItem(itemID, cnt);
+};
+
+pro.c = function (cardId, cnt) {
+    cardId = parseInt(cardId), cnt = parseInt(cnt)
+    this.entity.card.addCard(cardId, cnt);
+};
+
 pro.gold = function (val) {
     val = parseInt(val);
     this.entity.avatarProp.giveFreeGold(val);
+};
+
+pro.silver = function (val) {
+    val = parseInt(val);
+    this.entity.avatarProp.giveSilver(val);
 };
 
 pro.quickFight = function () {
@@ -124,7 +163,7 @@ pro.card = function (uid, group, pos, cid, num)  {
     if (!ent || ent.state.isDead())
         return;
     num = num || 1;
-    ent.cardCtrl.createCardsInHand(parseInt(cid), parseInt(num));
+    ent.cardCtrl.createCards(parseInt(cid), parseInt(num), consts.PileType.IN_HANDS);
 };
 
 // 添加怪物

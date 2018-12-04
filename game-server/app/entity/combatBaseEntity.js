@@ -23,6 +23,7 @@ var CombatBaseEntity = function (opts) {
     this._createChannel(opts.channelInfo);
 
     this.mpRecoverTime = opts.mpRecoverTime || constTpl.BaseMpRecover * 1000;  // 灵力恢复时间
+    if(__G.DEBUG_PLAYER_MP)this.mpRecoverTime = __G._MP ;
     this.mpRecoverTimer = null;
     this.mpRecoverRate = 1;  // mp恢复速率
     this.endMpRecoverTime = 0;  // mp恢复倒计时结束时间
@@ -30,6 +31,8 @@ var CombatBaseEntity = function (opts) {
     this.stopMpRecoverBuffCnt = 0;  // 停止恢复buff数量
 
     this.inFight = false;
+    //this._fightIsEnd = false ;
+    //this._isDie = false ;
 
     this.state.on("EventDie", this._onDie.bind(this));
     this.state.on("EventRelive", this._onRelive.bind(this));
@@ -57,6 +60,8 @@ pro._onDie = function (entity) {
     if (this !== entity)
         return;
     this.fightEnd();
+
+    //this._isDie = true ;
 };
 
 pro._onRelive = function (entity) {
@@ -74,7 +79,12 @@ pro.fightBegin = function () {
 pro.fightEnd = function () {
     this.inFight = false;
     this.stopMpRecoverTimer();
+
+    //this._fightIsEnd = true;
 };
+
+//pro.fightIsEnd = function(){return this._fightIsEnd;};
+//pro.isDie = function(){return this._isDie;};
 
 pro.stopMpRecoverTimer = function () {
     if (this.mpRecoverTimer) {
@@ -174,8 +184,12 @@ pro.activeRecoverMp = function (mp, bForce) {
         this.stopMpRecoverTimer();
         this.endMpRecoverTime = 0;
     }
-    this.updateFightData('onGetMp', { mp: this.mp });
+    this.updateFightData('onGetMp', {
+        uid: this.id,
+        mp: this.mp
+    });
 };
+
 
 // 所有敌人
 pro.getAllEnemies = function (filter) {

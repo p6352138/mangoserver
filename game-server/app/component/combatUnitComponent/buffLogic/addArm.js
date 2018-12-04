@@ -24,7 +24,7 @@ pro._addArm = function (armor) {
 };
 
 pro._onEnter = function () {
-    var logicData = this.data.Logic;
+    var logicData = this.dataLogic;
     this._addArm(logicData.arm);
 };
 

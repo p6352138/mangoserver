@@ -3,12 +3,12 @@
  * Author: liuguolai
  * Description: 治疗
  */
-var heal = {};
+let heal = {};
 
 heal.entry = function (caster, skill, data, targets) {
-    var healVal = data.heal;
+    let healVal = data.heal, healPct = data.healPct;
     for (var target of targets) {
-        target.combat.onHeal(caster, healVal, skill.sid);
+        target.combat.onHeal(caster, healVal || Math.floor(target.maxHp * healPct), skill.sid);
     }
 };
 

@@ -8,14 +8,17 @@ var ObjectId = _require('mongoose').Types.ObjectId;
 var consts = _require('../public/consts');
 var skillAction = _require('../combat/skillAction');
 var fightHelper = _require('../helper/fightHelper');
+let skillHelper = _require('../helper/skillHelper');
+var logger = require('pomelo-logger').getLogger('game', __filename);
 
-var Skill = function (owner, sid, slv, tid) {
+var Skill = function (owner, sid, slv, tid, exData ) {
     this.id = ObjectId();
     this.owner = owner;
     this.sid = sid;
     this.slv = slv || 1;
     this.tid = tid;
-
+    this.exData = exData || {};
+    //logger.error("Skill:sid, slv, tid, exData: ",sid, slv, tid, exData);
     this.hitNum = 0;  // 击中次数，召唤用
 
     Object.defineProperty(this, 'entity', {
@@ -155,7 +158,7 @@ pro.doEffect = function () {
     for (var idx in this._targets) {
         var config = this._data[idx];
         var targets = this._targets[idx];
-        var actions = config.Actions;
+        var actions = skillHelper.getSkillAction(this.sid, idx, this.slv);
         let num = config.ActionCount || 1;  // 次数，少用
         for (let i = 0; i < num; i++) {
             for (var func in actions) {
@@ -183,6 +186,7 @@ pro.destroy = function () {
     }
     this._targets = null;
     this._targetIds = null;
+    this.owner = null;
 };
 
 pro.getHitNum = function () {
@@ -191,4 +195,12 @@ pro.getHitNum = function () {
 
 pro.addHitNum = function () {
     this.hitNum ++;
+};
+
+// 获取产生该技能的卡牌
+pro.getOwnerCard = function () {
+    if (this.exData && this.exData.hasOwnProperty('card')) {
+        return this.exData.card;
+    }
+    return null;
 };

@@ -6,13 +6,23 @@
 var dropCard = {};
 
 dropCard.entry = function (caster, skill, data, targets) {
-    var num = data.num;
-    var cardType = data.cardType;
-    var cardQuality = data.cardQuality;
-    var cardAttributes = data.cardAttributes;
     var piletype = data.piletype;
+    let exData = skill.exData, dropIdxList = [];
+    if ( !(exData.exCards) )
+        return;
+    let usedCardIdx = exData.usedCardIdx;
+    for (let exCardInfo of exData.exCards) {
+        if (exCardInfo.idx < usedCardIdx)
+            dropIdxList.push(exCardInfo.idx);
+        else {
+            dropIdxList.push(exCardInfo.idx - 1);
+        }
+    }
+    dropIdxList.sort(function (a, b) {
+        return b - a;
+    })
     for (var target of targets) {
-        target.cardCtrl.dropCard(num, cardType, cardQuality, cardAttributes, piletype);
+        target.cardCtrl.dropCard(dropIdxList, piletype);
     }
 };
 

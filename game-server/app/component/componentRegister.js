@@ -14,6 +14,10 @@ let TeamComponent = _require('./avatarComponent/teamComponent');
 let LadderComponent = _require('./avatarComponent/ladderComponent');
 let RaidComponent = _require('./avatarComponent/raidComponent');
 let AvatarPropertyCtrl = _require('./avatarComponent/avatarPropertyCtrl');
+let BagComponent = _require('./avatarComponent/bagComponent');
+let MailComponent = _require('./avatarComponent/mailComponent');
+let TutorialComponent = _require('./avatarComponent/tutorialComponent');
+let CardComponent = _require('./avatarComponent/cardComponent');
 
 var AIBehavior = _require('./combatUnitComponent/aiBehavior');
 var BuffCtrl = _require('./combatUnitComponent/buffCtrl');
@@ -23,6 +27,7 @@ var CombatUnitState = _require('./combatUnitComponent/combatUnitState');
 var HatredComponent = _require('./combatUnitComponent/hatredComponent');
 var PropertyCtrl = _require('./combatUnitComponent/propertyCtrl');
 var SkillCtrl = _require('./combatUnitComponent/skillCtrl');
+let comboComponent = _require('./combatUnitComponent/comboComponent');
 
 let summonsComponent = _require('./dungeonEntityComponent/summonsComponent');
 let dpsComponent = _require('./dungeonEntityComponent/dpsComponent');
@@ -39,6 +44,10 @@ var componentClass = {
     ladder: LadderComponent,
     raid: RaidComponent,
     avatarProp: AvatarPropertyCtrl,
+    bag: BagComponent,
+    mail: MailComponent,
+    tutorial:TutorialComponent,
+    card:CardComponent,
 
     AI: AIBehavior,
     buffCtrl: BuffCtrl,
@@ -48,6 +57,7 @@ var componentClass = {
     hatred: HatredComponent,
     prop: PropertyCtrl,
     skillCtrl: SkillCtrl,
+    comboComponent: comboComponent,
 
     summons: summonsComponent,
     dps: dpsComponent,

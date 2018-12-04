@@ -4,8 +4,8 @@
 
 // Generate From Monster.xlsx
 module.exports = {
-	10001: {
-		ID: 10001,
+	100001: {
+		ID: 100001,
 		Name: '鲛精',
 		Type: 'Boss',
 		Level: 10,
@@ -22,10 +22,10 @@ module.exports = {
 		InitialBuff: {},
 		AIStrategy: 'jiaojing',
 		AITick: 2,
-		InitialDrawPile: [10001,10001,10001,10001,10001,10001,10002,10002,10003,10003,10004,10004,10005]
+		InitialDrawPile: [100001,100001,100001,100001,100001,100001,100002,100002,100003,100003,100004,100004,100005]
 	},
-	10002: {
-		ID: 10002,
+	100002: {
+		ID: 100002,
 		Name: '鲛精',
 		Type: 'Boss',
 		Level: 10,
@@ -42,10 +42,10 @@ module.exports = {
 		InitialBuff: {10005:[1,-1],10105:[1,-1]},
 		AIStrategy: 'jiaojing',
 		AITick: 2,
-		InitialDrawPile: [10001,10001,10001,10001,10001,10001,10002,10002,10003,10003,10004,10004]
+		InitialDrawPile: [100001,100001,100001,100001,100001,100001,100002,100002,100003,100003,100004,100004]
 	},
-	10003: {
-		ID: 10003,
+	100003: {
+		ID: 100003,
 		Name: '鳄鱼',
 		Type: 'Normal',
 		Level: 1,
@@ -62,10 +62,10 @@ module.exports = {
 		InitialBuff: {},
 		AIStrategy: 'eyu',
 		AITick: 2,
-		InitialDrawPile: [10101,10101,10101,10101,10101,10101,10102,10102]
+		InitialDrawPile: [100101,100101,100101,100101,100101,100101,100102,100102]
 	},
-	10004: {
-		ID: 10004,
+	100004: {
+		ID: 100004,
 		Name: '飞颅',
 		Type: 'Normal',
 		Level: 1,
@@ -82,10 +82,10 @@ module.exports = {
 		InitialBuff: {},
 		AIStrategy: 'feilu',
 		AITick: 2,
-		InitialDrawPile: [10201,10201,10201,10201,10201,10201,10202,10202]
+		InitialDrawPile: [100201,100201,100201,100201,100201,100201,100202,100202]
 	},
-	10005: {
-		ID: 10005,
+	100005: {
+		ID: 100005,
 		Name: '怨鬼',
 		Type: 'Normal',
 		Level: 1,
@@ -102,6 +102,86 @@ module.exports = {
 		InitialBuff: {},
 		AIStrategy: 'yuangui',
 		AITick: 2,
-		InitialDrawPile: [10301,10301,10301,10301,10301,10301,10302,10302]
+		InitialDrawPile: [100301,100301,100301,100301,100301,100301,100302,100302]
+	},
+	100011: {
+		ID: 100011,
+		Name: '西门',
+		Type: 'Normal',
+		Level: 1,
+		MaxHP: 1000,
+		MaxMP: 10,
+		MaxThew: 10,
+		BaseArmor: 0,
+		BaseStrength: 0,
+		BaseStamina: 0,
+		BaseIntellect: 0,
+		BaseAgile: 0,
+		InitialCard: 3,
+		InitialMP: 6,
+		InitialBuff: {},
+		AIStrategy: 'ximen',
+		AITick: 2,
+		InitialDrawPile: [101101,101101,101101,101101,101102,101102]
+	},
+	100012: {
+		ID: 100012,
+		Name: '万无敌',
+		Type: 'Normal',
+		Level: 1,
+		MaxHP: 1000,
+		MaxMP: 10,
+		MaxThew: 10,
+		BaseArmor: 0,
+		BaseStrength: 0,
+		BaseStamina: 0,
+		BaseIntellect: 0,
+		BaseAgile: 0,
+		InitialCard: 3,
+		InitialMP: 6,
+		InitialBuff: {},
+		AIStrategy: 'wanwudi',
+		AITick: 2,
+		InitialDrawPile: [101201,101201,101201,101201,101201,101201,101202,101202,101203,101203]
+	},
+	100013: {
+		ID: 100013,
+		Name: '金伴花',
+		Type: 'Normal',
+		Level: 1,
+		MaxHP: 1000,
+		MaxMP: 10,
+		MaxThew: 10,
+		BaseArmor: 0,
+		BaseStrength: 0,
+		BaseStamina: 0,
+		BaseIntellect: 0,
+		BaseAgile: 0,
+		InitialCard: 3,
+		InitialMP: 6,
+		InitialBuff: {},
+		AIStrategy: 'jinbanhua',
+		AITick: 2,
+		InitialDrawPile: [101301,101301,101301,101301,101301,101301,101302,101302,101303,101303]
+	},
+	100014: {
+		ID: 100014,
+		Name: '英万里',
+		Type: 'Boss',
+		Level: 1,
+		MaxHP: 1000,
+		MaxMP: 10,
+		MaxThew: 10,
+		BaseArmor: 0,
+		BaseStrength: 0,
+		BaseStamina: 0,
+		BaseIntellect: 0,
+		BaseAgile: 0,
+		InitialCard: 3,
+		InitialMP: 6,
+		InitialBuff: {},
+		AIStrategy: 'yingwanli',
+		AITick: 2,
+		InitialDrawPile: [101401,101401,101401,101401,101401,101401,101402,101402,101402,101404,101404,101405,101405]
 	},
 };

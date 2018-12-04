@@ -68,5 +68,16 @@
   "onTeamRaidBeginGetCard",
   "onTeamRaidMemberGetCard",
   "onTeamRaidPass",
-  "onTeamRaidFail"
+  "onTeamRaidFail",
+  "onAvatarPropUpdate",
+  "onBagItemsUpdate",
+  "onAddMails",
+  "onMailsFlagUpdate",
+  "onCardPowerUp",
+  "onCopyCard",
+  "onCopyCardNotify",
+  "onFeatureUpdate",
+  "onUseCardWhenGet",
+  "onTauntUpdate",
+  "onComboUpdate"
 ]

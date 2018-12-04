@@ -22,7 +22,7 @@ pro._tick = function () {
 };
 
 pro._onEnter = function () {
-    let logicData = this.data.Logic;
+    let logicData = this.dataLogic;
     let time = logicData.time;
 
     this.timer = setInterval(this._tick.bind(this), time * 1000);

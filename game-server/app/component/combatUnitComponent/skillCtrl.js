@@ -8,6 +8,7 @@ var util = _require('util');
 var skillTpl = _require('../../data/Skill');
 var consts = _require('../../public/consts');
 var Skill = _require('../../entity/skill');
+let skillHelper = _require('../../helper/skillHelper');
 
 var SkillCtrl = function (entity) {
     Component.call(this, entity);
@@ -23,6 +24,16 @@ pro.init = function (opts) {
     this.curPrepareSkill = null;
     this.skills = {};
     this.tauntTargetID = "";  // 嘲讽目标ID
+
+    this.entity.state.safeBindEvent("EventBreakOperation", this._onBreakOperation.bind(this));
+};
+
+pro._onBreakOperation = function (entity, op) {
+    // 打断所有技能
+    for (let skillUid in this.skills) {
+        this.skills[skillUid].destroy();
+    }
+    this.skills = {};
 };
 
 pro.setTauntTargetID = function (targetID) {
@@ -64,8 +75,39 @@ pro._checkTarget = function (targetConfig, targetID) {
     return true;
 };
 
+pro._checkSkillAction = function (action, usedCardIdx, exCards) {
+    for (let actionName in action) {
+        if (actionName === 'dropCard') {  // 弃牌检测
+            let data = action[actionName];
+            let num = data.num, cardType = data.cardType,
+                cardQuality = data.cardQuality, cardAttributes = data.cardAttributes;
+            let validCards = this.entity.cardCtrl.getValidCardsFromPile(
+                cardType, cardQuality, cardAttributes, consts.PileType.IN_HANDS, function (idx) {
+                    return idx != usedCardIdx;
+                });
+            num = Math.min(num, validCards.length);
+            if (num > 0 && (!exCards || exCards.length !== num))
+                return false;
+            if (num > 0) {
+                for (let exCardInfo of exCards) {
+                    let found = false;
+                    for (let cardInfo of validCards) {
+                        if (cardInfo.idx === exCardInfo.idx) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)  // 不符合需求
+                        return false;
+                }
+            }
+        }
+    }
+    return true;
+};
+
 // 技能可用性检测
-pro.canUseSkill = function (skillID, targetID) {
+pro.canUseSkill = function (skillID, lv, targetID, usedCardIdx, exCards) {
     if (this.inPrepare)
         return consts.FightCode.SKILL_IN_PREPARE;
     var skillData = skillTpl[skillID];
@@ -73,13 +115,15 @@ pro.canUseSkill = function (skillID, targetID) {
         return consts.FightCode.SKILL_NOT_FOUND;
     if (!this._checkTarget(skillData[1].Target, targetID))
         return consts.FightCode.SKILL_TARGET_ERR;
+    if (!this._checkSkillAction(skillHelper.getSkillAction(skillID, 1, lv), usedCardIdx, exCards))
+        return consts.FightCode.SKILL_PARAM_ERR;
 
     return consts.FightCode.OK;
 };
 
 // 使用技能
-pro.useSkill = function (skillID, skillLv, targetID) {
-    var skill = new Skill(this, skillID, skillLv, targetID);
+pro.useSkill = function (skillID, skillLv, targetID, exData ) {
+    var skill = new Skill(this, skillID, skillLv, targetID, exData );
     this.skills[skill.id] = skill;
     skill.entry();
 };

@@ -39,6 +39,33 @@ var consts = {
     // 货币消耗reason
     SpendReason: {
         EXCHANGE_SILVER: "exchangeSilver",
+        EXCHANGE_POWER: "exchangePower",
+        CARD_UPGRADE_FEE:"cardUpgradeFee"
+    },
+
+    // 货币获取原因
+    GiveReason: {
+        BAG_SELL: "bagSell",
+    },
+
+    BreakOp: {
+        ALL: 0x1
+    },
+
+    // buff堆叠
+    BuffStack: {
+        INDEPENDENT: 0,  // 不堆叠
+        ADD_LAYER: 1,  // 堆叠
+        ADD_LAYER_REFRESH: 2,  // 堆叠且强制刷新
+    },
+
+    // buff标签
+    BuffTag: {
+        ALL:0,   //所有
+        GAIN: 1,  // 增益
+        DEBT: 2,  // 减益
+        ARMOR: 3,  // 护甲
+        SPECIAL: 4,  // 特殊
     }
 };
 

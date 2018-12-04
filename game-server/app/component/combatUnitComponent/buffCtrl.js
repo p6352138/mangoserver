@@ -8,6 +8,7 @@ var util = _require('util');
 var consts = _require('../../public/consts');
 var buffTpl = _require('../../data/Buff');
 var BaseBuff = _require('./buffLogic/baseBuff');
+var logger = require('pomelo-logger').getLogger('game', __filename);
 
 var BuffCtrl = function (entity) {
     Component.call(this, entity);
@@ -40,6 +41,20 @@ pro._clearBuffs = function () {
         this.removeBuff(buff.id);
     }
 };
+
+//清除某种类型(tag[增减益标签])的buff.
+pro.cleanBuffsByTag = function(tag,num){
+    let buffs = this.getBuffsByTag(tag);
+    let cnt = 0 ;
+    //todo: 这里需要优化成随机取几个BUFF清掉。
+    for(let buff of buffs ){
+        this.removeBuff(buff.id ) ; //, buff.casterID , realID , buff.cellID );
+        cnt++;
+        if(cnt>=num){
+            break ;
+        }
+    }
+}
 
 pro.getClientInfo = function () {
     var info = [];
@@ -109,10 +124,11 @@ pro.getBuff = function (id) {
 
 pro._tryAddBuff = function (id, duration, casterID, data, realID) {
     if (!realID) {
-        if (casterID)
+        let bShare = buffTpl[id].Share;
+        if (!bShare && casterID)
             realID = id + "_" + casterID;
         else
-            realID = id;
+            realID = id.toString();
     }
     var newBuff = true, buff = null;
     let bStack = buffTpl[id].Stack;  // 是否叠加
@@ -142,6 +158,7 @@ pro._tryAddBuff = function (id, duration, casterID, data, realID) {
         buff.addBuffCell(data);
     }
     else {
+        buff.casterID = casterID;
         buff.addLayer(data.startTime, data.endTime);
     }
 
@@ -151,7 +168,8 @@ pro._tryAddBuff = function (id, duration, casterID, data, realID) {
         return buff;
 };
 
-pro.addBuff = function (id, lv, duration, casterID, skillID, realID, extraData) {
+pro.addBuff = function (id, lv, duration, casterID, skillID, realID, extraData ) {
+    //logger.error("buffCtrl.addBuff: id, lv, duration, casterID, skillID, realID, extraData : ",id, lv, duration, casterID, skillID, realID, extraData );
     // todo: 默认死亡加不上，需加标记
     if (this.entity.state.isDead())
         return;
@@ -183,7 +201,8 @@ pro.removeBuff = function (buffID, casterID, realID, cellID) {
 
     var ids = [];
     if (!realID) {
-        if (casterID) {
+        let bShare = buffTpl[buffID].Share;
+        if (!bShare && casterID) {
             realID = buffID + "_" + casterID;
             if (this.buffID2realID[buffID].has(realID))
                 ids = [realID];
@@ -202,7 +221,7 @@ pro.removeBuff = function (buffID, casterID, realID, cellID) {
             if (cellID) {
                 buff.removeCell(cellID);
                 // 还有cell没结束
-                if (Object.keys(buff.cells) > 0) {
+                if (Object.keys(buff.cells).length > 0) {
                     this._onBuffUpdate(id);
                     return;
                 }
@@ -229,6 +248,44 @@ pro._onBuffUpdate = function (realID) {
         realID: realID,
         info: info
     });
+};
+
+pro.getBuffsByTag = function (tag) {
+    let res = [];
+    for (let realID in this.buffs) {
+        let buff = this.buffs[realID];
+        if (buff.data.Tag === tag || tag === consts.BuffTag.ALL ) {  //note
+            res.push(buff);
+        }
+    }
+    return res;
+};
+
+// 只移除buff不对其做处理
+pro._removeBuffNoDeal = function (buff) {
+    let realID = buff.realID, buffID = buff.id;
+    delete this.buffs[realID];
+    this.buffID2realID[buffID].delete(realID);
+    if (this.buffID2realID[buffID].size === 0)
+        delete this.buffID2realID[buffID];
+    this._onBuffUpdate(realID);
+};
+
+// 只添加buff不做处理
+pro._addBuffNoDeal = function (buff) {
+    let realID = buff.realID, buffID = buff.id;
+    this.buffs[realID] = buff;
+    if (!(buffID in this.buffID2realID))
+        this.buffID2realID[buffID] = new Set();
+    this.buffID2realID[buffID].add(realID);
+    this._onBuffUpdate(realID);
+};
+
+// 转移自身buff给别的玩家
+pro.tranferBuff = function (buff, toEntity) {
+    buff.changeBuffOwner(toEntity.buffCtrl);
+    this._removeBuffNoDeal(buff);
+    toEntity.buffCtrl._addBuffNoDeal(buff);
 };
 
 pro.destroy = function () {

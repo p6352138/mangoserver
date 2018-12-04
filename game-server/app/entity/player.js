@@ -9,7 +9,8 @@ var heroAttriTpl = _require('../data/HeroAttributes');
 // 战斗对象，管理战斗逻辑
 var Player = function (opts) {
     opts = opts || {};
-    opts.components = ['state', 'cardCtrl', 'skillCtrl', 'combat', 'prop', 'hatred', 'buffCtrl', 'AI'];
+    opts.components = ['state', 'cardCtrl', 'skillCtrl', 'combat', 'prop', 'hatred',
+        'comboComponent', 'buffCtrl', 'AI'];
     CombatBaseEntity.call(this, opts);
 
     this.uid = opts.uid;
@@ -73,8 +74,9 @@ pro.getClentInfo = function () {
         mpRecoverTime: this.mpRecoverTime,
         mpRecoverRate: this.mpRecoverRate,
         stopMpRecoverBuffCnt: this.stopMpRecoverBuffCnt,
-        inHands: this.cardCtrl.inHands,
-        cardsLv: this.cardCtrl.getCardsLvInfo()
+        inHands: this.cardCtrl.getInHandsInfo(),
+        tauntTargetID: this.skillCtrl.tauntTargetID,
+        combo: this.combo
     }
 };
 
@@ -95,7 +97,8 @@ pro.getBrocastInfo = function () {
         pos: this.pos,
         scale: this.scale,
         groupId: this.groupId,
-        name: this.name
+        name: this.name,
+        feature: this.feature
     }
 };
 

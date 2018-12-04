@@ -5,7 +5,7 @@
  */
 let util = require('util');
 let pomelo = require('pomelo');
-let dispatcher = _require('../../util/dispatcher');
+let fightHelper = _require('../../helper/fightHelper');
 let Component = _require('../component');
 let consts = _require('../../public/consts');
 let raidTpl = _require('../../data/Raid');
@@ -13,6 +13,7 @@ let heroTpl = _require('../../data/Hero');
 let roomTpl = _require('../../data/Room');
 let heroAttriTpl = _require('../../data/HeroAttributes');
 let raidHelper = _require('../../helper/raidHelper');
+var logger = _require('pomelo-logger').getLogger('game', __filename);
 
 let RaidComponent = function (entity) {
     Component.call(this, entity);
@@ -58,8 +59,9 @@ pro.getClientInfo = function () {
 
 pro._checkCanSelectHero = function (raidID, heroid) {
     let raidData = raidTpl[raidID];
-    if (!raidData || !this.entity.hero.hasHero(heroid))
+    if (!raidData || !this.entity.hero.hasHero(heroid)) {
         return consts.Code.FAIL;
+    }
     if (raidData.RequirePlayers !== 1)
         return consts.RaidCode.NOT_SINGLE_RAID;
     if (raidData.RequireLevel > this.entity.level)
@@ -145,14 +147,18 @@ pro.raidSelectAndEnterRoom = function (raidID, roomIdx, idx, next) {
 
 pro._checkCanEnterRoom = function (raidID, roomIdx) {
     if (this.entity.isBusy()) {
+        console.log(__filename,"_checkCanEnterRoom:this.entity.isBusy()->",this.entity.isBusy() );
         return consts.Code.FAIL;
     }
     let raidInfo = this.raidsInfo[raidID];
+    console.log(__filename,"_checkCanEnterRoom:raidID, roomIdx, raidInfo",raidID, roomIdx, raidInfo );
     if (!raidInfo || roomIdx <= 0 || raidInfo.rooms.length < roomIdx) {
+        console.log(__filename,"_checkCanEnterRoom:!raidInfo || roomIdx <= 0 || raidInfo.rooms.length < roomIdx" );
         return consts.Code.FAIL;
     }
     let roomInfo = raidInfo.rooms[roomIdx - 1];
     if (roomInfo.state !== consts.Raid.STATE_START) {
+        console.log(__filename,"_checkCanEnterRoom:roomInfo.state !== consts.Raid.STATE_START" );
         return consts.Code.FAIL;
     }
     return consts.RaidCode.OK;
@@ -172,15 +178,15 @@ pro.actualRaidEnterRoom = function (raidID, roomIdx) {
     let roomInfo = raidInfo.rooms[roomIdx - 1];
     let type = roomInfo.type;
     if (type === consts.Raid.TYPE_DUNGEON) {
-        let fightServerIds = pomelo.app.get("fightIdsMap")["PVE"][1];
-        let server = dispatcher.dispatch(this.entity.id, fightServerIds);
         let ent = this.entity;
+        let server = fightHelper.getSinglePVEServer(ent);
         pomelo.app.rpc.fight.fightRemote.newFight.toServer(server,
             consts.Team.TYPE_RAID, roomInfo.id, {
                 [ent.id]: {
                     openid: ent.openid,
                     sid: pomelo.app.getServerId(),
                     name: ent.name,
+                    level: ent.level,
                     inTeam: 0
                 }
             }, {}, {raidID: raidID, roomIdx: roomIdx}, null);
@@ -246,6 +252,8 @@ pro.onRaidDungeonResult = function (raidID, roomIdx, result, updateInfo) {
             else {
                 // 已经是最后一关
                 roomInfo.state = consts.Raid.STATE_FINISH;
+                // 清掉所有数据， todo：？？？？？？？？？
+                delete this.raidsInfo[raidID];
             }
         }
     }

@@ -4,8 +4,9 @@
  * Description: buff 基类
  */
 var buffTpl = _require('../../../data/Buff');
-var consts = _require('../../../public/consts');
+var consts = _require('../../../common/consts');
 var buffRegister = _require('./buffRegister');
+let logger = require('pomelo-logger').getLogger('game', __filename);
 
 var BuffCell = function (opts) {
     this.owner = opts.owner;
@@ -16,7 +17,11 @@ var BuffCell = function (opts) {
     this.casterID = opts.casterID;
     this.skillID = opts.skillID;
     this.effectNum = undefined;  // 生效数量，特殊处理同个逻辑多次生效的情况
-    this.extraData = opts.extraData;
+    this.extraData = opts.extraData || {} ;
+
+    if( this.extraData.cardInf && this.extraData.cardInf.isGetUseSkillCard && this.extraData.cardInf.cardCode ){
+        this.endTime = consts.Buff.BUFF_CARD_INHEAD ;
+    }
     if (this.extraData && this.extraData.hasOwnProperty('effectNum')) {
         this.effectNum = this.extraData.effectNum;
     }
@@ -69,7 +74,16 @@ BuffCell.prototype.onEnter = function () {
     for (var logic of this.logics) {
         logic.onEnter();
     }
-    if (this.endTime != consts.Buff.BUFF_PERMANENT) {
+    if (this.endTime === consts.Buff.BUFF_CARD_INHEAD){
+        this._listenerFun = (entity,cardCode)=>{
+            //logger.info("EventUseCardType7 listenser :cardInf",cardCode,this.extraData.cardInf,this.skillID );
+            if(this.extraData.cardInf &&  cardCode === this.extraData.cardInf.cardCode ){
+                this.onTimeout();
+            }
+        };
+        this.entity.cardCtrl.on('EventUseCardType7', this._listenerFun );
+    }
+    else if (this.endTime != consts.Buff.BUFF_PERMANENT) {
         this._timer = setTimeout(this.onTimeout.bind(this), this.endTime - this.startTime);
     }
 };
@@ -86,6 +100,9 @@ BuffCell.prototype.onExit = function () {
         logic.onExit();
     }
     this.logics = null;
+    if (this._listenerFun ){
+        this.entity.cardCtrl.removeListener('EventUseCardType7', this._listenerFun );
+    }
 };
 
 BuffCell.prototype.onTimeout = function () {
@@ -168,6 +185,15 @@ var BaseBuff = function (opts) {
             return buffTpl[this.id];
         }
     });
+
+    Object.defineProperty(this, 'casterID', {
+        set: function (val) {
+            for (let cellID in this.cells) {
+                let cell = this.cells[cellID];
+                cell.casterID = val;
+            }
+        }
+    });
 };
 
 module.exports = BaseBuff;
@@ -211,6 +237,10 @@ pro.addLayer = function (startTime, endTime) {
     let refresh = false;
     if (this.layer < this.data.StackLimit) {
         this.layer++;
+        refresh = true;
+    }
+    // 强制刷新
+    if (this.data.Stack === consts.BuffStack.ADD_LAYER_REFRESH) {
         refresh = true;
     }
     for (let cellID in this.cells) {
@@ -257,6 +287,11 @@ pro.addEndTime = function (time) {
     for (let cellID in this.cells) {
         this.cells[cellID].addEndTime(time);
     }
+};
+
+// 修改buff的owner
+pro.changeBuffOwner = function (newOwner) {
+    this.owner = newOwner;
 };
 
 pro.removeCell = function (cellID) {
